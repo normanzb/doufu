@@ -1,0 +1,1 @@
+nsc.Game = new Object();

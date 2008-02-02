@@ -1,0 +1,1 @@
+nsc.System = new Object();

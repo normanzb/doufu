@@ -1,0 +1,1 @@
+nsc.Browser = new Object();

@@ -1,0 +1,1 @@
+nsc.Display = new Object();

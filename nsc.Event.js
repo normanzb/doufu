@@ -1,0 +1,1 @@
+nsc.Event = new Object();
