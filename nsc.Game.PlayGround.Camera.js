@@ -15,5 +15,5 @@ nsc.Game.PlayGround.Camera = function()
 	nsc.OOP.Class(this);
 	
 	this.Width = null;
-	this.Height = 
+	this.Height = null;
 }
