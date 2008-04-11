@@ -7,9 +7,9 @@ testWorkerProcess = function()
 
 nsc.System.Logger.Debug("TEST: tWorker is defined");
 
-testWorkerThread = new nsc.Threading.Thread(testWorkerProcess);
+testWorkerCycle = new nsc.Cycling.Cycle(testWorkerProcess);
 
-testWorkerThread.Start();
+testWorkerCycle.Start();
 
 nsc.System.Logger.Debug("TEST: The worker func has been registered");
 
@@ -19,7 +19,7 @@ nsc.System.Logger.Debug("TEST: Display area is set");
 
 function __nsc_MainLoop(){
 	var tMsg = new nsc.System.Message();
-	nsc.Threading.Manager.Looper(tMsg);
+	nsc.Cycling.Manager.Looper(tMsg);
 	setTimeout(__nsc_MainLoop,10);
 }
 

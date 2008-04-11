@@ -4,17 +4,17 @@
 /// 	</Dependencies>
 /// </PseudoCompileInfo>
 
-nsc.Threading = new Object();
+nsc.Cycling = new Object();
 
 ///##########################
 /// Javascript Static Method
 /// Name: Block
-/// Description: Block the native browser thread.
+/// Description: Block the native browser Cycle.
 ///				 NOTE!! : Should not block browser too long
 ///				          otherwise some browser will prompt
 ///						  user to kill the javascript execution.
 ///##########################
-nsc.Threading.Block = function(milliseconds)
+nsc.Cycling.Block = function(milliseconds)
 {
       var sleeping = true;
       var now = new Date();

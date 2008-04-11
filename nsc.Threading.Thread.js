@@ -1,24 +1,24 @@
 /// <PseudoCompileInfo>
 /// 	<Dependencies>
-/// 		<Dependency>nsc.Threading.js</Dependency>
+/// 		<Dependency>nsc.Cycling.js</Dependency>
 /// 	</Dependencies>
 /// </PseudoCompileInfo>
 
 ///##########################
 /// Javascript Class
-/// Name: Thread
-/// Description: Psesudo thread for javascript.
+/// Name: Cycle
+/// Description: Psesudo Cycle for javascript.
 /// Constructor:
 ///		pFunc: the a pointer to worker function,
 ///			   this worker will be executed in the main loop.
 ///##########################
 
-nsc.Threading.Thread = function(pFunc)
+nsc.Cycling.Cycle = function(pFunc)
 {
-	// The Thread Handle
+	// The Cycle Handle
 	this.Handle = new nsc.System.Handle();
 	
-	// Indicate whether thread should be halted.
+	// Indicate whether Cycle should be halted.
 	this.Halted = true;
 	
 	this.Worker = new nsc.System.MessageProcessor();
@@ -70,8 +70,8 @@ nsc.Threading.Thread = function(pFunc)
 	
 	this.Start = function()
 	{
-		// register thread to manager
-		nsc.Threading.Manager.Register(this);
+		// register Cycle to manager
+		nsc.Cycling.Manager.Register(this);
 		this.Halted = false;
 	}
 	

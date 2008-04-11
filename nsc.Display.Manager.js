@@ -22,8 +22,8 @@ nsc.Display.Manager = function(oHTMLElement)
 	
 	// Define properties and variables
 	
-	// Inner thread for rendering display 
-	var _renderingThread;
+	// Inner Cycle for rendering display 
+	var _renderingCycle;
 	
 	var _displayObjects = new Array();
 	
@@ -97,9 +97,9 @@ nsc.Display.Manager = function(oHTMLElement)
 	this.Init = function()
 	{
 	
-		_renderingThread = new nsc.Threading.Thread();
-		_renderingThread.SetWorkerProcess(this.Looper);
-		_renderingThread.Start();
+		_renderingCycle = new nsc.Cycling.Cycle();
+		_renderingCycle.SetWorkerProcess(this.Looper);
+		_renderingCycle.Start();
 	
 		// Set HTMLElement property
 		// if oHTMLElement is a string, consider it as element id and get the reference.

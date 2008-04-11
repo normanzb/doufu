@@ -1,52 +1,52 @@
-nsc.Threading.Pool = new Array();
+nsc.Cycling.Pool = new Array();
 
-nsc.Threading.Pool.Length = function()
+nsc.Cycling.Pool.Length = function()
 {
-	return nsc.Threading.Pool.length;
+	return nsc.Cycling.Pool.length;
 }
-nsc.Threading.Pool.Length.getValue = nsc.Threading.Pool.Length.toString = nsc.Threading.Pool.Length;
+nsc.Cycling.Pool.Length.getValue = nsc.Cycling.Pool.Length.toString = nsc.Cycling.Pool.Length;
 
 
-nsc.Threading.Pool.Add = function(oThread)
+nsc.Cycling.Pool.Add = function(oCycle)
 {
-	if (!(oThread instanceof nsc.Threading.Thread))
-			throw nsc.System.Exception("Must pass in a thread.");
+	if (!(oCycle instanceof nsc.Cycling.Cycle))
+			throw nsc.System.Exception("Must pass in a Cycle.");
 	
 	var bFound = false;
 	
-	// Found the index of the specified thread
-	for (var i = 0; i< nsc.Threading.Pool.length; i++)
+	// Found the index of the specified Cycle
+	for (var i = 0; i< nsc.Cycling.Pool.length; i++)
 	{
-		if (nsc.Threading.Pool[i] == oThread)
+		if (nsc.Cycling.Pool[i] == oCycle)
 		{
 			bFound = true;
 			break;
 		}
 	}
 	
-	// if the thread not in innerThreadList, add it
+	// if the Cycle not in innerCycleList, add it
 	if (!bFound)
 	{
-		var iThread = nsc.Threading.Pool.push(oThread);
-		iThread--;
-		this[iThread] = nsc.Threading.Pool[iThread];
+		var iCycle = nsc.Cycling.Pool.push(oCycle);
+		iCycle--;
+		this[iCycle] = nsc.Cycling.Pool[iCycle];
 	}
 }
 
-nsc.Threading.Pool.Remove = function(oThread)
+nsc.Cycling.Pool.Remove = function(oCycle)
 {
 	var i;
 	
-	// Found the index of the specified thread
-	for (i = 0; i< nsc.Threading.Pool.length; i++)
+	// Found the index of the specified Cycle
+	for (i = 0; i< nsc.Cycling.Pool.length; i++)
 	{
-		if (nsc.Threading.Pool[i] == oThread)
+		if (nsc.Cycling.Pool[i] == oCycle)
 		{
 			break;
 		}
 	}
 	
-	// Remove the specified thread
-	nsc.Threading.Pool.splice(i,1);
+	// Remove the specified Cycle
+	nsc.Cycling.Pool.splice(i,1);
 
 }
