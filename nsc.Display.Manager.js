@@ -37,7 +37,9 @@ nsc.Display.Manager = function(oHTMLElement)
 	{
 		if (typeof value == "string")
 		{
+			nsc.System.Logger.Debug("nsc.Display.Manager: Set html element by id \"" + value + "\"");
 			_htmlElement = document.getElementById(value);
+			nsc.System.Logger.Debug("nsc.Display.Manager: Html element was set");
 		}
 		else
 		{
@@ -64,7 +66,7 @@ nsc.Display.Manager = function(oHTMLElement)
 	
 	this.Looper = function(oMsg)
 	{
-		if (nsc.System.MessageConstants.IsMessage(
+		if (nsc.System.MessageConstants.IsMessage(oMsg,
 			nsc.System.MessageConstants.DISPLAY_RENDER
 			))
 		{
@@ -80,15 +82,19 @@ nsc.Display.Manager = function(oHTMLElement)
 			throw nsc.System.Exception("obj is not a instance of nsc.Display.BaseObject!");
 		}
 		
+		nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - " + obj);
+		
 		if (
-			obj != null &&
-			obj.innerHTML != null &&
-			typeof obj.innerHTML != "undefined"
+			typeof obj.InstanceOf != "undefined" &&
+			obj.InstanceOf(nsc.Display.BaseObject)
 			)
-		{		
-			this.HTMLElement().appendChild(obj);
+		{	
+			nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - Object is type safed.");
+			this.HTMLElement().appendChild(obj.HTMLElement());
+			nsc.System.Logger.Debug("nsc.Display.Manager: The render function is " + obj.Render);
 			// Attach the display base object to on render event
 			this.OnRender.Attach(obj.Render);
+			nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - Object Inserted.");
 		}
 	}
 	
@@ -96,11 +102,11 @@ nsc.Display.Manager = function(oHTMLElement)
 	// Initialize variables and properties.
 	this.Init = function()
 	{
-	
+		_renderingCycleCallback = new nsc.Event.CallBack(this.Looper, this);
 		_renderingCycle = new nsc.Cycling.Cycle();
-		_renderingCycle.SetWorkerProcess(this.Looper);
+		_renderingCycle.SetWorkerProcess(_renderingCycleCallback);
 		_renderingCycle.Start();
-	
+		
 		// Set HTMLElement property
 		// if oHTMLElement is a string, consider it as element id and get the reference.
 		// otherwise assign the element reference directly
