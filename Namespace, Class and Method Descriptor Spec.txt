@@ -1,0 +1,35 @@
+= Descriptors of Namespace and Class and Method Spec =
+
+== Static Method ==
+
+=== Sample ===
+
+{{
+///##########################
+/// Javascript Static Method
+/// Name: nsc.System.MessageConstants.IsMessage
+/// Description: 
+/// 	Determine whether inputted message is specified one.
+///
+/// Parameters:
+/// 	oMsg: The message to be determined
+/// 	oConst: The message
+///
+///##########################
+}}
+
+=== Template ===
+
+{{
+///##########################
+/// Javascript Static Method
+/// Name: [TypeNameHere]
+/// Description: 
+/// 	[TypeDescriptionHere]
+///
+/// Parameters:
+/// 	[TypePrameterHere]
+/// 	
+///
+///##########################
+}}
