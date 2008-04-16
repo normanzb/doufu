@@ -59,7 +59,7 @@ nsc.Game.PlayGround = function(oDisplayManager)
 	}
 	
 	this._base_RenderRefer = this.Render.Reference;
-	this.Render.Reference = function()
+	this.Render.Reference = function(oSender, oEvent)
 	{
 		// TODO: insert all display object to display manager
 		for (var i = 0; i < _gameObjects.Length(); i++)
@@ -67,7 +67,7 @@ nsc.Game.PlayGround = function(oDisplayManager)
 			//_gameObjects.InnerArray()[i];
 		}
 		
-		this._base_RenderRefer();
+		this._base_RenderRefer(oSender, oEvent);
 	}
 	
 	/////////////////////////

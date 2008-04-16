@@ -28,7 +28,6 @@ nsc.Display.BaseObject = function()
 	
 	this.Render = new nsc.Event.CallBack(function(oSender, oMsg)
 	{
-		nsc.System.Logger.Debug("nsc.Display.BaseObject: Message receivied" + oMsg.Message);
 		if (
 			nsc.System.MessageConstants.IsMessage(oMsg,
 			nsc.System.MessageConstants.DISPLAY_RENDER) &&
@@ -37,6 +36,9 @@ nsc.Display.BaseObject = function()
 		{
 			this.HTMLElement().style.left = this.X + "px";
 			this.HTMLElement().style.top = this.Y + "px";
+			this.HTMLElement().style.width = this.Width + "px";
+			this.HTMLElement().style.height = this.Height + "px";
+			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
 			nsc.System.Logger.Debug("nsc.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
 		}
 	},
@@ -45,6 +47,8 @@ nsc.Display.BaseObject = function()
 	// Attributes
 	this.X = 0;
 	this.Y = 0;
+	this.Width = 0;
+	this.Height = 0;
 	this.ImagePath = new String();
 	
 	// variables
@@ -54,6 +58,7 @@ nsc.Display.BaseObject = function()
 	this.Init = function()
 	{
 		this.HTMLElement(nsc.Browser.DOM.CreateElement("div"));
+		this.HTMLElement().style.position="relative";
 	}
 	
 	this.Init();

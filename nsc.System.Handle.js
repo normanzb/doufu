@@ -6,7 +6,7 @@
 
 nsc.System.Handle = function(iHandleID)
 {
-	nsc.System.Logger.Debug("nsc.System.Handle: Creating handle id " + iHandleID);
+	//nsc.System.Logger.Debug("nsc.System.Handle: Creating handle id " + iHandleID);
 	if (typeof iHandleID == nsc.System.Constants.TYPE_UNDEFINED  || iHandleID == null)
 	{
 		throw nsc.System.Exception("Inputted parameter incorrect.");
