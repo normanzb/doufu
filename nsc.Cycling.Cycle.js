@@ -16,7 +16,7 @@
 nsc.Cycling.Cycle = function(pCallback)
 {
 	// The Cycle Handle
-	this.Handle = new nsc.System.Handle();
+	this.Handle = new nsc.System.Handle.Generate();
 	
 	// Indicate whether Cycle should be halted.
 	this.Halted = true;

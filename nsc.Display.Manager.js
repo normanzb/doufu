@@ -70,7 +70,9 @@ nsc.Display.Manager = function(oHTMLElement)
 			nsc.System.MessageConstants.DISPLAY_RENDER
 			))
 		{
-			this.OnRender.Invoke();
+			nsc.System.Logger.Debug("nsc.Display.Manager: Sending message: message=" + oMsg.Message);
+			this.OnRender.Invoke(oMsg);
+			nsc.System.Logger.Debug("nsc.Display.Manager: Message was sent.");
 		}
 	}
 	
@@ -85,7 +87,7 @@ nsc.Display.Manager = function(oHTMLElement)
 		nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - " + obj);
 		
 		if (
-			typeof obj.InstanceOf != "undefined" &&
+			typeof obj.InstanceOf != nsc.System.Constants.TYPE_UNDEFINED  &&
 			obj.InstanceOf(nsc.Display.BaseObject)
 			)
 		{	

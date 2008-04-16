@@ -1,0 +1,2 @@
+CONFIG_IMAGES_DIR = "./Images/";
+CONFIG_SCENES_DIR = "./SCENES/";

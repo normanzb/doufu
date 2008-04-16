@@ -1,7 +1,7 @@
 nsc.System.Message = function(oHandle, sMsg, wParam, lParam)
 {
 	if (oHandle == null)
-		this.Handle = new nsc.System.Handle();
+		this.Handle = new nsc.System.Handle(0);
 	else
 		this.Handle = oHandle;
 	

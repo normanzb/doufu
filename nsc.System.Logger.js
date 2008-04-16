@@ -1,6 +1,6 @@
 nsc.System.Logger = new function()
 {
-	__NSC_DEBUG = typeof Logger == "undefined"?false:true;
+	__NSC_DEBUG = typeof Logger == nsc.System.Constants.TYPE_UNDEFINED ?false:true;
 		
 	this.Debug = function(sMessage)
 	{

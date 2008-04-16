@@ -29,7 +29,7 @@ nsc.CustomTypes.Collection = function(baseClass)
 	this.Add = function(obj)
 	{
 		nsc.System.Logger.Debug("nsc.CustomTypes.Collection: Add - " + obj);
-		if (typeof obj.InstanceOf == "undefined" || !obj.InstanceOf(baseClass))
+		if (typeof obj.InstanceOf == nsc.System.Constants.TYPE_UNDEFINED  || !obj.InstanceOf(baseClass))
 		{
 			throw nsc.System.Exception("Specified object type is not allowed.");
 		}

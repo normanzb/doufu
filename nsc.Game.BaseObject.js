@@ -28,7 +28,12 @@ nsc.Game.BaseObject = function(){
 		_linkedDisplayObject = value;
 	}
 	
+	// Attributes
+	this.X = 0;
+	this.Y = 0;
+	this.Width = 0;
+	this.Height = 0;
 	
-	// TO DO: 1) AnimationFrame object, the object specified the position of action frame in the static picture.
+	
 	
 }

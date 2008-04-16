@@ -17,12 +17,23 @@ nsc.Game.PlayGround = function(oDisplayManager)
 	
 	this.Inherit(nsc.Display.BaseObject);
 	
+	/////////////////////////
+	// Define properties and variables
+	/////////////////////////
+	
 	var linkedDisplayMgr = null;
 	
-	// Define properties and variables
-	
 	// for saving all inserted elements
-	var _elements = new nsc.CustomTypes.Collection(nsc.Game.BaseObject);
+	var _gameObjects = new nsc.CustomTypes.Collection(nsc.Game.BaseObject);
+	this.NewProperty("GameObjects");
+	this.GameObjects.Get = function()
+	{
+		return _gameObjects;
+	}
+	this.GameObjects.Set = function(value)
+	{
+		_gameObjects = value;
+	}
 	
 	// Javascript property Camera
 	var _camera = new nsc.Game.PlayGround.Camera();
@@ -38,22 +49,30 @@ nsc.Game.PlayGround = function(oDisplayManager)
 	
 	// Define properties and variables End
 	
+	/////////////////////////
+	// Public Methods
+	/////////////////////////
 	
-	// Insert a object to this playground
 	this.InsertObject = function(obj)
 	{
-		_elements.Add(obj);
+		_gameObjects.Add(obj);
 	}
 	
+	this._base_RenderRefer = this.Render.Reference;
 	this.Render.Reference = function()
 	{
 		// TODO: insert all display object to display manager
-		/// Remove
-		alert(1);
+		for (var i = 0; i < _gameObjects.Length(); i++)
+		{
+			//_gameObjects.InnerArray()[i];
+		}
+		
+		this._base_RenderRefer();
 	}
 	
-	
-	// Initialize variables and properties.
+	/////////////////////////
+	// Constructor, Initialize variables and properties.
+	/////////////////////////
 	this.Init = function()
 	{
 		if (!oDisplayManager.InstanceOf(nsc.Display.Manager))
@@ -66,7 +85,6 @@ nsc.Game.PlayGround = function(oDisplayManager)
 		// Link display manager
 		linkedDisplayMgr = oDisplayManager;
 		nsc.System.Logger.Debug("Playground: create play ground temporary html element.");
-		this.HTMLElement(nsc.Browser.DOM.CreateElement("div"));
 		
 		// Inserted play ground it self to display mananger.
 		nsc.System.Logger.Debug("Playground: Insert playground to display manager");

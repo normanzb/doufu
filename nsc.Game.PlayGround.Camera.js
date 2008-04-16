@@ -16,8 +16,8 @@ nsc.Game.PlayGround.Camera = function()
 	
 	this.Width = 0;
 	this.Height = 0;
-	this.OffsetX = 0;
-	this.OffsetY = 0;
+	this.X = 0;
+	this.Y = 0;
 	
 	this.Init = function()
 	{
