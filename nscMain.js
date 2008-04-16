@@ -1,26 +1,30 @@
-nsc.System.Logger.Debug("TEST: nscMain looping in.");
+nsc.System.Logger.Debug("nscMain looping in.");
 
-testWorkerProcess = function()
-{
-	//nsc.System.Logger.Debug("TEST: TWorker is doing sth.");
-}
+//TODO: use create instead.
+var GeneralDisplayManager = new nsc.Display.Manager("__NSC_NONAME_SCREEN");
+nsc.System.Logger.Debug("Display area is set");
 
-nsc.System.Logger.Debug("TEST: tWorker is defined");
-
-testWorkerCycle = new nsc.Cycling.Cycle(testWorkerProcess);
-
-testWorkerCycle.Start();
-
-nsc.System.Logger.Debug("TEST: The worker func has been registered");
-
-testPG = new nsc.Display.Manager("__NSC_NONAME_SCREEN");
-
-nsc.System.Logger.Debug("TEST: Display area is set");
+var GeneralPlayGroundManager = new nsc.Game.PlayGround(GeneralDisplayManager);
 
 function __nsc_MainLoop(){
 	var tMsg = new nsc.System.Message();
+	if (nsc.System.MessageQueue.Length() > 0)
+	{
+		tMsg = nsc.System.MessageQueue.Shift();
+	}
 	nsc.Cycling.Manager.Looper(tMsg);
 	setTimeout(__nsc_MainLoop,10);
 }
 
 __nsc_MainLoop();
+
+
+//====================
+// Test piece, should be removed when release
+
+
+tmpMsg = new nsc.System.Message();
+tmpMsg.Message = nsc.System.MessageConstants.DISPLAY_RENDER;
+
+
+//====================

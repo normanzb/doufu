@@ -26,3 +26,7 @@ nsc.System.MessageQueue.Shift = function()
 	return nsc.System.MessageQueue._internalQueue.shift();
 }
 
+nsc.System.MessageQueue.Length = function()
+{
+	return nsc.System.MessageQueue._internalQueue.length;
+}

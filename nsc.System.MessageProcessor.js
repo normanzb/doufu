@@ -5,10 +5,11 @@ nsc.System.MessageProcessor = function()
 		if (!(oMsg instanceof nsc.System.Message))
 			throw nsc.System.Exception("The message dispatched is not derived from nsc.System.Message");
 		
-		this.Process(oMsg);
+		this.Process.Reference.call(
+			this.Process.Context,
+			oMsg
+			);
 	}
 	
-	this.Process = function(oMsg)
-	{
-	}
+	this.Process = new nsc.Event.CallBack();
 }

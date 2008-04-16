@@ -22,15 +22,19 @@ nsc.Display.BaseObject = function()
 	}
 	
 	// Public Methods
-	//this.Rea
+	// this.Render
 	
-	this.Render = function()
+	this.Render = new nsc.Event.CallBack;
+	this.Context = this;
+	this.Reference = function()
 	{
 		this.HTMLElement().style.left = this.X + "px";
 		this.HTMLElement().style.top = this.Y + "px";
 		nsc.System.Logger.Debug("TEST: DisplayObject:" + i.toString() + " is set");
 	}
 	
-	this.X = null;
-	this.Y = null;
+	this.X = 0;
+	this.Y = 0;
+	
+	nsc.System.Logger.Debug("nsc.Display.BaseObject: Initialized");
 }

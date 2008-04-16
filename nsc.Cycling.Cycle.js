@@ -9,11 +9,11 @@
 /// Name: Cycle
 /// Description: Psesudo Cycle for javascript.
 /// Constructor:
-///		pFunc: the a pointer to worker function,
-///			   this worker will be executed in the main loop.
+///		pCallback: 	the a pointer to worker function,
+///			   	 	this worker will be executed in the main loop.
 ///##########################
 
-nsc.Cycling.Cycle = function(pFunc)
+nsc.Cycling.Cycle = function(pCallback)
 {
 	// The Cycle Handle
 	this.Handle = new nsc.System.Handle();
@@ -31,9 +31,9 @@ nsc.Cycling.Cycle = function(pFunc)
 	
 	this.Init = function()
 	{
-		if (pFunc != null);
+		if (pCallback != null);
 		{
-			this.SetWorkerProcess(pFunc);
+			this.SetWorkerProcess(pCallback);
 		}
 	}
 	
@@ -56,9 +56,9 @@ nsc.Cycling.Cycle = function(pFunc)
 		this.Worker.BeforeProcess(oMsg);
 	}
 	
-	this.SetWorkerProcess = function(pFunc)
+	this.SetWorkerProcess = function(pCallback)
 	{
-		this.Worker.Process = pFunc;
+		this.Worker.Process = pCallback;
 	}
 	
 	this.Suspend = function(iMillisecond)
