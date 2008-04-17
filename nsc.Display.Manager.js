@@ -121,8 +121,23 @@ nsc.Display.Manager = function(oHTMLElement)
 	this.Init();
 	
 }
-// TO DO
-nsc.Display.Manager.Create = function(elmtParent, elmtID)
+
+///##########################
+/// Javascript Static Method
+/// Name: nsc.Display.Manager.Create
+/// Description: 
+/// 	Create a instance of nsc.Display.Manager
+///
+/// Parameters:
+/// 	[TypePrameterHere]
+/// 	
+///
+///##########################
+nsc.Display.Manager.Create = function(elmtParent, elmtID, iWidth, iHeight)
 {
-	
+	var tmpDiv = nsc.Browser.Helpers.CreateOverflowHiddenDiv(elmtID, elmtParent, iWidth , iHeight);
+	//tmpDiv.style.width = iWidth + "px";
+	//tmpDiv.style.height = iHeight + "px";
+	//tmpDiv.style.border = "1px solid #000"; //hard coded
+	return new nsc.Display.Manager(tmpDiv);
 }
