@@ -61,10 +61,27 @@ nsc.Game.PlayGround = function(oDisplayManager)
 	this._base_RenderRefer = this.Render.Reference;
 	this.Render.Reference = function(oSender, oEvent)
 	{
-		// TODO: insert all display object to display manager
+		// Insert in-range display object to display manager
 		for (var i = 0; i < _gameObjects.Length(); i++)
 		{
-			//_gameObjects.InnerArray()[i];
+			if(nsc.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i], this.Camera()))
+			{
+				// translate game object to display object.
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = _gameObjects.InnerArray()[i].Z;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Height = _gameObjects.InnerArray()[i].Height;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().ImagePath = _gameObjects.InnerArray()[i].ImagePath;
+
+				
+				linkedDisplayMgr.InsertObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+			}
+			else
+			{
+				// linkeedDisplayMgr removeObject
+				linkedDisplayMgr.RemoveObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+			}
 		}
 		
 		this._base_RenderRefer(oSender, oEvent);
@@ -89,6 +106,9 @@ nsc.Game.PlayGround = function(oDisplayManager)
 		// Inserted play ground it self to display mananger.
 		nsc.System.Logger.Debug("Playground: Insert playground to display manager");
 		linkedDisplayMgr.InsertObject(this);
+		
+		// Playground layer has it default z index 2000;
+		this.Z = 2000;
 		
 	};
 	

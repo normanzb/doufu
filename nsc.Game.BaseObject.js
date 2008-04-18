@@ -2,21 +2,10 @@ nsc.Game.BaseObject = function(){
 	
 	nsc.OOP.Class(this);
 	
-	// Below code may unneccesary
-	var _htmlContainer = null;
-	this.NewProperty("HTMLContainer");
-	this.HTMLContainer.Get = function()
-	{
-		return _htmlContainer;
-	}
-	this.HTMLContainer.Set = function(value)
-	{
-		_htmlContainer = value;
-	}
-	// unneccesary code end
+	this.Inherit(nsc.Display.Drawing.Rectangle);
 	
-	
-	
+	this.Z = 0;
+
 	var _linkedDisplayObject = new nsc.Display.BaseObject();
 	this.NewProperty("LinkedDisplayObject");
 	this.LinkedDisplayObject.Get = function()
@@ -27,12 +16,6 @@ nsc.Game.BaseObject = function(){
 	{
 		_linkedDisplayObject = value;
 	}
-	
-	// Attributes
-	this.X = 0;
-	this.Y = 0;
-	this.Width = 0;
-	this.Height = 0;
 	
 	
 	

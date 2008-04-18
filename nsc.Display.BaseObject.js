@@ -4,6 +4,10 @@ nsc.Display.BaseObject = function()
 	
 	this.Inherit(nsc.System.Handle.Handlable);
 	
+	this.Inherit(nsc.Display.Drawing.Rectangle);
+	
+	this.Z = 0;
+	
 	// Properties
 	var _htmlElement;
 	this.NewProperty("HTMLElement");
@@ -36,6 +40,7 @@ nsc.Display.BaseObject = function()
 		{
 			this.HTMLElement().style.left = this.X + "px";
 			this.HTMLElement().style.top = this.Y + "px";
+			this.HTMLElement().style.zIndex = this.Z;
 			this.HTMLElement().style.width = this.Width + "px";
 			this.HTMLElement().style.height = this.Height + "px";
 			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
@@ -45,10 +50,6 @@ nsc.Display.BaseObject = function()
 	this);
 	
 	// Attributes
-	this.X = 0;
-	this.Y = 0;
-	this.Width = 0;
-	this.Height = 0;
 	this.ImagePath = new String();
 	
 	// variables
@@ -58,7 +59,7 @@ nsc.Display.BaseObject = function()
 	this.Init = function()
 	{
 		this.HTMLElement(nsc.Browser.DOM.CreateElement("div"));
-		this.HTMLElement().style.position="relative";
+		this.HTMLElement().style.position="absolute";
 	}
 	
 	this.Init();

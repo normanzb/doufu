@@ -14,10 +14,7 @@ nsc.Game.PlayGround.Camera = function()
 {
 	nsc.OOP.Class(this);
 	
-	this.Width = 0;
-	this.Height = 0;
-	this.X = 0;
-	this.Y = 0;
+	this.Inherit(nsc.Display.Drawing.Rectangle);
 	
 	this.Init = function()
 	{

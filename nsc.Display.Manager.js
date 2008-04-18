@@ -100,6 +100,29 @@ nsc.Display.Manager = function(oHTMLElement)
 		}
 	}
 	
+	// Remove a object from display manager
+	this.RemoveObject = function(obj)
+	{
+		if (!obj.InstanceOf(nsc.Display.BaseObject))
+		{
+			throw nsc.System.Exception("obj is not a instance of nsc.Display.BaseObject!");
+		}
+		
+		nsc.System.Logger.Debug("nsc.Display.Manager: Remove Object - " + obj);
+		
+		if (
+			typeof obj.InstanceOf != nsc.System.Constants.TYPE_UNDEFINED  &&
+			obj.InstanceOf(nsc.Display.BaseObject)
+			)
+		{	
+			nsc.System.Logger.Debug("nsc.Display.Manager: Remove Object - Object is type safed.");
+			this.HTMLElement().removeChild(obj.HTMLElement());
+			nsc.System.Logger.Debug("nsc.Display.Manager: The render function is " + obj.Render);
+			// Attach the display base object to on render event
+			this.OnRender.Detach(obj.Render);
+			nsc.System.Logger.Debug("nsc.Display.Manager: Remove Object - Object Removed.");
+		}
+	}
 	
 	// Initialize variables and properties.
 	this.Init = function()
