@@ -31,7 +31,22 @@ nsc.Browser.DOMBase = function(docRef)
 
 	this.CompatibleMode = function()
 	{
-		return this.DocRef().compatMode;
+		if(nsc.Browser.BrowserDetect.Browser == nsc.Browser.BrowserDetect.BrowserEnum.Explorer &&
+			nsc.Browser.BrowserDetect.Version < 6)
+		{
+			return nsc.Browser.DOM.CompatibleMode.BACK_COMPAT;
+		}
+		else if(nsc.Browser.BrowserDetect.Browser == nsc.Browser.BrowserDetect.BrowserEnum.Safari)
+		{
+			if (this.DocType().publicId == nsc.Browser.DOM.DocType.DTDXHTML1Strict)
+			{
+				return nsc.Browser.DOM.CompatibleMode.CSS1_COMPAT;
+			}
+		}
+		else
+		{
+			return this.DocRef().compatMode;
+		}
 	}
 
 	this.DesignMode = function()
@@ -41,6 +56,12 @@ nsc.Browser.DOMBase = function(docRef)
 
 	this.DocType = function()
 	{
+		// Attributes:
+		//  	name
+		// 		publicId
+		// 		systemId
+		// 		notations
+		//  	entities
 		return this.DocRef().doctype;
 	}
 
@@ -63,3 +84,5 @@ nsc.Browser.GetDOMFromIFrame = function(elmtIFrame)
 nsc.Browser.DOM.CompatibleMode.CSS1_COMPAT = "CSS1Compat";
 
 nsc.Browser.DOM.CompatibleMode.BACK_COMPAT = "BackCompat";
+
+nsc.Browser.DOM.DocType.DTDXHTML1Strict  = "-//W3C//DTD XHTML 1.0 Strict//EN";

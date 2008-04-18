@@ -74,5 +74,5 @@ testLoop = function()
 	nsc.System.MessageQueue.Push(tmpMsg);
 	setTimeout(testLoop, 10);
 }
-testLoop();
+//testLoop();
 //====================

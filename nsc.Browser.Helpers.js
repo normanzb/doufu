@@ -41,24 +41,25 @@ nsc.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWidt
 				retDiv.parentNode.appendChild(tmp);
 				//alert();
 			}
-			else if (nsc.Browser.BrowserDetect.Version == 7)
+			else 
 			{
 				retDiv.style.position = "relative";
 			}
 			
 		}
-		
-		if (nsc.Browser.BrowserDetect.Browser == nsc.Browser.BrowserDetect.BrowserEnum.Firefox)
+		else
 		{
 			retDiv.style.position = "relative";
 		}
 	}
-	if (nsc.Browser.DOM.CompatibleMode() == nsc.Browser.DOM.CompatibleMode.BACK_COMPAT)
+	else if (nsc.Browser.DOM.CompatibleMode() == nsc.Browser.DOM.CompatibleMode.BACK_COMPAT)
 	{
 		
 	}
-	
+	else
+	{
 
-	
+	}
+
 	return retDiv;
 }
