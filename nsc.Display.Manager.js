@@ -92,10 +92,16 @@ nsc.Display.Manager = function(oHTMLElement)
 			)
 		{	
 			nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - Object is type safed.");
+			
 			this.HTMLElement().appendChild(obj.HTMLElement());
+			
 			nsc.System.Logger.Debug("nsc.Display.Manager: The render function is " + obj.Render);
+			
 			// Attach the display base object to on render event
 			this.OnRender.Attach(obj.Render);
+			// Indicate obj is in view
+			obj.IsInView = true;
+			
 			nsc.System.Logger.Debug("nsc.Display.Manager: Insert Object - Object Inserted.");
 		}
 	}
@@ -116,10 +122,17 @@ nsc.Display.Manager = function(oHTMLElement)
 			)
 		{	
 			nsc.System.Logger.Debug("nsc.Display.Manager: Remove Object - Object is type safed.");
+			
 			this.HTMLElement().removeChild(obj.HTMLElement());
+			
 			nsc.System.Logger.Debug("nsc.Display.Manager: The render function is " + obj.Render);
+			
 			// Attach the display base object to on render event
 			this.OnRender.Detach(obj.Render);
+			
+			// Indicate obj is not in view
+			obj.IsInView = false;
+			
 			nsc.System.Logger.Debug("nsc.Display.Manager: Remove Object - Object Removed.");
 		}
 	}

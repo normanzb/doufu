@@ -6,8 +6,6 @@ nsc.Display.BaseObject = function()
 	
 	this.Inherit(nsc.Display.Drawing.Rectangle);
 	
-	this.Z = 0;
-	
 	// Properties
 	var _htmlElement;
 	this.NewProperty("HTMLElement");
@@ -51,6 +49,10 @@ nsc.Display.BaseObject = function()
 	
 	// Attributes
 	this.ImagePath = new String();
+	this.Z = 0;
+	// Indicate whether this display object is in user's view.
+	this.IsInView = false;
+	
 	
 	// variables
 	

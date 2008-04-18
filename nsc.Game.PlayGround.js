@@ -75,13 +75,19 @@ nsc.Game.PlayGround = function(oDisplayManager)
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Height = _gameObjects.InnerArray()[i].Height;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().ImagePath = _gameObjects.InnerArray()[i].ImagePath;
 
-				
-				linkedDisplayMgr.InsertObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+				if (_gameObjects.InnerArray()[i].LinkedDisplayObject().IsInView == false)
+				{
+					linkedDisplayMgr.InsertObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+				}
 			}
 			else
 			{
 				// linkeedDisplayMgr removeObject
-				linkedDisplayMgr.RemoveObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+				if (_gameObjects.InnerArray()[i].LinkedDisplayObject().IsInView == true)
+				{
+					linkedDisplayMgr.RemoveObject(_gameObjects.InnerArray()[i].LinkedDisplayObject());
+				}
+				
 			}
 		}
 		

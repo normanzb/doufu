@@ -45,11 +45,17 @@ nsc.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWidt
 			{
 				retDiv.style.position = "relative";
 			}
+			
+		}
+		
+		if (nsc.Browser.BrowserDetect.Browser == nsc.Browser.BrowserDetect.BrowserEnum.Firefox)
+		{
+			retDiv.style.position = "relative";
 		}
 	}
 	if (nsc.Browser.DOM.CompatibleMode() == nsc.Browser.DOM.CompatibleMode.BACK_COMPAT)
 	{
-
+		
 	}
 	
 

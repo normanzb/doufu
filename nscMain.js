@@ -68,4 +68,11 @@ godFather = new nsc.SampleGame.Roles.GodFather();
 godFather.Z = 4000;
 
 GeneralPlayGroundManager.InsertObject(godFather);
+
+testLoop = function()
+{
+	nsc.System.MessageQueue.Push(tmpMsg);
+	setTimeout(testLoop, 10);
+}
+testLoop();
 //====================
