@@ -67,8 +67,9 @@ nsc.Game.PlayGround = function(oDisplayManager)
 			if(nsc.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i], this.Camera()))
 			{
 				// translate game object to display object.
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X;
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
+				// Assuming the anglog is 60 degree.
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 2 - this.Camera().Y;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = _gameObjects.InnerArray()[i].Z;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Height = _gameObjects.InnerArray()[i].Height;
