@@ -176,7 +176,7 @@ nsc.OOP.Property = function(sPropertyName, oContext){
 		{
 			if (
 				value != null &&
-				typeof value != nsc.System.Constants.TYPE_UNDEFINED
+				typeof value != undefined //don't use nsc.System.Constants.TYPE_UNDEFINED, so that nsc.js can be used indivdually
 				)
 			{
 				oContext[sPropertyName].Set.call(oContext, value);
