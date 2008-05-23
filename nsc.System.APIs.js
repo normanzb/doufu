@@ -72,3 +72,18 @@ nsc.System.APIs.FunctionHooker = function(sFuncName, fnCap, objFuncOwner)
 	);
 	
 }
+
+///##########################
+/// Javascript Static Method
+/// Name: nsc.System.APIs.GetIsNullMacro
+/// Description: 
+/// 	Return a string which can be executed by eval() and return if the specified variable is null
+///
+/// Parameters:
+/// 	sObjName: variable name.
+///
+///##########################
+nsc.System.APIs.GetIsNullMacro = function(sObjName)
+{
+	return "(function(){if (typeof " + sObjName + " == nsc.System.Constants.TYPE_UNDEFINED || " + sObjName + " == null){return true;}})();";
+}

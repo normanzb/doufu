@@ -1,8 +1,35 @@
+/////////////////////////////////
+// User Interact and Game Display Architecture of Doufu Framework
+/////////////////////////////////
+// Computer Screen
+//		|
+// Display Manager: render every display object which attached to it to the screen
+// 		This manager owned a single cycle.
+//		|
+// PlayGround: Mapping every game object property to corresponding display object.
+//
+//		Since playground manager is inherited from display object,
+//		It will attach itself to display manager while initializing so 
+//		that it can be invoked at the first time when a render message
+//		was dispatched into display manager.
+//
+//		Another importance is PlayGround manager also caculating the the displayed 
+//		sprite offset in screen with its actual offset in game, for instance, says we
+//		have a fake 3d interface at an angle of 45 degree, the player with the actual
+//		world offset x = 20, y = 20 should mapped to screen offset x = 20 y = 10,
+//		PlayGround manager handling that.
+//
+//		Playground manager share the same cycle with display manager.
+// 
+// Operation Retriever: Get operation events from message queue, and invoke 
+//		corresponding the method of user controlled character.
+// 
+
 var __Global_MainLoop_Stop = false;
 
 nsc.System.Logger.Debug("nscMain looping in.");
 
-//TODO: use create instead.
+// Create a display manager (and its display area)
 var GeneralDisplayManager = nsc.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 322, 242);
 nsc.System.Logger.Debug("Display area is set");
 
@@ -71,6 +98,7 @@ GeneralPlayGroundManager.InsertObject(godFather);
 
 testLoop = function()
 {
+	godFather.X++;
 	nsc.System.MessageQueue.Push(tmpMsg);
 	setTimeout(testLoop, 10);
 }

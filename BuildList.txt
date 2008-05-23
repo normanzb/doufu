@@ -1,5 +1,3 @@
-./HELPERS/DEBUGHELPER/prototype-1.4.0.js
-./HELPERS/DEBUGHELPER/logger.js
 nsc.js
 nsc.System.js
 nsc.System.Constants.js
@@ -35,6 +33,7 @@ nsc.Game.Helpers.js
 nsc.Game.PlayGround.js
 nsc.Game.PlayGround.Camera.js
 nsc.Game.BaseObject.js
+nsc.Game.Direction.js
 nsc.Game.Sprite.js
 nsc.CustomTypes.js
 nsc.CustomTypes.Collection.js

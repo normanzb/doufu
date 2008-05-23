@@ -4,4 +4,12 @@ nsc.Game.Sprite = function(){
 	
 	this.Inherit(nsc.Game.BaseObject);
 	
+	// Move sprite with specified direction point with specified speed.
+	this.Move = function(oDirection, iSpeed)
+	{
+		if (eval(nsc.System.APIs.GetIsNullMacro("oDirection")))
+		{
+		}
+	}
+	
 }
