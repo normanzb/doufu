@@ -54,9 +54,9 @@ nsc.Game.Direction = function(iDirectionValue)
 	
 	this.toString = function()
 	{
-		return (_x & 0x1)? (_x & 0x2?"Right":"Left"):"" + 
-				(_y & 0x1)? (_y & 0x2?"Down":"Up"):"" +
-				(_z & 0x1)? (_z & 0x2?"FlyUp":"FlyDown"):"";
+		return ((_x & 0x1)? (_x & 0x2?"Right":"Left"):"") + 
+				((_y & 0x1)? (_y & 0x2?"Down":"Up"):"") +
+				((_z & 0x1)? (_z & 0x2?"FlyUp":"FlyDown"):"");
 	}
 	
 	this.Init();
