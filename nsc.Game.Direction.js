@@ -26,37 +26,38 @@ nsc.Game.Direction = function(iDirectionValue)
 			throw nsc.System.Exception("iDirection is not a valid format.");
 		}
 		
-		_x = iDirectionValue & 0x30 >> 4;
-		_y = iDirectionValue & 0x0C >> 2;
-		_z = iDirectionValue & 0x03;
-	}
-
-	var _x;
-	this.NewProperty("X");
-	this.X.Get = function()
-	{
-		return _x;
+		_xAxis = (iDirectionValue & 0x30) >> 4;
+		_yAxis = (iDirectionValue & 0x0C) >> 2;
+		_zAxis = iDirectionValue & 0x03;
 	}
 	
-	var _y;
-	this.NewProperty("Y");
-	this.Y.Get = function()
+	// X Axis direction
+	var _xAxis;
+	this.NewProperty("XAxis");
+	this.XAxis.Get = function()
 	{
-		return _y;
+		return _xAxis;
 	}
 	
-	var _z;
-	this.NewProperty("Z");
-	this.Z.Get = function()
+	var _yAxis;
+	this.NewProperty("YAxis");
+	this.YAxis.Get = function()
 	{
-		return _z;
+		return _yAxis;
+	}
+	
+	var _zAxis;
+	this.NewProperty("ZAxis");
+	this.ZAxis.Get = function()
+	{
+		return _zAxis;
 	}
 	
 	this.toString = function()
 	{
-		return ((_x & 0x1)? (_x & 0x2?"Right":"Left"):"") + 
-				((_y & 0x1)? (_y & 0x2?"Down":"Up"):"") +
-				((_z & 0x1)? (_z & 0x2?"FlyUp":"FlyDown"):"");
+		return ((_xAxis & 0x1)? ((_xAxis & 0x2)?"Left":"Right"):"") + 
+				((_yAxis & 0x1)? ((_yAxis & 0x2)?"Up":"Down"):"") +
+				((_zAxis & 0x1)? ((_zAxis & 0x2)?"Ascend":"Descend"):"");
 	}
 	
 	this.Init();
