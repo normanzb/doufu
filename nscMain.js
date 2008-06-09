@@ -84,23 +84,24 @@ godFather = new nsc.SampleGame.Roles.GodFather();
 //			Maybe...we need to integrate it into playground? because playground is the interface between
 //			Game object and display object. and ... in the pesudo 3d gaming.... the greater x is , the 
 //			deeper z is, the z index is denpenden on x index, we can separate the z-index into 3 part:
-//				1) playground range. 1 - 4000
-//				2) object which standing on ground range. 4001 ~ 8000
-//				3) object which flying on the sky range. 8001 ~ 12000
+//				1) Something not display (covered by playground). 0 - 2000
+//				2) playground range. 2001 - 4000
+//				3) object which standing on ground range. 4001 ~ 8000
+//				4) object which flying on the sky range. 8001 ~ 12000
 
 // In the meaning time, the Charas.Move just caculate the x and y because we conside them was standing on
 // the ground which is a 2 dimension map, if the character want to fly, just set its z index to the flying
 // on the sky range. the movement caculator just ignore the z index.
 
-godFather.Z = 4000;
+godFather.Z = 0;
 
 GeneralPlayGroundManager.InsertObject(godFather);
 
 testLoop = function()
 {
-	godFather.X++;
 	nsc.System.MessageQueue.Push(tmpMsg);
 	setTimeout(testLoop, 10);
 }
 //testLoop();
+//godFather.StartMoving(new nsc.Game.Direction(16), 49)
 //====================

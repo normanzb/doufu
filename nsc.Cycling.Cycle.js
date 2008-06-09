@@ -7,7 +7,7 @@
 ///##########################
 /// Javascript Class
 /// Name: Cycle
-/// Description: Psesudo Cycle for javascript.
+/// Description: A Cycle is a helper to execute a piece of code repeatly.
 /// Constructor:
 ///		pCallback: 	the a pointer to worker function,
 ///			   	 	this worker will be executed in the main loop.
@@ -31,7 +31,7 @@ nsc.Cycling.Cycle = function(pCallback)
 	
 	this.Init = function()
 	{
-		if (pCallback != null);
+		if (pCallback != null && pCallback.InstanceOf(nsc.Event.CallBack));
 		{
 			this.SetWorkerProcess(pCallback);
 		}

@@ -2,7 +2,7 @@
 /// Javascript Class
 /// Name: nsc.Game.PlayGround
 /// Description: 
-/// 	
+/// 	Playground itself is also a display object
 ///
 /// Attributes:
 /// 	
@@ -70,7 +70,8 @@ nsc.Game.PlayGround = function(oDisplayManager)
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
 				// Assuming the anglog is 60 degree.
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 2 - this.Camera().Y;
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = _gameObjects.InnerArray()[i].Z;
+				// The actual z value in the screen depend on the y coordinate. the game object is start from 4000 layer
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = (_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Height = _gameObjects.InnerArray()[i].Height;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().ImagePath = _gameObjects.InnerArray()[i].ImagePath;
@@ -114,8 +115,8 @@ nsc.Game.PlayGround = function(oDisplayManager)
 		nsc.System.Logger.Debug("Playground: Insert playground to display manager");
 		linkedDisplayMgr.InsertObject(this);
 		
-		// Playground layer has it default z index 2000;
-		this.Z = 2000;
+		// Playground layer has it default z index 2001;
+		this.Z = 2001;
 		
 	};
 	
