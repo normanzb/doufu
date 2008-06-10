@@ -6,7 +6,7 @@ nsc.Game.Sprite = function(){
 	
 	// #Region: Public Properties/Variables/Attributes
 	
-	var frameSpeed;
+	var cycleSkip;
 	var stepLength;
 	var frameCounter=0;
 	
@@ -48,7 +48,7 @@ nsc.Game.Sprite = function(){
 		this.Direction = oDirection;
 		
 		var temSpeed = nsc.Game.Sprite.Speed.CaculateFromInteger(iSpeed);
-		frameSpeed = temSpeed.FrameSpeed;
+		cycleSkip = temSpeed.CycleSkip;
 		stepLength = temSpeed.StepLength;
 		
 		if(this.IsMoving == false)
@@ -68,7 +68,7 @@ nsc.Game.Sprite = function(){
 	this.MovingHandlerCallback = new nsc.Event.CallBack(function(oMsg)
 	{
 		frameCounter++;
-		if (frameCounter % frameSpeed == 0)
+		if (frameCounter % (cycleSkip + 1) == 0)
 		{
 			this.MoveTo(this.Direction, stepLength);
 		}

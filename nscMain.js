@@ -71,7 +71,7 @@ nsc.SampleGame.Roles.GodFather = function()
 {
 	nsc.OOP.Class(this);
 	
-	this.Inherit(nsc.Game.Sprite);
+	this.Inherit(nsc.Game.Sprite.FourDirectionObject);
 	
 	this.Width = 24;
 	this.Height = 32;
