@@ -1,4 +1,4 @@
-nsc.Game.Sprite = function(){
+nsc.Game.Sprites.Sprite = function(){
 	
 	nsc.OOP.Class(this);
 	
@@ -47,7 +47,7 @@ nsc.Game.Sprite = function(){
 	{
 		this.Direction = oDirection;
 		
-		var temSpeed = nsc.Game.Sprite.Speed.CaculateFromInteger(iSpeed);
+		var temSpeed = nsc.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
 		cycleSkip = temSpeed.CycleSkip;
 		stepLength = temSpeed.StepLength;
 		

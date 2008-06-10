@@ -1,4 +1,4 @@
-nsc.Game.Sprite.Speed = function(iSpeed)
+nsc.Game.Sprites.Sprite.Speed = function(iSpeed)
 {
 	nsc.OOP.Class(this);
 	
@@ -9,7 +9,7 @@ nsc.Game.Sprite.Speed = function(iSpeed)
 	{
 		if (typeof iSpeed != nsc.System.Constants.TYPE_UNDEFINED)
 		{
-			var tmpSpeed = nsc.Game.Sprite.Speed.CaculateFromInteger(iSpeed);
+			var tmpSpeed = nsc.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
 			this.CycleSkip = tmpSpeed.CycleSkip;
 			this.StepLength = tmpSpeed.StepLength;
 			delete tmpSpeed;
@@ -17,9 +17,9 @@ nsc.Game.Sprite.Speed = function(iSpeed)
 	}
 }
 
-nsc.Game.Sprite.Speed.CaculateFromInteger = function(iSpeed)
+nsc.Game.Sprites.Sprite.Speed.CaculateFromInteger = function(iSpeed)
 {
-	var oRet = new nsc.Game.Sprite.Speed();
+	var oRet = new nsc.Game.Sprites.Sprite.Speed();
 	
 	// The minium number is 1, means every 1 frame need to do moving.
 	oRet.CycleSkip = 49 - iSpeed % 50;

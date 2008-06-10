@@ -1,0 +1,1 @@
+nsc.Game.Sprites = new Object();

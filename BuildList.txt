@@ -34,9 +34,10 @@ nsc.Game.PlayGround.js
 nsc.Game.PlayGround.Camera.js
 nsc.Game.BaseObject.js
 nsc.Game.Direction.js
-nsc.Game.Sprite.js
-nsc.Game.Sprite.Speed.js
-nsc.Game.Sprite.4DirectionObject.js
+nsc.Game.Sprites.js
+nsc.Game.Sprites.Sprite.js
+nsc.Game.Sprites.Sprite.Speed.js
+nsc.Game.Sprites.FourDirectionSprite.js
 nsc.CustomTypes.js
 nsc.CustomTypes.Collection.js
 nsc.CustomTypes.Stack.js
