@@ -4,7 +4,9 @@ nsc.Game.Sprites.Sprite = function(){
 	
 	this.Inherit(nsc.Game.BaseObject);
 	
-	// #Region: Public Properties/Variables/Attributes
+	/////////////////////////
+	// Define Public Properties/Variables/Attributes
+	/////////////////////////
 	
 	var cycleSkip;
 	var stepLength;
@@ -22,7 +24,9 @@ nsc.Game.Sprites.Sprite = function(){
 	
 	this.Direction = new nsc.Game.Direction();
 	
-	// #Region Public Methods
+	/////////////////////////
+	// Define Public Methods
+	/////////////////////////
 	
 	// Move sprite with specified direction point with specified speed.
 	this.MoveTo = function(oDirection, iLength)

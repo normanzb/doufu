@@ -73,6 +73,10 @@ nsc.SampleGame.Roles.GodFather = function()
 	
 	this.Inherit(nsc.Game.Sprites.FourDirectionSprite);
 	
+	// Set the image offset
+	this.ImageOffset.X = 24*3;
+	this.ImageOffset.Y = 0;
+	
 	this.Width = 24;
 	this.Height = 32;
 	

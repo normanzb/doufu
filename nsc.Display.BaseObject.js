@@ -41,6 +41,8 @@ nsc.Display.BaseObject = function()
 			this.HTMLElement().style.zIndex = this.Z;
 			this.HTMLElement().style.width = this.Width + "px";
 			this.HTMLElement().style.height = this.Height + "px";
+			this.HTMLElement().style.backgroundPosition = "-" + nsc.System.Convert.ToString(this.ImageOffset.X) + " -" + nsc.System.Convert.ToString(this.ImageOffset.Y);
+			this.HTMLElement().style.backgroundRepeat = "no-repeat";
 			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
 			nsc.System.Logger.Debug("nsc.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
 		}
@@ -48,6 +50,7 @@ nsc.Display.BaseObject = function()
 	this);
 	
 	// Attributes
+	this.ImageOffset = new nsc.Display.Drawing.Rectangle();
 	this.ImagePath = new String();
 	this.Z = 0;
 	// Indicate whether this display object is in user's view.
