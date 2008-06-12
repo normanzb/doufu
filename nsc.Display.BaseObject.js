@@ -41,7 +41,7 @@ nsc.Display.BaseObject = function()
 			this.HTMLElement().style.zIndex = this.Z;
 			this.HTMLElement().style.width = this.Width + "px";
 			this.HTMLElement().style.height = this.Height + "px";
-			this.HTMLElement().style.backgroundPosition = "-" + nsc.System.Convert.ToString(this.ImageOffset.X) + " -" + nsc.System.Convert.ToString(this.ImageOffset.Y);
+			this.HTMLElement().style.backgroundPosition = "-" + nsc.System.Convert.ToString(this.ImageOffset.X) + "px -" + nsc.System.Convert.ToString(this.ImageOffset.Y) + "px";
 			this.HTMLElement().style.backgroundRepeat = "no-repeat";
 			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
 			nsc.System.Logger.Debug("nsc.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);

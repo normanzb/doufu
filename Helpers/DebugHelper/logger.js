@@ -281,7 +281,7 @@ LogConsole.prototype = {
 
     // Allow acess key link          
     var accessElement = document.createElement('span')
-    accessElement.innerHTML = '<button style="position:absolute;top:-100px" onclick="javascript:logConsole.toggle()" accesskey="w"></button>' //Change access key from d to w
+    accessElement.innerHTML = '<button style="position:absolute;top:-100px" onclick="javascript:logConsole.toggle()" accesskey="~"></button>' //Change access key from d to ~
   	document.body.appendChild(accessElement)
 
   	if (Cookie.get('ConsoleVisible') == 'true') {
