@@ -29,7 +29,7 @@ nsc.OOP._callBacker=function(_m,_c){
 	var method = _m;
 	var context = _c;
 	return function(_args){
-		return method.call(context,_args);
+		return method.apply(context,_args);
 	}
 }
 
@@ -40,9 +40,9 @@ nsc.OOP._baseClassFunctions = function(__nsc_OOP_baseClassFunc_oContext)
 		return nsc.OOP.Property(sPropertyName, __nsc_OOP_baseClassFunc_oContext);
 	}
 	
-	this.Inherit = function(baseClass)
+	this.Inherit = function(baseClass, args)
 	{
-		return nsc.OOP.Inherit(__nsc_OOP_baseClassFunc_oContext,baseClass);
+		return nsc.OOP.Inherit(__nsc_OOP_baseClassFunc_oContext, baseClass, args);
 	}
 	
 	this.InstanceOf = function(type)
@@ -58,9 +58,10 @@ nsc.OOP._baseClassFunctions = function(__nsc_OOP_baseClassFunc_oContext)
 
 nsc.OOP.Class = function(oContext)
 {
-	nsc.OOP.Inherit(oContext, nsc.OOP._baseClassFunctions, oContext);
+	nsc.OOP.Inherit(oContext, nsc.OOP._baseClassFunctions,  [oContext]);
 }
-nsc.c = nsc.OOP.Class;
+// Alias, this pollute the global environment but we have to do this to reduce workload.
+$c = nsc.OOP.Class;
 
 // this class will be used as a member of the inheritance stack.
 nsc.OOP._inheritance = function()
@@ -71,6 +72,7 @@ nsc.OOP._inheritance = function()
 
 nsc.OOP.Inherit = function(obj,baseClass,args)
 {
+	
 	// Check if the baseClass already in the inheritance stacks
 	var oCurr = obj;
 	while (oCurr.__nsc_OOP_Inherit_Stack != null)
@@ -108,13 +110,14 @@ nsc.OOP.Inherit = function(obj,baseClass,args)
 
 
 	if (args != null)
-		baseClass.call(obj,args);
+	{
+		baseClass.apply(obj,args);
+	}
 	else
 		baseClass.apply(obj);
 	
 }
 
-nsc.i = nsc.OOP.Inherit;
 
 ///##########################
 /// Javascript Static Method

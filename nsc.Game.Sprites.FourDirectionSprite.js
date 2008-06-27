@@ -4,6 +4,8 @@ nsc.Game.Sprites.FourDirectionSprite = function()
 	
 	this.Inherit(nsc.Game.Sprites.Sprite);
 	
+	this.aa=1;
+	
 	this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
 	{
 		if (oDirection.X() == -1)
@@ -16,7 +18,7 @@ nsc.Game.Sprites.FourDirectionSprite = function()
 			// face down
 			
 		}
-			
-		_base_StartMoving(oDirection, iSpeed);
+
+		this._base_StartMoving(oDirection, iSpeed);
 	});
 }

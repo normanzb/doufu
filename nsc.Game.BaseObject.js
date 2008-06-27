@@ -21,6 +21,9 @@ nsc.Game.BaseObject = function(){
 		_linkedDisplayObject = value;
 	}
 	
-	
+	this.Worker = function(oMsg)
+	{
+		
+	}
 	
 }

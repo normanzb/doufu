@@ -1,3 +1,4 @@
+// Strong typed array
 nsc.CustomTypes.Collection = function(baseClass)
 {
 	nsc.OOP.Class(this);
@@ -49,6 +50,11 @@ nsc.CustomTypes.Collection = function(baseClass)
 		}
 		_innerArray.splice(i,1);
 		return this.Length();
+	}
+	
+	this.Items = function(index)
+	{
+		return _innerArray[index];
 	}
 	
 }
