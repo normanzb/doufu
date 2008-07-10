@@ -1,0 +1,1 @@
+doufu.CustomTypes = new Object();

@@ -1,1 +1,0 @@
-nsc.CustomTypes = new Object();

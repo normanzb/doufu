@@ -1,0 +1,1 @@
+doufu.Browser = new Object();

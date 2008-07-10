@@ -14,10 +14,10 @@ if %1==chk set __filenames=%__filenames% ./HELPERS/DEBUGHELPER/prototype-1.4.0.j
 
 for /f %%f in (BuildList.txt) do set __filenames=!__filenames! %%f 
 
-%__binariespath%Packer.exe -o %__binariespath%nsc.packed.js -m %__packmode% %__filenames%
+%__binariespath%Packer.exe -o %__binariespath%doufu.packed.js -m %__packmode% %__filenames%
 
 @rem Write version number
-echo nsc.__version = "%__version%"; >> %__binariespath%nsc.packed.js
+echo doufu.__version = "%__version%"; >> %__binariespath%doufu.packed.js
 
 :CleanUp
 

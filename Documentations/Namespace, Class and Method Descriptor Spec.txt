@@ -10,7 +10,7 @@
 {{
 ///##########################
 /// Javascript Static Method
-/// Name: nsc.System.MessageConstants.IsMessage
+/// Name: doufu.System.MessageConstants.IsMessage
 /// Description: 
 /// 	Determine whether inputted message is specified one.
 ///
@@ -47,7 +47,7 @@
 {{
 ///##########################
 /// Javascript Class
-/// Name: nsc.CustomTypes.StackElement
+/// Name: doufu.CustomTypes.StackElement
 /// Description: 
 /// 	An element which used for stacking
 ///

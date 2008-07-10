@@ -1,0 +1,1 @@
+doufu.Game = new Object();

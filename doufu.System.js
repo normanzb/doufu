@@ -1,0 +1,1 @@
+doufu.System = new Object();

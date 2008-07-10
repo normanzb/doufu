@@ -1,0 +1,1 @@
+doufu.Event = new Object();
