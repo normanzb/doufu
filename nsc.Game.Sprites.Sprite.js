@@ -12,14 +12,15 @@ nsc.Game.Sprites.Sprite = function(){
 	var stepLength;
 	var frameCounter=0;
 	
+	var _isMoving = false;
 	this.NewProperty("IsMoving");
 	this.IsMoving.Get = function()
 	{
-		return !this.MovingHandler.Halted;
+		return _isMoving
 	}
 	this.IsMoving.Set = function(value)
 	{
-		this.MovingHandler.Halted = !value;
+		_isMoving = value;
 	}
 	
 	this.Direction = new nsc.Game.Direction();
@@ -55,9 +56,9 @@ nsc.Game.Sprites.Sprite = function(){
 		cycleSkip = temSpeed.CycleSkip;
 		stepLength = temSpeed.StepLength;
 		
-		if(this.IsMoving == false)
+		if(this.IsMoving() == false)
 		{
-			this.MovingHandler.Start();
+			this.IsMoving(true);
 		}
 	}
 	
@@ -65,19 +66,28 @@ nsc.Game.Sprites.Sprite = function(){
 	{
 		if (this.IsMoving() == true)
 		{
-			this.MovingHandler.Halted = true;
+			this.IsMoving(false);
 		}
 	}
 	
-	this.MovingHandlerCallback = new nsc.Event.CallBack(function(oMsg)
+	this.Pacer = function(oMsg)
 	{
-		frameCounter++;
-		if (frameCounter % (cycleSkip + 1) == 0)
+		if (this.IsMoving())
 		{
-			this.MoveTo(this.Direction, stepLength);
+			frameCounter++;
+			if (frameCounter % (cycleSkip + 1) == 0)
+			{
+				this.MoveTo(this.Direction, stepLength);
+			}
 		}
-	}, this);
+	}
 	
-	this.MovingHandler = new nsc.Cycling.Cycle(this.MovingHandlerCallback);
+	this.Init = function()
+	{
+		// attach self to pace controller
+		nsc.Game.PaceController.Attach(this);
+	}
+	
+	this.Init();
 
 }
