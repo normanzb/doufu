@@ -37,6 +37,7 @@ doufu.Game.js
 doufu.Game.Helpers.js
 doufu.Game.PlayGround.js
 doufu.Game.PlayGround.Camera.js
+doufu.Game.Animation.js
 doufu.Game.BaseObject.js
 doufu.Game.Direction.js
 doufu.Game.PaceController.js

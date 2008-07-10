@@ -44,7 +44,7 @@ doufu.Display.BaseObject = function()
 			this.HTMLElement().style.backgroundPosition = "-" + doufu.System.Convert.ToString(this.ImageOffset.X) + "px -" + doufu.System.Convert.ToString(this.ImageOffset.Y) + "px";
 			this.HTMLElement().style.backgroundRepeat = "no-repeat";
 			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
-			doufu.System.Logger.Debug("doufu.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
+			doufu.System.Logger.Verbose("doufu.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
 		}
 	},
 	this);

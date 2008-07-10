@@ -70,9 +70,9 @@ doufu.Display.Manager = function(oHTMLElement)
 			doufu.System.MessageConstants.DISPLAY_RENDER
 			))
 		{
-			doufu.System.Logger.Debug("doufu.Display.Manager: Sending message: message=" + oMsg.Message);
+			doufu.System.Logger.Verbose("doufu.Display.Manager: Sending message: message=" + oMsg.Message);
 			this.OnRender.Invoke(oMsg);
-			doufu.System.Logger.Debug("doufu.Display.Manager: Message was sent.");
+			doufu.System.Logger.Verbose("doufu.Display.Manager: Message was sent.");
 		}
 	}
 	

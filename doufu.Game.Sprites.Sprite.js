@@ -12,16 +12,7 @@ doufu.Game.Sprites.Sprite = function(){
 	var stepLength;
 	var frameCounter=0;
 	
-	var _isMoving = false;
-	this.NewProperty("IsMoving");
-	this.IsMoving.Get = function()
-	{
-		return _isMoving
-	}
-	this.IsMoving.Set = function(value)
-	{
-		_isMoving = value;
-	}
+	this.IsMoving = false;
 	
 	this.Direction = new doufu.Game.Direction();
 	
@@ -56,23 +47,23 @@ doufu.Game.Sprites.Sprite = function(){
 		cycleSkip = temSpeed.CycleSkip;
 		stepLength = temSpeed.StepLength;
 		
-		if(this.IsMoving() == false)
+		if(this.IsMoving == false)
 		{
-			this.IsMoving(true);
+			this.IsMoving = true;
 		}
 	}
 	
 	this.StopMoving = function()
 	{
-		if (this.IsMoving() == true)
+		if (this.IsMoving == true)
 		{
-			this.IsMoving(false);
+			this.IsMoving = false;
 		}
 	}
 	
-	this.Pacer = function(oMsg)
+	this.OverrideMethod("Pacer", function(oMsg)
 	{
-		if (this.IsMoving())
+		if (this.IsMoving)
 		{
 			frameCounter++;
 			if (frameCounter % (cycleSkip + 1) == 0)
@@ -80,14 +71,8 @@ doufu.Game.Sprites.Sprite = function(){
 				this.MoveTo(this.Direction, stepLength);
 			}
 		}
-	}
+		
+		this._base_Pacer(oMsg);
+	});
 	
-	this.Init = function()
-	{
-		// attach self to pace controller
-		doufu.Game.PaceController.Attach(this);
-	}
-	
-	this.Init();
-
 }

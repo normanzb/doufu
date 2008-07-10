@@ -69,18 +69,35 @@ doufu.SampleGame = new Object();
 doufu.SampleGame.Roles = new Object();
 doufu.SampleGame.Roles.GodFather = function()
 {
-	doufu.OOP.Class(this);
+	$c(this);
 	
 	this.Inherit(doufu.Game.Sprites.FourDirectionSprite);
 	
 	// Set the image offset
-	this.ImageOffset.X = 24*3;
-	this.ImageOffset.Y = 0;
+	//this.ImageOffset.X = 24*3;
+	//this.ImageOffset.Y = 0;
 	
 	this.Width = 24;
 	this.Height = 32;
 	
 	this.ImagePath = CONFIG_CHARS_FULL_DIR + "char01.gif";
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 2;
+	this.AnimationInfos.Init.Column = 4;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	this.AnimationInfos.Init.FrameSkip = 5;
+	
+	this.AnimationInfos.MoveRight = new doufu.Game.Animation.Info();
+	this.AnimationInfos.MoveRight.Row = 1;
+	this.AnimationInfos.MoveRight.Column = 3;
+	this.AnimationInfos.MoveRight.FrameNumber = 3;
+	this.AnimationInfos.MoveRight.RepeatNumber = -1;
+	this.AnimationInfos.MoveRight.FrameSkip = 5;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
 }
 
 godFather = new doufu.SampleGame.Roles.GodFather();
@@ -106,6 +123,6 @@ testLoop = function()
 	doufu.System.MessageQueue.Push(tmpMsg);
 	setTimeout(testLoop, 10);
 }
-//testLoop();
+testLoop();
 //godFather.StartMoving(new doufu.Game.Direction(16), 49)
 //====================

@@ -2,13 +2,12 @@ doufu.Game.BaseObject = function(){
 	
 	doufu.OOP.Class(this);
 	
-	this.Inherit(doufu.Display.Drawing.Rectangle);
-	
-	this.Z = 0;
+	this.Inherit(doufu.Display.Drawing.Cube);
 	
 	// Saving the image information, this.ImageOffset.X/Y stands for the offset.
-	this.ImageOffset = new doufu.Display.Drawing.Rectangle();
+	this.ImageOffset = new doufu.Display.Drawing.Point();
 	this.ImagePath = new String();
+	this.Animation = new doufu.Game.Animation(this);
 
 	var _linkedDisplayObject = new doufu.Display.BaseObject();
 	this.NewProperty("LinkedDisplayObject");
@@ -21,9 +20,17 @@ doufu.Game.BaseObject = function(){
 		_linkedDisplayObject = value;
 	}
 	
-	this.Worker = function(oMsg)
+	this.Pacer = function(oMsg)
 	{
-		
+		this.Animation.Pacer(oMsg);
 	}
+	
+	this.Init = function()
+	{
+		// attach self to pace controller
+		doufu.Game.PaceController.Attach(this);
+	}
+	
+	this.Init();
 	
 }
