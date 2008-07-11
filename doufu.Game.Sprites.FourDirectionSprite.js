@@ -21,8 +21,45 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 			this.Animation.Play(this.AnimationInfos.MoveRight);
 			
 		}
+		else if (oDirection.Y() == 1)
+		{
+			this.Animation.Play(this.AnimationInfos.MoveDown);
+			
+		}
+		else if (oDirection.Y() == -1)
+		{
+			this.Animation.Play(this.AnimationInfos.MoveUp);
+			
+		}
 
 		this._base_StartMoving(oDirection, iSpeed);
+	});
+	
+	this.OverrideMethod("StopMoving", function()
+	{
+		// Play the stopAnimation and then it will stop itself automatically.
+		if (this.Direction.X() == -1 && this.AnimationInfos.StopLeft != null)
+		{
+			this.Animation.Play(this.AnimationInfos.StopLeft);
+			
+		}
+		else if (this.Direction.X() == 1 && this.AnimationInfos.StopRight != null)
+		{
+			this.Animation.Play(this.AnimationInfos.StopRight);
+			
+		}
+		else if (this.Direction.Y() == 1 && this.AnimationInfos.StopDown != null)
+		{
+			this.Animation.Play(this.AnimationInfos.StopDown);
+			
+		}
+		else if (this.Direction.Y() == -1 && this.AnimationInfos.StopUp != null)
+		{
+			this.Animation.Play(this.AnimationInfos.StopUp);
+			
+		}
+		
+		this._base_StopMoving();
 	});
 	
 	this.Init = function()
@@ -54,6 +91,10 @@ doufu.Game.Sprites.FourDirectionSprite.InfoSet = function(){
 		MoveUp : new doufu.Game.Animation.Info(),
 		MoveDown : new doufu.Game.Animation.Info(),
 		MoveLeft : new doufu.Game.Animation.Info(),
-		MoveRight : new doufu.Game.Animation.Info()
+		MoveRight : new doufu.Game.Animation.Info(),
+		StopUp : new doufu.Game.Animation.Info(),
+		StopDown : new doufu.Game.Animation.Info(),
+		StopLeft : new doufu.Game.Animation.Info(),
+		StopRight : new doufu.Game.Animation.Info()
 	}
 }

@@ -64,12 +64,13 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		// Insert in-range display object to display manager
 		for (var i = 0; i < _gameObjects.Length(); i++)
 		{
-			if(doufu.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i], this.Camera()))
+			// translate game object to display object.
+			_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
+			// Assuming the anglog is 60 degree.
+			_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 2 - this.Camera().Y;
+		
+			if(doufu.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i].LinkedDisplayObject(), this.Camera()))
 			{
-				// translate game object to display object.
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
-				// Assuming the anglog is 60 degree.
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 2 - this.Camera().Y;
 				// The actual z value in the screen depend on the y coordinate. the game object is start from 4000 layer
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = (_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;

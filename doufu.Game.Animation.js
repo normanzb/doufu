@@ -28,6 +28,7 @@ doufu.Game.Animation = function(oGameObj)
 			frameCursor = 0;
 			repeatCount = 0;
 			frameSkipCount = this.AnimationInfo.FrameSkip;
+			backwardPlay = false;
 		}
 		_isPlaying = value;
 	}
@@ -43,6 +44,11 @@ doufu.Game.Animation = function(oGameObj)
 		
 		doufu.System.Logger.Debug("doufu.Game.Animation::Play(): Was invoked with following parameters, oAnimationInfo.Row = " + oAnimationInfo.Row.toString());
 		
+		if (this.IsPlaying() == true)
+		{
+			this.Stop();
+		}
+		
 		this.AnimationInfo = oAnimationInfo;
 		
 		this.IsPlaying(true);
@@ -52,7 +58,7 @@ doufu.Game.Animation = function(oGameObj)
 	
 	this.Stop = function()
 	{
-		
+		this.IsPlaying(false);
 	}
 	
 	this.Pacer = function(oMsg)
@@ -60,6 +66,10 @@ doufu.Game.Animation = function(oGameObj)
 		// Check if the repeat number is reached.
 		if (this.IsPlaying() != true || (this.AnimationInfo.RepeatNumber != -1 && repeatCount > this.AnimationInfo.RepeatNumber))
 		{
+			if (this.IsPlaying() == true)
+			{
+				this.IsPlaying(false);
+			}
 			return;
 		}
 		
@@ -76,6 +86,15 @@ doufu.Game.Animation = function(oGameObj)
 		
 		// Start to play next frame
 		
+		if (this.AnimationInfo.Column == 0)
+		{
+			doufu.System.Logger.Error("doufu.Game.Animation::Pacer():Bad thing happened!",null);
+		}
+		
+		doufu.System.Logger.Verbose("doufu.Game.Animation::Pacer():");
+		doufu.System.Logger.Verbose("\tColumn: " + this.AnimationInfo.Column.toString());
+		doufu.System.Logger.Verbose("\tRefToGameObj.Width: " + this.RefToGameObj.Width.toString());
+		doufu.System.Logger.Verbose("\tframeCursor: " + frameCursor.toString());
 		
 		this.RefToGameObj.ImageOffset.X = this.AnimationInfo.Column * this.RefToGameObj.Width + this.RefToGameObj.Width * frameCursor;
 		this.RefToGameObj.ImageOffset.Y = this.AnimationInfo.Row * this.RefToGameObj.Height;

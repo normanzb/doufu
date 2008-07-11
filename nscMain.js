@@ -97,6 +97,54 @@ doufu.SampleGame.Roles.GodFather = function()
 	this.AnimationInfos.MoveRight.FrameSkip = 12;
 	this.AnimationInfos.MoveRight.PlayReboundly = true;
 	
+	this.AnimationInfos.MoveLeft = new doufu.Game.Animation.Info();
+	this.AnimationInfos.MoveLeft.Row = 3;
+	this.AnimationInfos.MoveLeft.Column = 3;
+	this.AnimationInfos.MoveLeft.FrameNumber = 3;
+	this.AnimationInfos.MoveLeft.RepeatNumber = -1;
+	this.AnimationInfos.MoveLeft.FrameSkip = 12;
+	this.AnimationInfos.MoveLeft.PlayReboundly = true;
+	
+	this.AnimationInfos.MoveUp = new doufu.Game.Animation.Info();
+	this.AnimationInfos.MoveUp.Row = 0;
+	this.AnimationInfos.MoveUp.Column = 3;
+	this.AnimationInfos.MoveUp.FrameNumber = 3;
+	this.AnimationInfos.MoveUp.RepeatNumber = -1;
+	this.AnimationInfos.MoveUp.FrameSkip = 12;
+	this.AnimationInfos.MoveUp.PlayReboundly = true;
+	
+	this.AnimationInfos.MoveDown = new doufu.Game.Animation.Info();
+	this.AnimationInfos.MoveDown.Row = 2;
+	this.AnimationInfos.MoveDown.Column = 3;
+	this.AnimationInfos.MoveDown.FrameNumber = 3;
+	this.AnimationInfos.MoveDown.RepeatNumber = -1;
+	this.AnimationInfos.MoveDown.FrameSkip = 12;
+	this.AnimationInfos.MoveDown.PlayReboundly = true;
+	
+	this.AnimationInfos.StopRight = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopRight.Row = 1;
+	this.AnimationInfos.StopRight.Column = 4;
+	this.AnimationInfos.StopRight.FrameNumber = 1;
+	this.AnimationInfos.StopRight.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopLeft = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopLeft.Row = 3;
+	this.AnimationInfos.StopLeft.Column = 4;
+	this.AnimationInfos.StopLeft.FrameNumber = 1;
+	this.AnimationInfos.StopLeft.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopUp = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopUp.Row = 0;
+	this.AnimationInfos.StopUp.Column = 4;
+	this.AnimationInfos.StopUp.FrameNumber = 1;
+	this.AnimationInfos.StopUp.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopDown = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopDown.Row = 2;
+	this.AnimationInfos.StopDown.Column = 4;
+	this.AnimationInfos.StopDown.FrameNumber = 1;
+	this.AnimationInfos.StopDown.RepeatNumber = 1;
+	
 	this.Animation.Play(this.AnimationInfos.Init);
 	
 }
