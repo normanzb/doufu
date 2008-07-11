@@ -67,7 +67,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 			// translate game object to display object.
 			_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
 			// Assuming the anglog is 60 degree.
-			_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 2 - this.Camera().Y;
+			_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 1.5 - this.Camera().Y;
 		
 			if(doufu.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i].LinkedDisplayObject(), this.Camera()))
 			{
