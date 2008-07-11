@@ -94,7 +94,8 @@ doufu.SampleGame.Roles.GodFather = function()
 	this.AnimationInfos.MoveRight.Column = 3;
 	this.AnimationInfos.MoveRight.FrameNumber = 3;
 	this.AnimationInfos.MoveRight.RepeatNumber = -1;
-	this.AnimationInfos.MoveRight.FrameSkip = 5;
+	this.AnimationInfos.MoveRight.FrameSkip = 12;
+	this.AnimationInfos.MoveRight.PlayReboundly = true;
 	
 	this.Animation.Play(this.AnimationInfos.Init);
 	
