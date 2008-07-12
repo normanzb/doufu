@@ -272,19 +272,19 @@ doufu.OOP.InstanceOf = function(rInstance, type)
 
 doufu.OOP.Implement = function(oContext, oBaseInterface)
 {
-	// Initialize all virtual array value.
+	// Initialize all Declare array value.
 	new oBaseInterface();
 	
-	if (typeof oBaseInterface.__nsc_OOP_VirtualArray == typeof undefined)
+	if (typeof oBaseInterface.__nsc_OOP_DeclareArray == typeof undefined)
 	{
 		throw new Error("doufu.OOP.Implement: " + oBaseInterface + "is not a interface!");
 	}
 	
-	for (var i = 0; i < oBaseInterface.__nsc_OOP_VirtualArray.length; i++)
+	for (var i = 0; i < oBaseInterface.__nsc_OOP_DeclareArray.length; i++)
 	{
 		// if the implementation was not found in direct constructor, dig into the inheritance stack.
 		if (oContext.constructor.toString().indexOf(
-			oBaseInterface.__nsc_OOP_VirtualArray[i]) == -1)
+			oBaseInterface.__nsc_OOP_DeclareArray[i]) == -1)
 		{
 			var currentInstance;
 			var bFound = false;
@@ -294,7 +294,7 @@ doufu.OOP.Implement = function(oContext, oBaseInterface)
 			while (currentInstance.__nsc_OOP_Inherit_Stack != null)
 			{
 				if (currentInstance.__nsc_OOP_Inherit_Stack.Ref.toString().indexOf(
-					oBaseInterface.__nsc_OOP_VirtualArray[i]) != -1)
+					oBaseInterface.__nsc_OOP_DeclareArray[i]) != -1)
 				{
 					bFound = true;
 					break;
@@ -304,7 +304,7 @@ doufu.OOP.Implement = function(oContext, oBaseInterface)
 			
 			if (!bFound)
 			{
-				throw new Error("doufu.OOP.Implement: Method " + oBaseInterface.__nsc_OOP_VirtualArray[i] + " must be implemented!");
+				throw new Error("doufu.OOP.Implement: Method " + oBaseInterface.__nsc_OOP_DeclareArray[i] + " must be implemented!");
 			}
 		}
 	}
@@ -331,26 +331,26 @@ doufu.OOP.IsImplemented = function(oContext, oBaseInterface)
 	return false;
 }
 
-doufu.OOP.Virtual = function(sMethodName, oContext)
+doufu.OOP.Declare = function(sMethodName, oContext)
 {
-	// add the method name to virtual array
-	if (typeof oContext.constructor.__nsc_OOP_VirtualArray == typeof undefined)
+	// add the method name to Declare array
+	if (typeof oContext.constructor.__nsc_OOP_DeclareArray == typeof undefined)
 	{
-		oContext.constructor.__nsc_OOP_VirtualArray = new Array();
+		oContext.constructor.__nsc_OOP_DeclareArray = new Array();
 	}
 	
 	var bFound = false;
 	// if the method was not added, then add it into array.
-	for (var i = 0; i < oContext.constructor.__nsc_OOP_VirtualArray.length; i++)
+	for (var i = 0; i < oContext.constructor.__nsc_OOP_DeclareArray.length; i++)
 	{
-		if (oContext.constructor.__nsc_OOP_VirtualArray[i] == sMethodName)
+		if (oContext.constructor.__nsc_OOP_DeclareArray[i] == sMethodName)
 		{
 			bFound = true;
 		}
 	}
 	if (!bFound)
 	{
-		oContext.constructor.__nsc_OOP_VirtualArray.push(sMethodName);
+		oContext.constructor.__nsc_OOP_DeclareArray.push(sMethodName);
 	}
 }
 
@@ -361,9 +361,9 @@ doufu.OOP.Interface = function(oContext)
 
 doufu.OOP._baseInterfaceFunctions = function(__nsc_OOP_baseInterfaceFunc_oContext)
 {
-	this.Virtual = function(sMethodName)
+	this.Declare = function(sMethodName)
 	{
-		return doufu.OOP.Virtual(sMethodName, __nsc_OOP_baseInterfaceFunc_oContext);
+		return doufu.OOP.Declare(sMethodName, __nsc_OOP_baseInterfaceFunc_oContext);
 	}
 }
 
