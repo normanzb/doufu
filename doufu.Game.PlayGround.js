@@ -58,6 +58,12 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		_gameObjects.Add(obj);
 	}
 	
+	this.RemoveObject = function(obj)
+	{
+		linkedDisplayMgr.RemoveObject(obj.LinkedDisplayObject());
+		_gameObjects.Remove(obj);
+	}
+	
 	this._base_RenderRefer = this.Render.Reference;
 	this.Render.Reference = function(oSender, oEvent)
 	{

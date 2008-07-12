@@ -37,12 +37,23 @@ var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
 
 // TODO: Abstract loop
 function __nsc_MainLoop(){
+	
 	var EmptyMessage = new doufu.System.Message();
+	
 	if (doufu.System.MessageQueue.Length() > 0)
 	{
-		EmptyMessage = doufu.System.MessageQueue.Shift();
+		// bump out all messages
+		while(doufu.System.MessageQueue.Length() > 0)
+		{
+			EmptyMessage = doufu.System.MessageQueue.Shift();
+			doufu.Cycling.Manager.Looper(EmptyMessage);
+		}
 	}
-	doufu.Cycling.Manager.Looper(EmptyMessage);
+	else
+	{
+		doufu.Cycling.Manager.Looper(EmptyMessage);
+	}
+	
 	if (__Global_MainLoop_Stop == false) setTimeout(__nsc_MainLoop,10);
 }
 
