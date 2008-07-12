@@ -61,16 +61,28 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	this._base_RenderRefer = this.Render.Reference;
 	this.Render.Reference = function(oSender, oEvent)
 	{
+		// Caculate which part of the background should be displayed according to camera coordinate
+		this.ImageOffset.X = this.Camera().X;
+		this.ImageOffset.Y = this.Camera().Y;
+		
 		// Insert in-range display object to display manager
 		for (var i = 0; i < _gameObjects.Length(); i++)
 		{
-			// translate game object to display object.
-			_gameObjects.InnerArray()[i].LinkedDisplayObject().X = _gameObjects.InnerArray()[i].X - this.Camera().X;
-			// Assuming the anglog is 60 degree.
-			_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = _gameObjects.InnerArray()[i].Y / 1.5 - this.Camera().Y;
-		
-			if(doufu.Game.Helpers.IsCollided(_gameObjects.InnerArray()[i].LinkedDisplayObject(), this.Camera()))
+			
+			// this is the player rectangle which on the screen surface (caculated by the analog);
+			var displayBufferOffset = new doufu.Display.Drawing.Rectangle();
+			displayBufferOffset.Width = _gameObjects.InnerArray()[i].Width;
+			displayBufferOffset.Height = _gameObjects.InnerArray()[i].Height;
+			displayBufferOffset.X = _gameObjects.InnerArray()[i].X;
+			displayBufferOffset.Y = _gameObjects.InnerArray()[i].Y / 1.5;
+			
+			if(doufu.Game.Helpers.IsCollided(displayBufferOffset, this.Camera()))
 			{
+				// translate game object to display object.
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = displayBufferOffset.X - this.Camera().X;
+				// Assuming the anglog is 60 degree.
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = displayBufferOffset.Y - this.Camera().Y;
+				
 				// The actual z value in the screen depend on the y coordinate. the game object is start from 4000 layer
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = (_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;
@@ -104,17 +116,17 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	{
 		if (!oDisplayManager.InstanceOf(doufu.Display.Manager))
 		{
-			throw doufu.System.Exception("Must specified a display manager.");
+			throw doufu.System.Exception("doufu.Game.PlayGround::Init(): Must specified a display manager.");
 		}
 		
-		doufu.System.Logger.Debug("Playground: Loopped in.");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): Loopped in.");
 		
 		// Link display manager
 		linkedDisplayMgr = oDisplayManager;
-		doufu.System.Logger.Debug("Playground: create play ground temporary html element.");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): created play ground temporary html element.");
 		
 		// Inserted play ground it self to display mananger.
-		doufu.System.Logger.Debug("Playground: Insert playground to display manager");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): Insert playground to display manager");
 		linkedDisplayMgr.InsertObject(this);
 		
 		// Playground layer has it default z index 2001;

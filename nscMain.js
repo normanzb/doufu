@@ -60,6 +60,7 @@ tmpMsg.Message = doufu.System.MessageConstants.DISPLAY_RENDER;
 GeneralPlayGroundManager.ImagePath = CONFIG_STAGES_DIR + "stage01.gif";
 GeneralPlayGroundManager.Width = 454;
 GeneralPlayGroundManager.Height = 340;
+GeneralPlayGroundManager.Camera().X = 100;
 GeneralPlayGroundManager.Camera().Width = 322;
 GeneralPlayGroundManager.Camera().Height = 242;
 
