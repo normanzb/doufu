@@ -54,14 +54,22 @@ doufu.OOP._baseClassFunctions = function(__nsc_OOP_baseClassFunc_oContext)
 	{
 		return doufu.OOP.OverloadMethod(__nsc_OOP_baseClassFunc_oContext, sMethodName, pFunc)
 	}
+	
+	this.Implement = function(baseInterface)
+	{
+		return doufu.OOP.Implement(__nsc_OOP_baseClassFunc_oContext, baseInterface)
+	}
+	
+	this.IsImplemented = function(baseInterface)
+	{
+		return doufu.OOP.IsImplemented(__nsc_OOP_baseClassFunc_oContext, baseInterface);
+	}
 }
 
 doufu.OOP.Class = function(oContext)
 {
 	doufu.OOP.Inherit(oContext, doufu.OOP._baseClassFunctions,  [oContext]);
 }
-// Alias, this pollute the global environment but we have to do this to reduce workload.
-$c = doufu.OOP.Class;
 
 // this class will be used as a member of the inheritance stack.
 doufu.OOP._inheritance = function()
@@ -261,3 +269,104 @@ doufu.OOP.InstanceOf = function(rInstance, type)
 	
 	return bRet;
 }
+
+doufu.OOP.Implement = function(oContext, oBaseInterface)
+{
+	// Initialize all virtual array value.
+	new oBaseInterface();
+	
+	if (typeof oBaseInterface.__nsc_OOP_VirtualArray == typeof undefined)
+	{
+		throw new Error("doufu.OOP.Implement: " + oBaseInterface + "is not a interface!");
+	}
+	
+	for (var i = 0; i < oBaseInterface.__nsc_OOP_VirtualArray.length; i++)
+	{
+		// if the implementation was not found in direct constructor, dig into the inheritance stack.
+		if (oContext.constructor.toString().indexOf(
+			oBaseInterface.__nsc_OOP_VirtualArray[i]) == -1)
+		{
+			var currentInstance;
+			var bFound = false;
+
+			currentInstance = oContext;
+
+			while (currentInstance.__nsc_OOP_Inherit_Stack != null)
+			{
+				if (currentInstance.__nsc_OOP_Inherit_Stack.Ref.toString().indexOf(
+					oBaseInterface.__nsc_OOP_VirtualArray[i]) != -1)
+				{
+					bFound = true;
+					break;
+				}
+				currentInstance = currentInstance.__nsc_OOP_Inherit_Stack;
+			}
+			
+			if (!bFound)
+			{
+				throw new Error("doufu.OOP.Implement: Method " + oBaseInterface.__nsc_OOP_VirtualArray[i] + " must be implemented!");
+			}
+		}
+	}
+		
+	if (typeof oContext.__nsc_OOP_BaseInterface == typeof undefined)
+	{
+		oContext.__nsc_OOP_BaseInterface = new Array();
+	}
+	oContext.__nsc_OOP_BaseInterface.push(oBaseInterface);
+
+}
+
+doufu.OOP.IsImplemented = function(oContext, oBaseInterface)
+{
+	// Check if the specified interface is existed in the internal interface array
+	for (var i = 0; i < oContext.__nsc_OOP_BaseInterface.length; i++)
+	{
+		if (oContext.__nsc_OOP_BaseInterface[i] == oBaseInterface)
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+doufu.OOP.Virtual = function(sMethodName, oContext)
+{
+	// add the method name to virtual array
+	if (typeof oContext.constructor.__nsc_OOP_VirtualArray == typeof undefined)
+	{
+		oContext.constructor.__nsc_OOP_VirtualArray = new Array();
+	}
+	
+	var bFound = false;
+	// if the method was not added, then add it into array.
+	for (var i = 0; i < oContext.constructor.__nsc_OOP_VirtualArray.length; i++)
+	{
+		if (oContext.constructor.__nsc_OOP_VirtualArray[i] == sMethodName)
+		{
+			bFound = true;
+		}
+	}
+	if (!bFound)
+	{
+		oContext.constructor.__nsc_OOP_VirtualArray.push(sMethodName);
+	}
+}
+
+doufu.OOP.Interface = function(oContext)
+{
+	doufu.OOP.Inherit(oContext, doufu.OOP._baseInterfaceFunctions,  [oContext]);
+}
+
+doufu.OOP._baseInterfaceFunctions = function(__nsc_OOP_baseInterfaceFunc_oContext)
+{
+	this.Virtual = function(sMethodName)
+	{
+		return doufu.OOP.Virtual(sMethodName, __nsc_OOP_baseInterfaceFunc_oContext);
+	}
+}
+
+// Aliases, this pollute the global environment but we have to do this to reduce workload.
+$c = doufu.OOP.Class;
+$i = doufu.OOP.Interface;
