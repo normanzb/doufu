@@ -4,8 +4,6 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	this.Inherit(doufu.Game.Sprites.Sprite);
 	
-	this.aa=1;
-	
 	this.AnimationInfos = {};
 	
 	this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
@@ -62,13 +60,13 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 		this._base_StopMoving();
 	});
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (oInfoSet != null)
 		{
 			if (!oInfoSet.InstanceOf(doufu.Game.Sprites.FourDirectionSprite.InfoSet))
 			{
-				throw doufu.System.Exception("doufu.Game.Sprites.FourDirectionSprite::Init(): oInfoSet must be an instance of doufu.Game.Sprites.FourDirectionSprite.InfoSet.");
+				throw doufu.System.Exception("doufu.Game.Sprites.FourDirectionSprite::Ctor(): oInfoSet must be an instance of doufu.Game.Sprites.FourDirectionSprite.InfoSet.");
 			}
 			
 			this.ImagePath = oInfoSet.ImagePath;
@@ -77,7 +75,8 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 			this.Animation.Play(this.AnimationInfos.Init);
 		}
 	}
-		
+	
+	this.Ctor();
 }
 
 doufu.Game.Sprites.FourDirectionSprite.InfoSet = function(){

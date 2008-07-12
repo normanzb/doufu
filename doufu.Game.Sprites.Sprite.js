@@ -16,6 +16,9 @@ doufu.Game.Sprites.Sprite = function(){
 	
 	this.Direction = new doufu.Game.Direction();
 	
+	// OnConfirmMovable event
+	this.OnConfirmMovable = new doufu.Event.EventHandler(this);
+	
 	/////////////////////////
 	// Define Public Methods
 	/////////////////////////
@@ -31,6 +34,9 @@ doufu.Game.Sprites.Sprite = function(){
 		{
 			throw doufu.System.Exception("oDirection should be a instance of doufu.Game.Direction!");
 		}
+		
+		// Collision detecting and others...
+		this.OnConfirmMovable.Invoke({Direction:oDirection, Length: iLength});
 		
 		// Caculating the next position
 		//godFather.StartMoving(new doufu.Game.Direction(16), 49)

@@ -25,12 +25,12 @@ doufu.Game.BaseObject = function(){
 		this.Animation.Pacer(oMsg);
 	}
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		// attach self to pace controller
 		doufu.Game.PaceController.Attach(this);
 	}
 	
-	this.Init();
+	this.Ctor();
 	
 }

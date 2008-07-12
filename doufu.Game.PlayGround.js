@@ -47,6 +47,8 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		_camera = value;
 	}
 	
+	this.OnInsertObject = new doufu.Event.EventHandler(this);
+	
 	// Define properties and variables End
 	
 	/////////////////////////
@@ -55,6 +57,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	
 	this.InsertObject = function(obj)
 	{
+		this.OnInsertObject.Invoke(obj);
 		_gameObjects.Add(obj);
 	}
 	
@@ -116,23 +119,23 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	}
 	
 	/////////////////////////
-	// Constructor, Initialize variables and properties.
+	// Constructor, Initializing variables and properties.
 	/////////////////////////
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (!oDisplayManager.InstanceOf(doufu.Display.Manager))
 		{
-			throw doufu.System.Exception("doufu.Game.PlayGround::Init(): Must specified a display manager.");
+			throw doufu.System.Exception("doufu.Game.PlayGround::Ctor(): Must specified a display manager.");
 		}
 		
-		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): Loopped in.");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Ctor(): Loopped in.");
 		
 		// Link display manager
 		linkedDisplayMgr = oDisplayManager;
-		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): created play ground temporary html element.");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Ctor(): created play ground temporary html element.");
 		
 		// Inserted play ground it self to display mananger.
-		doufu.System.Logger.Debug("doufu.Game.PlayGround::Init(): Insert playground to display manager");
+		doufu.System.Logger.Debug("doufu.Game.PlayGround::Ctor(): Insert playground to display manager");
 		linkedDisplayMgr.InsertObject(this);
 		
 		// Playground layer has it default z index 2001;
@@ -140,7 +143,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		
 	};
 	
-	this.Init();
+	this.Ctor();
 	
 	// TO DO: 1) Calculate the object offset if the background scroll
 	//			 So the sprite/object movement must be controlled by playground object.

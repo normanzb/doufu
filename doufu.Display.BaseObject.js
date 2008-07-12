@@ -61,15 +61,15 @@ doufu.Display.BaseObject = function()
 	
 	this.Handle = doufu.System.Handle.Generate();
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		this.HTMLElement(doufu.Browser.DOM.CreateElement("div"));
 		this.HTMLElement().style.position="absolute";
+		
+		doufu.System.Logger.Debug("doufu.Display.BaseObject::Ctor(): Initialized");
 	}
 	
-	this.Init();
-	
-	doufu.System.Logger.Debug("doufu.Display.BaseObject: Initialized");
+	this.Ctor();
 	
 	// TO DO: 1) AnimationFrame object, the object specified the position of action frame in the static picture.
 }

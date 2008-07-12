@@ -136,17 +136,17 @@ doufu.Game.Animation = function(oGameObj)
 	}
 	
 	// Initialize Animation class
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (!oGameObj.InstanceOf(doufu.Game.BaseObject))
 		{
-			throw doufu.System.Exception("doufu.Game.Animation::Init(): oGameObj must be a instance of doufu.Game.BaseObject.");
+			throw doufu.System.Exception("doufu.Game.Animation::Ctor(): oGameObj must be a instance of doufu.Game.BaseObject.");
 		}
 		this.RefToGameObj = oGameObj;
 		
 	}
 	
-	this.Init();
+	this.Ctor();
 }
 
 // This is a animation info class which containing all information needed while playing an animation.

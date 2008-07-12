@@ -5,9 +5,9 @@ doufu.Game.Sprites.Sprite.Speed = function(iSpeed)
 	this.CycleSkip;
 	this.StepLength;
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
-		if (typeof iSpeed != doufu.System.Constants.TYPE_UNDEFINED)
+		if (typeof iSpeed != doufu.System.Constants.TYPE_UNDEFINED && iSpeed != null)
 		{
 			var tmpSpeed = doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
 			this.CycleSkip = tmpSpeed.CycleSkip;
@@ -15,6 +15,8 @@ doufu.Game.Sprites.Sprite.Speed = function(iSpeed)
 			delete tmpSpeed;
 		}
 	}
+	
+	this.Ctor();
 }
 
 doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger = function(iSpeed)

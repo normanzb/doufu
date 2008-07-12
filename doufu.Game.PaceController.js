@@ -16,12 +16,12 @@ doufu.Game.PaceController = new function()
 		}
 	}, this);
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		this.Cycle = new doufu.Cycling.Cycle(this.WorkerCallback);
 		this.Cycle.Start();
 		
 	}
 	
-	this.Init();
+	this.Ctor();
 }

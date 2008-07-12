@@ -138,7 +138,7 @@ doufu.Display.Manager = function(oHTMLElement)
 	}
 	
 	// Initialize variables and properties.
-	this.Init = function()
+	this.Ctor = function()
 	{
 		_renderingCycleCallback = new doufu.Event.CallBack(this.Looper, this);
 		_renderingCycle = new doufu.Cycling.Cycle();
@@ -154,7 +154,7 @@ doufu.Display.Manager = function(oHTMLElement)
 		}
 	};
 	
-	this.Init();
+	this.Ctor();
 	
 }
 

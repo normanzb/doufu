@@ -16,8 +16,10 @@ doufu.Game.PlayGround.Camera = function()
 	
 	this.Inherit(doufu.Display.Drawing.Rectangle);
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		
 	}
+	
+	this.Ctor();
 }

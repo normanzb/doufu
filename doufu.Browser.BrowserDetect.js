@@ -121,7 +121,7 @@ doufu.Browser.BrowserDetect = new function __nsc_Browser_BrowserDetect()
 		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
 	}
 	
-	this.Init = function () 
+	this.Ctor = function () 
 	{
 		this.Browser = this.searchString(this.dataBrowser) || doufu.Browser.BrowserDetect.BrowserEnum.Unknown;
 		this.Version = this.searchVersion(navigator.userAgent)
@@ -130,5 +130,5 @@ doufu.Browser.BrowserDetect = new function __nsc_Browser_BrowserDetect()
 		this.OS = this.searchString(this.dataOS) || doufu.Browser.BrowserDetect.OSEnum.Unknown;
 	}
 	
-	this.Init();
+	this.Ctor();
 }

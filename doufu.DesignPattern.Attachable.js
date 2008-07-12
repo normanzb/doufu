@@ -10,7 +10,7 @@ doufu.DesignPattern.Attachable = function(type)
 		return _collection;
 	}
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (typeof type == doufu.System.Constants.TYPE_UNDEFINED)
 		{
@@ -27,5 +27,5 @@ doufu.DesignPattern.Attachable = function(type)
 		_collection.Remove(obj);
 	}
 	
-	this.Init();
+	this.Ctor();
 }

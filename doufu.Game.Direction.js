@@ -14,7 +14,7 @@ doufu.Game.Direction = function(iDirectionValue)
 {
 	doufu.OOP.Class(this);
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (typeof iDirectionValue == doufu.System.Constants.TYPE_UNDEFINED)
 		{
@@ -129,5 +129,5 @@ doufu.Game.Direction = function(iDirectionValue)
 				((_zAxis & 0x1)? ((_zAxis & 0x2)?"Ascend":"Descend"):"");
 	}
 	
-	this.Init();
+	this.Ctor();
 }

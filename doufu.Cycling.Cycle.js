@@ -29,7 +29,7 @@ doufu.Cycling.Cycle = function(pCallback)
 	// When suspend started.
 	var suspendStartTime = null;
 	
-	this.Init = function()
+	this.Ctor = function()
 	{
 		if (pCallback != null && pCallback.InstanceOf(doufu.Event.CallBack));
 		{
@@ -75,6 +75,6 @@ doufu.Cycling.Cycle = function(pCallback)
 		this.Halted = false;
 	}
 	
-	this.Init();
+	this.Ctor();
 	
 }
