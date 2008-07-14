@@ -86,11 +86,6 @@ doufu.Game.Animation = function(oGameObj)
 		
 		// Start to play next frame
 		
-		if (this.AnimationInfo.Column == 0)
-		{
-			doufu.System.Logger.Error("doufu.Game.Animation::Pacer():Bad thing happened!",null);
-		}
-		
 		doufu.System.Logger.Verbose("doufu.Game.Animation::Pacer():");
 		doufu.System.Logger.Verbose("\tColumn: " + this.AnimationInfo.Column.toString());
 		doufu.System.Logger.Verbose("\tRefToGameObj.Width: " + this.RefToGameObj.Width.toString());
