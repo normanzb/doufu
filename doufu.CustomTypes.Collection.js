@@ -29,13 +29,32 @@ doufu.CustomTypes.Collection = function(baseClass)
 	
 	this.Add = function(obj)
 	{
-		doufu.System.Logger.Debug("doufu.CustomTypes.Collection: Add - " + obj);
+		doufu.System.Logger.Debug("doufu.CustomTypes.Collection::Add(): Adding object - " + obj);
 		if (typeof obj.InstanceOf == doufu.System.Constants.TYPE_UNDEFINED  || !obj.InstanceOf(baseClass))
 		{
-			throw doufu.System.Exception("Specified object type is not allowed.");
+			throw doufu.System.Exception("doufu.CustomTypes.Collection::Add(): Specified object type is not allowed.");
 		}
 			
 		_innerArray.push(obj);
+		return this.Length();
+	}
+	
+	this.AddArray = function(obj)
+	{
+		if (typeof obj.length == doufu.System.Constants.TYPE_UNDEFINED || obj.length <= 0)
+		{
+			throw doufu.System.Exception("doufu.CustomTypes.Collection::AddArray(): Specified object is not an array or the array length is 0.");
+		}
+		
+		for (var i = 0; i < obj.length; i ++)
+		{
+			if (typeof obj[i].InstanceOf == doufu.System.Constants.TYPE_UNDEFINED  || !obj[i].InstanceOf(baseClass))
+			{
+				throw doufu.System.Exception("doufu.CustomTypes.Collection::AddArray(): Specified object type is not allowed.");
+			}
+			_innerArray.push(obj[i]);
+		}
+		
 		return this.Length();
 	}
 	

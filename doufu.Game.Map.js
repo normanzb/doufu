@@ -8,12 +8,6 @@ doufu.Game.Map = function(oPlayGround)
 	this.Width;
 	this.Height;
 	
-	this.InitSprites = new function()
-	{
-		$c(this);
-		this.Inherit(doufu.DesignPattern.Attachable, [doufu.Game.BaseObject]);
-	}
-	
 	var _camera = new doufu.Game.PlayGround.Camera();
 	this.NewProperty("Camera");
 	this.Camera.Get = function()
@@ -25,6 +19,38 @@ doufu.Game.Map = function(oPlayGround)
 		_camera = value;
 	}
 	
+	this.ConfirmMovable = new doufu.Event.CallBack(function(sender, obj)
+	{
+		for(var i = 0 ; i < this.Polygons.Length(); i++)
+		{
+			if (obj.Polygon != this.Polygons.Items(i))
+			{
+				if (doufu.Game.Helpers.IsCollided(obj.Polygon, this.Polygons.Items(i)))
+				{
+					return false;
+				}
+			}
+		} 
+		return true;
+	}, this);
+	
+	// adding collision detection for every sprite in the specified playground
+	this.AddCollisionDetection = new doufu.Event.CallBack(function(sender, obj)
+	{
+		if (obj.InstanceOf(doufu.Game.Sprites.Sprite))
+		{
+			obj.OnConfirmMovable.Attach(this.ConfirmMovable);
+			// adding obj to the sprite collection
+			this.Polygons.Add(obj.Polygon);
+		}
+	}, this);
+	
+	// Containing all sprites polygons 
+	this.Polygons = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
+	
+	// Containing the sprites which will be display after map initialized
+	this.InitSprites = new doufu.CustomTypes.Collection(doufu.Game.Sprites.Sprite);
+	
 	this.Initialize = function()
 	{
 		this.LinkedPlayGround.ImagePath = this.ImagePath;
@@ -35,9 +61,9 @@ doufu.Game.Map = function(oPlayGround)
 		this.LinkedPlayGround.Camera().Width = this.Camera().Width;
 		this.LinkedPlayGround.Camera().Height = this.Camera().Height;
 		
-		for (var i = 0; i < this.InitSprites.InnerCollection().Length(); i++)
+		for (var i = 0; i < this.InitSprites.Length(); i++)
 		{
-			this.LinkedPlayGround.InsertObject(this.InitSprites.InnerCollection().Items(i));
+			this.LinkedPlayGround.InsertObject(this.InitSprites.Items(i));
 		}
 	}
 	
@@ -49,6 +75,8 @@ doufu.Game.Map = function(oPlayGround)
 		}
 		
 		this.LinkedPlayGround = oPlayGround;
+		
+		this.LinkedPlayGround.OnInsertObject.Attach(this.AddCollisionDetection);
 	}
 	
 	this.Ctor();

@@ -8,6 +8,7 @@ doufu.Event.EventHandler = function(oContext)
 	this.Invoke = function(oEvent, oSenderOverride)
 	{
 		var tempSender;
+		var lastResult;
 		if (oSenderOverride != null)
 		{
 			tempSender = oSenderOverride;
@@ -18,8 +19,10 @@ doufu.Event.EventHandler = function(oContext)
 		}
 		for (var i = 0; i < pCallBacks.Length; i++)
 		{
-			pCallBacks.InnerArray()[i].Reference.call(pCallBacks.InnerArray()[i].Context, tempSender, oEvent);
+			lastResult = pCallBacks.InnerArray()[i].Reference.call(pCallBacks.InnerArray()[i].Context, tempSender, oEvent);
 		}
+		
+		return lastResult;
 	}
 	this.Attach = function(pCallback)
 	{

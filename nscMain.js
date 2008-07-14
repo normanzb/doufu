@@ -72,6 +72,21 @@ doufu.System.MessageQueue.Push(tmpMsg);
 
 doufu.SampleGame = new Object();
 doufu.SampleGame.Roles = new Object();
+doufu.SampleGame.Roles.Helpers = new Object();
+doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
+{
+	if (fourDirectionSprite == null || !fourDirectionSprite.InstanceOf(doufu.Game.Sprites.FourDirectionSprite))
+	{
+		throw doufu.System.Exception("doufu.SampleGame.Roles.Helpers.SetPolygon(): fourDirectionSprite must be an instance of doufu.Game.Sprites.FourDirectionSprite.");
+	}
+	
+	var point1 = new doufu.Display.Drawing.Point(2, 28);
+	var point2 = new doufu.Display.Drawing.Point(22, 28);
+	var point3 = new doufu.Display.Drawing.Point(22, 36);
+	var point4 = new doufu.Display.Drawing.Point(2, 36);
+	
+	fourDirectionSprite.Polygon.AddArray([point1, point2, point3, point4]);
+}
 doufu.SampleGame.Roles.Grandpa = function()
 {
 	$c(this);
@@ -86,6 +101,8 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.Height = 32;
 	
 	this.ImagePath = CONFIG_CHARS_FULL_DIR + "char01.gif";
+	
+	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
 	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
 	this.AnimationInfos.Init.Row = 2;
@@ -159,14 +176,12 @@ doufu.SampleGame.Roles.Grandma = function()
 	
 	this.Inherit(doufu.Game.Sprites.FourDirectionSprite);
 	
-	// Set the image offset
-	//this.ImageOffset.X = 24*3;
-	//this.ImageOffset.Y = 0;
-	
 	this.Width = 24;
 	this.Height = 32;
 	
 	this.ImagePath = CONFIG_CHARS_FULL_DIR + "char01.gif";
+	
+	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
 	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
 	this.AnimationInfos.Init.Row = 2;
@@ -252,7 +267,7 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	grandma.X = 220;
 	grandma.Y = 180;
 	
-	this.InitSprites.Attach(grandma);
+	this.InitSprites.Add(grandma);
 }
 
 mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
@@ -274,6 +289,7 @@ godFather = new doufu.SampleGame.Roles.Grandpa()
 // on the sky range. the movement caculator just ignore the z index.
 
 godFather.Z = 0;
+godFather.X = 100;
 
 GeneralPlayGroundManager.InsertObject(godFather);
 

@@ -20,11 +20,13 @@ doufu.Game.BaseObject = function(){
 		_linkedDisplayObject = value;
 	}
 	
+	// Will be invoked by main cycle
 	this.Pacer = function(oMsg)
 	{
 		this.Animation.Pacer(oMsg);
 	}
 	
+	// Constructor
 	this.Ctor = function()
 	{
 		// attach self to pace controller

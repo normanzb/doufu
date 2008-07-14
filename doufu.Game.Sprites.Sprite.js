@@ -16,6 +16,12 @@ doufu.Game.Sprites.Sprite = function(){
 	
 	this.Direction = new doufu.Game.Direction();
 	
+	// The polygon for collision detecting while object is moving
+	this.Polygon = new doufu.Display.Drawing.Polygon();
+	
+	// The polygon for collsion detecting while object being attacked.
+	this.InRangePolygon = new doufu.Display.Drawing.Polygon();
+	
 	// OnConfirmMovable event
 	this.OnConfirmMovable = new doufu.Event.EventHandler(this);
 	
@@ -35,14 +41,28 @@ doufu.Game.Sprites.Sprite = function(){
 			throw doufu.System.Exception("oDirection should be a instance of doufu.Game.Direction!");
 		}
 		
+		var lastConfirmResult = false;
+		var cubeNextStep = new doufu.Display.Drawing.Cube();
+		
+		cubeNextStep.X = this.X + oDirection.X() * iLength;
+		cubeNextStep.Y = this.Y + oDirection.Y() * iLength;
+		cubeNextStep.Z = this.Z + oDirection.Z() * iLength;
+		
 		// Collision detecting and others...
-		this.OnConfirmMovable.Invoke({Direction:oDirection, Length: iLength});
+		lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Polygon:this.Polygon});
+		
+		// TODO: Release the cube
+		// Should not move.
+		if (lastConfirmResult == false)
+		{
+			return;
+		}
+		
 		
 		// Caculating the next position
-		//godFather.StartMoving(new doufu.Game.Direction(16), 49)
-		this.X += oDirection.X() * iLength;
-		this.Y += oDirection.Y() * iLength;
-		this.Z += oDirection.Z() * iLength;
+		this.X = cubeNextStep.X;
+		this.Y = cubeNextStep.Y;
+		this.Z = cubeNextStep.Z;
 	}
 	
 	this.StartMoving =function(oDirection, iSpeed)
