@@ -28,6 +28,7 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 	
 	this.Ctor = function()
 	{
+		// Deep copying
 		if (x1 != null && typeof x1.InstanceOf != doufu.System.Constants.TYPE_UNDEFINED && x1.InstanceOf(doufu.Display.Drawing.Line))
 		{
 			this.X1 = x1.X1;
@@ -42,6 +43,18 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 			this.X2 = x2!=null?x2:0;
 			this.Y2 = y2!=null?y2:0;
 		}
+	}
+	
+	this.DeepCopy = function()
+	{
+		var ret = new doufu.Display.Drawing.Line();
+		
+		ret.X1 = this.X1;
+		ret.Y1 = this.Y1;
+		ret.X2 = this.X2;
+		ret.Y2 = this.Y2;
+		
+		return ret;
 	}
 	
 	this.Ctor();
@@ -68,16 +81,20 @@ doufu.Display.Drawing.Polygon = function(obj)
 	
 	this.Ctor = function()
 	{
+		// Deep copying
 		if (obj != null && obj.InstanceOf(doufu.Display.Drawing.Polygon))
 		{
-			this.Add(new doufu.Display.Drawing.Line(obj.Items(i)));
+			for (var i = 0; i < obj.Length(); i ++)
+			{
+				this.Add(new doufu.Display.Drawing.Point(obj.Items(i)));
+			}
 		}
 	}
 	
 	this.Ctor();
 }
 
-doufu.Display.Drawing.Cube = function()
+doufu.Display.Drawing.Cube = function(obj)
 {
 	doufu.OOP.Class(this);
 	
@@ -85,5 +102,18 @@ doufu.Display.Drawing.Cube = function()
 	
 	this.Z = 0;
 	this.Depth = 0;
+	
+	this.Ctor = function()
+	{
+		// Deep copying
+		if (obj != null && obj.InstanceOf(doufu.Display.Drawing.Cube))
+		{
+			this.X = obj.X;
+			this.Y = obj.Y;
+			this.Z = obj.Z;
+		}
+	}
+	
+	this.Ctor();
 }
 

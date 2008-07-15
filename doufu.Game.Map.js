@@ -21,13 +21,36 @@ doufu.Game.Map = function(oPlayGround)
 	
 	this.ConfirmMovable = new doufu.Event.CallBack(function(sender, obj)
 	{
-		for(var i = 0 ; i < this.Polygons.Length(); i++)
+
+		for(var i = 0 ; i < this.LinkedPlayGround.GameObjects().Length(); i++)
 		{
-			if (obj.Polygon != this.Polygons.Items(i))
+			// Only sprites has polygon
+			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite))
 			{
-				if (doufu.Game.Helpers.IsCollided(obj.Polygon, this.Polygons.Items(i)))
+				if (obj.Polygon != this.LinkedPlayGround.GameObjects().Items(i).Polygon)
 				{
-					return false;
+					var tmpPolygon1 = new doufu.Display.Drawing.Polygon(obj.Polygon);
+					var tmpPolygon2 = new doufu.Display.Drawing.Polygon(this.LinkedPlayGround.GameObjects().Items(i).Polygon);
+					var tmpCube = new doufu.Display.Drawing.Cube(this.LinkedPlayGround.GameObjects().Items(i));
+					
+					// caculate the actual polygon coodinates in the map
+					for (var i = 0; i < tmpPolygon1.Length(); i++)
+					{
+						tmpPolygon1.Items(i).X += obj.Cube.X;
+						tmpPolygon1.Items(i).Y += obj.Cube.Y;
+					}
+					
+					for (var i = 0; i < tmpPolygon2.Length(); i++)
+					{
+						tmpPolygon2.Items(i).X += tmpCube.X;
+						tmpPolygon2.Items(i).Y += tmpCube.Y;
+					}
+					
+					// if the two polygon is in same layer and also collided.
+					if (tmpCube.Z == obj.Cube.Z && doufu.Game.Helpers.IsCollided(tmpPolygon1, tmpPolygon2))
+					{
+						return false;
+					}
 				}
 			}
 		} 
@@ -40,13 +63,8 @@ doufu.Game.Map = function(oPlayGround)
 		if (obj.InstanceOf(doufu.Game.Sprites.Sprite))
 		{
 			obj.OnConfirmMovable.Attach(this.ConfirmMovable);
-			// adding obj to the sprite collection
-			this.Polygons.Add(obj.Polygon);
 		}
 	}, this);
-	
-	// Containing all sprites polygons 
-	this.Polygons = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
 	
 	// Containing the sprites which will be display after map initialized
 	this.InitSprites = new doufu.CustomTypes.Collection(doufu.Game.Sprites.Sprite);

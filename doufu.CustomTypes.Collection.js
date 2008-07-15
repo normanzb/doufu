@@ -29,7 +29,6 @@ doufu.CustomTypes.Collection = function(baseClass)
 	
 	this.Add = function(obj)
 	{
-		doufu.System.Logger.Debug("doufu.CustomTypes.Collection::Add(): Adding object - " + obj);
 		if (typeof obj.InstanceOf == doufu.System.Constants.TYPE_UNDEFINED  || !obj.InstanceOf(baseClass))
 		{
 			throw doufu.System.Exception("doufu.CustomTypes.Collection::Add(): Specified object type is not allowed.");
