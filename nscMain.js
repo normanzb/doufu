@@ -289,7 +289,8 @@ godFather = new doufu.SampleGame.Roles.Grandpa()
 // on the sky range. the movement caculator just ignore the z index.
 
 godFather.Z = 0;
-godFather.X = 100;
+godFather.X = 220;
+godFather.Y = 150;
 
 GeneralPlayGroundManager.InsertObject(godFather);
 

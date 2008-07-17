@@ -52,8 +52,80 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 	{
 		throw doufu.System.Exception("doufu.Game.Helpers.IsCollided(): oPolygon2 is not a Polygon.");
 	}
+	
+	// Initializing static varaible for speeding up the caculation.
+	if (typeof doufu.Game.Helpers.IsPolygonCollided.__rec1 == doufu.System.Constants.TYPE_UNDEFINED ||
+		typeof doufu.Game.Helpers.IsPolygonCollided.__rec2 == doufu.System.Constants.TYPE_UNDEFINED )
+	{
+		doufu.Game.Helpers.IsPolygonCollided.__rec1 = new doufu.Display.Drawing.Rectangle();
+		doufu.Game.Helpers.IsPolygonCollided.__rec2 = new doufu.Display.Drawing.Rectangle();
+	}
+	
+	// Create reference
+	var oRectangle1 = doufu.Game.Helpers.IsPolygonCollided.__rec1;
+	var oRectangle2 = doufu.Game.Helpers.IsPolygonCollided.__rec2;
+	// Speed up end
+	
+	// do a rectangle collision detection first to avoid heavily cpu usage.
+	var bRecCollided = false;
+	
+	for (var i = 0; i < oPolygon1.Length(); i++)
+	{
+		
+		var i1 = i - 1;
+		var i2 = i;
+		
+		if (i1 < 0)
+		{
+			i1 = oPolygon1.Length() - 1;
+		}
+		
+		//doufu.System.Logger.Debug("oPolygon1, i: " + i);
+		//doufu.System.Logger.Debug("\tX: " + oPolygon1.Items(1).X);
+		//doufu.System.Logger.Debug("\tY: " + oPolygon1.Items(1).Y);
+				
+		oRectangle1.X = oPolygon1.Items(i1).X;
+		oRectangle1.Y = oPolygon1.Items(i1).Y;
+		oRectangle1.Width = oPolygon1.Items(i2).X - oPolygon1.Items(i1).X - 1;
+		oRectangle1.Height = oPolygon1.Items(i2).Y - oPolygon1.Items(i1).Y - 1;
 
-	return false;
+		
+		for (var j = 0; j < oPolygon2.Length(); j++)
+		{
+			
+			var j1 = j - 1;
+			var j2 = j;
+			
+			if (j1 < 0)
+			{
+				j1 = oPolygon2.Length() - 1;
+			}
+			
+			oRectangle2.X = oPolygon2.Items(j1).X;
+			oRectangle2.Y = oPolygon2.Items(j1).Y;
+			oRectangle2.Width = oPolygon2.Items(j2).X - oPolygon2.Items(j1).X - 1;
+			oRectangle2.Height = oPolygon2.Items(j2).Y - oPolygon2.Items(j1).Y - 1;
+			
+			//doufu.System.Logger.Debug("oRec1: ");
+			//doufu.System.Logger.Debug("\tX: " + oRectangle1.X);
+			//doufu.System.Logger.Debug("\tY: " + oRectangle1.Y);
+			//doufu.System.Logger.Debug("\tWidth: " + oRectangle1.Width);
+			//doufu.System.Logger.Debug("\tHeight: " + oRectangle1.Height);
+			
+			doufu.System.Logger.Debug("oRec2: ");
+			//doufu.System.Logger.Debug("\tX: " + oRectangle2.X);
+			//doufu.System.Logger.Debug("\tY: " + oRectangle2.Y);
+			//doufu.System.Logger.Debug("\tWidth: " + oRectangle2.Width);
+			//doufu.System.Logger.Debug("\tHeight: " + oRectangle2.Height);
+			
+			if(doufu.Game.Helpers.IsRectangleCollided(oRectangle1, oRectangle2))
+			{
+				bRecCollided = true;
+			}
+		}
+	}
+
+	return bRecCollided;
 }
 
 doufu.Game.Helpers.IsAllowedCollisionObject = function(obj1, obj2)

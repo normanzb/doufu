@@ -70,6 +70,11 @@ doufu.CustomTypes.Collection = function(baseClass)
 		return this.Length();
 	}
 	
+	this.Clear = function()
+	{
+		this.InnerArray().length = 0;
+	}
+	
 	this.Items = function(index)
 	{
 		return _innerArray[index];

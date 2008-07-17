@@ -68,7 +68,11 @@ doufu.OOP._baseClassFunctions = function(__nsc_OOP_baseClassFunc_oContext)
 
 doufu.OOP.Class = function(oContext)
 {
-	doufu.OOP.Inherit(oContext, doufu.OOP._baseClassFunctions,  [oContext]);
+	if (typeof oContext.__nsc__OOP_IsClass == typeof undefined)
+	{
+		oContext.__nsc__OOP_IsClass = true;
+		doufu.OOP.Inherit(oContext, doufu.OOP._baseClassFunctions,  [oContext]);
+	}
 }
 
 // this class will be used as a member of the inheritance stack.
@@ -190,9 +194,10 @@ doufu.OOP.Property = function(sPropertyName, oContext){
 				typeof value != undefined //don't use doufu.System.Constants.TYPE_UNDEFINED, so that doufu.js can be used indivdually
 				)
 			{
-				oContext[sPropertyName].Set.call(oContext, value);
+				// return directly, if user want to get the value, them can call it themself.
+				return oContext[sPropertyName].Set.call(oContext, value);
 			}
-
+			
 			return oContext[sPropertyName].Get.call(oContext);
 		}
 		

@@ -8,6 +8,11 @@ doufu.Game.Map = function(oPlayGround)
 	this.Width;
 	this.Height;
 	
+	// privated and pre-initialized variable helps to speed up collision caculation.
+	var tmpPolygon1 = new doufu.Display.Drawing.Polygon();
+	var tmpPolygon2 = new doufu.Display.Drawing.Polygon();
+	var tmpCube = new doufu.Display.Drawing.Cube();
+	
 	var _camera = new doufu.Game.PlayGround.Camera();
 	this.NewProperty("Camera");
 	this.Camera.Get = function()
@@ -29,9 +34,9 @@ doufu.Game.Map = function(oPlayGround)
 			{
 				if (obj.Polygon != this.LinkedPlayGround.GameObjects().Items(i).Polygon)
 				{
-					var tmpPolygon1 = new doufu.Display.Drawing.Polygon(obj.Polygon);
-					var tmpPolygon2 = new doufu.Display.Drawing.Polygon(this.LinkedPlayGround.GameObjects().Items(i).Polygon);
-					var tmpCube = new doufu.Display.Drawing.Cube(this.LinkedPlayGround.GameObjects().Items(i));
+					tmpPolygon1.DeepCopy(obj.Polygon);
+					tmpPolygon2.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i).Polygon);
+					tmpCube.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i));
 					
 					// caculate the actual polygon coodinates in the map
 					for (var i = 0; i < tmpPolygon1.Length(); i++)
