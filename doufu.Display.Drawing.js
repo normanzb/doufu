@@ -116,9 +116,10 @@ doufu.Display.Drawing.Polygon = function(obj)
 			throw doufu.System.Exception("doufu.Display.Drawing.Polygon::DeepCopy.Set(): oPolygon must be an instance of doufu.Display.Drawing.Polygon or null");
 		}
 		
+		this.Clear();
+		
 		for (var i = 0; i < oPolygon.Length(); i ++)
 		{
-			this.Clear();
 			this.Add(new doufu.Display.Drawing.Point(oPolygon.Items(i)));
 		}
 	}
