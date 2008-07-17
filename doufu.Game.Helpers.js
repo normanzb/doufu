@@ -121,6 +121,7 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 			if(doufu.Game.Helpers.IsRectangleCollided(oRectangle1, oRectangle2))
 			{
 				bRecCollided = true;
+				return bRecCollided;
 			}
 		}
 	}
