@@ -120,7 +120,7 @@ doufu.Display.Drawing.Polygon = function(obj)
 		
 		for (var i = 0; i < oPolygon.Length(); i ++)
 		{
-			this.Add(new doufu.Display.Drawing.Point(oPolygon.Items(i)));
+			this.Add(doufu.System.APIs.Clone(oPolygon.Items(i), 0));
 		}
 	}
 	

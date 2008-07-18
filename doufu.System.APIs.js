@@ -87,3 +87,64 @@ doufu.System.APIs.GetIsNullMacro = function(sObjName)
 {
 	return "(function(){if (typeof " + sObjName + " == doufu.System.Constants.TYPE_UNDEFINED || " + sObjName + " == null){return true;}})();";
 }
+
+///##########################
+/// Javascript Static Method
+/// Name: doufu.System.APIs.Clone
+/// Description: 
+/// 	Helps to deeply copy object.
+///		This function originally written by Jasno Claswson: http://www.jasonclawson.com/2008/07/01/javascript-operator-and-indexof-failure/
+///
+/// Parameters:
+/// 	obj: the obj which needs to be cloned.
+///
+///##########################
+doufu.System.APIs.Clone = function(obj, level){
+	var seenObjects = [];
+	var mappingArray = [];
+	var	f = function(simpleObject, currentLevel) {
+		if (simpleObject == null)
+		{
+			return null;
+		}
+		var indexOf = seenObjects.indexOf(simpleObject);
+		if (indexOf == -1) {			
+			switch ((typeof simpleObject).toLowerCase()) {
+				case 'object':
+					seenObjects.push(simpleObject);
+					var newObject = {};
+					mappingArray.push(newObject);
+					for (var p in simpleObject) 
+					{
+						if (p != null)
+						{
+							if (currentLevel > 0)
+							{
+								newObject[p] = f(simpleObject[p], currentLevel - 1);
+							}
+							else
+							{
+								newObject[p] = simpleObject[p];
+							}
+						}
+					}
+					newObject.constructor = simpleObject.constructor;
+					return newObject;
+					
+				case 'array':
+					seenObjects.push(simpleObject);
+					var newArray = [];
+					mappingArray.push(newArray);
+					for(var i=0,len=simpleObject.length; i<len; i++)
+					newArray.push(f(simpleObject[i]));
+				return newArray;
+					
+				default:	
+				return simpleObject;
+			}
+		} else {
+			return mappingArray[indexOf];
+		}
+	};
+	return f(obj, level == null?0:level);		
+}

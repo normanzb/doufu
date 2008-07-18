@@ -35,18 +35,17 @@ doufu.System.Logger.Debug("Display area is set");
 
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
 
+var EmptyMessage = new doufu.System.Message();
 // TODO: Abstract loop
 function __nsc_MainLoop(){
 	
-	var EmptyMessage = new doufu.System.Message();
 	
 	if (doufu.System.MessageQueue.Length() > 0)
 	{
 		// bump out all messages
 		while(doufu.System.MessageQueue.Length() > 0)
 		{
-			EmptyMessage = doufu.System.MessageQueue.Shift();
-			doufu.Cycling.Manager.Looper(EmptyMessage);
+			doufu.Cycling.Manager.Looper(doufu.System.MessageQueue.Shift());
 		}
 	}
 	else

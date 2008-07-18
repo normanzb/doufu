@@ -1,5 +1,6 @@
 doufu.js
 doufu.System.js
+doufu.System.Hacks.js
 doufu.System.Constants.js
 doufu.System.Logger.js
 doufu.System.Handle.js
