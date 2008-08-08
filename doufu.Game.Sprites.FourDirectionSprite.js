@@ -6,7 +6,7 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	this.AnimationInfos = {};
 	
-	this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
+	var _base_StartMoving = this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
 	{
 		doufu.System.Logger.Debug("doufu.Game.Sprites.FourDirectionSprite::StartMoving(): Was invoked with following parameters, oDirection = " + oDirection.toString());
 		if (oDirection.X() == -1)
@@ -30,10 +30,10 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 			
 		}
 
-		this._base_StartMoving(oDirection, iSpeed);
+		_base_StartMoving(oDirection, iSpeed);
 	});
 	
-	this.OverrideMethod("StopMoving", function()
+	var _base_StopMoving = this.OverrideMethod("StopMoving", function()
 	{
 		// Play the stopAnimation and then it will stop itself automatically.
 		if (this.Direction.X() == -1 && this.AnimationInfos.StopLeft != null)
@@ -57,7 +57,7 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 			
 		}
 		
-		this._base_StopMoving();
+		_base_StopMoving();
 	});
 	
 	this.Ctor = function()

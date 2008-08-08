@@ -87,7 +87,7 @@ doufu.Game.Sprites.Sprite = function(){
 		}
 	}
 	
-	this.OverrideMethod("Pacer", function(oMsg)
+	var _base_Pacer = this.OverrideMethod("Pacer", function(oMsg)
 	{
 		if (this.IsMoving)
 		{
@@ -98,7 +98,7 @@ doufu.Game.Sprites.Sprite = function(){
 			}
 		}
 		
-		this._base_Pacer(oMsg);
+		_base_Pacer(oMsg);
 	});
 	
 }

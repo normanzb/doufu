@@ -28,8 +28,8 @@ doufu.OOP = new Object();
 doufu.OOP._callBacker=function(_m,_c){
 	var method = _m;
 	var context = _c;
-	return function(_args){
-		return method.apply(context,_args);
+	return function(){
+		return method.apply(context,arguments);
 	}
 }
 
@@ -98,8 +98,9 @@ doufu.OOP.Inherit = function(obj,baseClass,args)
 	}
 	
 	obj.OverrideMethod = function(methodName, fn){
-		this["_base_" + methodName] = this[methodName];
+		var retMethod = this[methodName];
 		this[methodName]=fn;
+		return doufu.OOP._callBacker(retMethod, this);
 	}
 
 	// TO DO: this line might be removed.
