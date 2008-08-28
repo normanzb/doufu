@@ -30,9 +30,9 @@ doufu.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWi
 			{
 				doufu.System.APIs.FunctionHooker("appendChild", function(obj)
 					{
-						obj.style.clip="rect(0," + 
-							doufu.System.Convert.ToString(retDiv.clientLeft + iWidth) + "," + 
-							iHeight + "," + retDiv.clientLeft + ")";
+						obj.style.clip="rect(0px " + 
+							doufu.System.Convert.ToString(retDiv.clientLeft + iWidth) + "px " + 
+							iHeight + "px " + retDiv.clientLeft + "px)";
 						//alert(doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y);
 						//alert(retDiv.clientTop + 
 						//	doufu.System.Convert.ToInt(retDiv.marginTop.replace("px", "")));

@@ -83,7 +83,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 			displayBufferOffset.Width = _gameObjects.InnerArray()[i].Width;
 			displayBufferOffset.Height = _gameObjects.InnerArray()[i].Height;
 			displayBufferOffset.X = _gameObjects.InnerArray()[i].X;
-			displayBufferOffset.Y = _gameObjects.InnerArray()[i].Y / 1.5;
+			displayBufferOffset.Y = Math.floor(_gameObjects.InnerArray()[i].Y / 1.5);
 			
 			if(doufu.Game.Helpers.IsCollided(displayBufferOffset, this.Camera()))
 			{

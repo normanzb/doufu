@@ -26,7 +26,7 @@ doufu.System.APIs.FunctionHooker = function(sFuncName, fnCap, objFuncOwner)
 		
 		// Add orignal function to stack
 		objFuncOwner.__nsc_FunctionHooker_Stack.Push(objFuncOwner[sFuncName]);
-		
+		var temptest = objFuncOwner[sFuncName];
 		// Add initializer 
 		objFuncOwner[sFuncName] = function()
 		{
@@ -39,7 +39,9 @@ doufu.System.APIs.FunctionHooker = function(sFuncName, fnCap, objFuncOwner)
 	objFuncOwner.__nsc_FunctionHooker_Stack.Push(function(objFuncOwner, newArguments, i)
 		{
 			fnCap.apply(objFuncOwner, newArguments);
-			// Invoke next func in stack
+			// Invoke next none-original func in stack
+			// this.LinkedStackElement.LinkedStackElement != null means it is the 2nd item backward in stack.
+			// so next item must be a hooker
 			if (i < (objFuncOwner.__nsc_FunctionHooker_Stack.Length() - 1) && 
 				this.LinkedStackElement.LinkedStackElement != null)
 			{
@@ -47,7 +49,9 @@ doufu.System.APIs.FunctionHooker = function(sFuncName, fnCap, objFuncOwner)
 			}
 			else
 			{
-				if (this.LinkedStackElement.RefObject.apply)
+				// Norman 8-28-2008: hanlde ie8 beta2 quirk, use appendChild.apply will cause code error. so check if it is unknown 
+				// TODO: Remove this when ie8 release
+				if (typeof(this.LinkedStackElement.RefObject.apply) != "unknown" && this.LinkedStackElement.RefObject.apply != null)
 				{
 					return this.LinkedStackElement.RefObject.apply(objFuncOwner, newArguments);
 				}
