@@ -50,7 +50,7 @@ function __nsc_MainLoop(){
 	}
 	else
 	{
-		doufu.Cycling.Manager.Looper(EmptyMessage);
+		//doufu.Cycling.Manager.Looper(EmptyMessage);
 	}
 	
 	if (__Global_MainLoop_Stop == false) setTimeout(__nsc_MainLoop,10);
