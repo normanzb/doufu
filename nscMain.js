@@ -79,10 +79,10 @@ doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
 		throw doufu.System.Exception("doufu.SampleGame.Roles.Helpers.SetPolygon(): fourDirectionSprite must be an instance of doufu.Game.Sprites.FourDirectionSprite.");
 	}
 	
-	var point1 = new doufu.Display.Drawing.Point(2, 28);
-	var point2 = new doufu.Display.Drawing.Point(22, 28);
-	var point3 = new doufu.Display.Drawing.Point(22, 36);
-	var point4 = new doufu.Display.Drawing.Point(2, 36);
+	var point1 = new doufu.Display.Drawing.Point(6, 28);
+	var point2 = new doufu.Display.Drawing.Point(18, 28);
+	var point3 = new doufu.Display.Drawing.Point(18, 36);
+	var point4 = new doufu.Display.Drawing.Point(6, 36);
 	
 	fourDirectionSprite.Polygon.AddArray([point1, point2, point3, point4]);
 }

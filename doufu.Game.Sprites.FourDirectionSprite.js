@@ -8,7 +8,7 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	var _base_StartMoving = this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
 	{
-		doufu.System.Logger.Debug("doufu.Game.Sprites.FourDirectionSprite::StartMoving(): Was invoked with following parameters, oDirection = " + oDirection.toString());
+		doufu.System.Logger.Verbose("doufu.Game.Sprites.FourDirectionSprite::StartMoving(): Was invoked with following parameters, oDirection = " + oDirection.toString());
 		if (oDirection.X() == -1)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveLeft);

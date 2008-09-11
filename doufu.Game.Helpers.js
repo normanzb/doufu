@@ -1,5 +1,19 @@
-doufu.Game.Helpers = new Object();
+/*
+	Namespace: doufu.Game.Helpers
+	
+	Containing all game related helpers and collision test helpers.
+*/
+doufu.Game.Helpers = {};
 
+/*
+	Function: doufu.Game.Helpers.IsCollided
+	
+	Return true if two drawable object are collided. otherwise, return false.
+	
+	Parameters:
+		obj1 - a Drawable object which to be tested.
+		obj2 - a Drawable object which to be tested.
+*/
 doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 {
 	if (!doufu.Game.Helpers.IsAllowedCollisionObject(obj1, obj2))
@@ -7,7 +21,7 @@ doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 		throw doufu.System.Exception("doufu.Game.Helpers.IsCollided(): class of obj1 or obj2 did not inherited from an allowed type.");
 	}
 	
-	if (obj1.InstanceOf(doufu.Display.Drawing.Rectangle))
+	if (obj1.InstanceOf(doufu.Display.Drawing.Rectangle) && obj2.InstanceOf(doufu.Display.Drawing.Rectangle))
 	{
 		return doufu.Game.Helpers.IsRectangleCollided(obj1, obj2);
 	}
@@ -17,6 +31,15 @@ doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 	}
 }
 
+/*
+	Function: doufu.Game.Helpers.IsRectangleCollided
+	
+	Return true if two rectangle object are collided. otherwise, return false.
+	
+	Parameters:
+		obj1 - <doufu.Display.Drawing.Rectangle> a rectangle object which to be tested.
+		obj2 - <doufu.Display.Drawing.Rectangle> a rectangle object which to be tested.
+*/
 doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 {
 	
@@ -41,6 +64,15 @@ doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 	return true;
 }
 
+/*
+	Function: doufu.Game.Helpers.IsRectangleCollided
+	
+	Return true if two polygon object are collided. otherwise, return false.
+	
+	Parameters:
+		obj1 - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+		obj2 - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+*/
 doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 {
 	if (!oPolygon1.InstanceOf(doufu.Display.Drawing.Polygon))
@@ -83,12 +115,8 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 		//doufu.System.Logger.Debug("oPolygon1, i: " + i);
 		//doufu.System.Logger.Debug("\tX: " + oPolygon1.Items(1).X);
 		//doufu.System.Logger.Debug("\tY: " + oPolygon1.Items(1).Y);
-				
-		oRectangle1.X = oPolygon1.Items(i1).X;
-		oRectangle1.Y = oPolygon1.Items(i1).Y;
-		oRectangle1.Width = oPolygon1.Items(i2).X - oPolygon1.Items(i1).X - 1;
-		oRectangle1.Height = oPolygon1.Items(i2).Y - oPolygon1.Items(i1).Y - 1;
-
+		
+		doufu.Display.Drawing.ConvertPointsToRectangle(oPolygon2.Items(i1), oPolygon2.Items(i2), oRectangle1);
 		
 		for (var j = 0; j < oPolygon2.Length(); j++)
 		{
@@ -101,10 +129,7 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 				j1 = oPolygon2.Length() - 1;
 			}
 			
-			oRectangle2.X = oPolygon2.Items(j1).X;
-			oRectangle2.Y = oPolygon2.Items(j1).Y;
-			oRectangle2.Width = oPolygon2.Items(j2).X - oPolygon2.Items(j1).X - 1;
-			oRectangle2.Height = oPolygon2.Items(j2).Y - oPolygon2.Items(j1).Y - 1;
+			doufu.Display.Drawing.ConvertPointsToRectangle(oPolygon1.Items(j1), oPolygon1.Items(j2), oRectangle2);
 			
 			//doufu.System.Logger.Debug("oRec1: ");
 			//doufu.System.Logger.Debug("\tX: " + oRectangle1.X);
@@ -112,7 +137,7 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 			//doufu.System.Logger.Debug("\tWidth: " + oRectangle1.Width);
 			//doufu.System.Logger.Debug("\tHeight: " + oRectangle1.Height);
 			
-			doufu.System.Logger.Debug("oRec2: ");
+			//doufu.System.Logger.Debug("oRec2: ");
 			//doufu.System.Logger.Debug("\tX: " + oRectangle2.X);
 			//doufu.System.Logger.Debug("\tY: " + oRectangle2.Y);
 			//doufu.System.Logger.Debug("\tWidth: " + oRectangle2.Width);
@@ -129,6 +154,15 @@ doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
 	return bRecCollided;
 }
 
+/*
+	Function: doufu.Game.Helpers.IsAllowedCollisionObject
+	
+	Return true if two drawable object are allowed to do collision test. otherwise, return false.
+	
+	Parameters:
+		obj1 - a Drawable object which to be tested.
+		obj2 - a Drawable object which to be tested.
+*/
 doufu.Game.Helpers.IsAllowedCollisionObject = function(obj1, obj2)
 {
 	var baseClasses = [doufu.Display.Drawing.Rectangle, doufu.Display.Drawing.Polygon];

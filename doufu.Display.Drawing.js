@@ -1,15 +1,36 @@
-doufu.Display.Drawing = new Object();
+/*
+	Namespace: doufu.Display.Drawing
+	
+	Containing all drawing related sharp classes and helpers for convertion a sharp to another.
+*/
+doufu.Display.Drawing = {};
 
+/*
+	Class: doufu.Display.Drawing.Drawable
+	
+	Every sharps should inherit from this class
+*/
 doufu.Display.Drawing.Drawable = function()
 {
 	doufu.OOP.Class(this);
 }
 
+/*
+	Class: doufu.Display.Drawing.Point
+	
+	A point class
+*/
 doufu.Display.Drawing.Point = function(x, y)
 {
 	doufu.OOP.Class(this);
 	
 	this.Inherit(doufu.Display.Drawing.Drawable);
+	
+	/*
+		Property: this.X - the X coordinator
+	*/
+	this.X;
+	this.Y;
 	
 	this.Ctor = function()
 	{
@@ -29,6 +50,11 @@ doufu.Display.Drawing.Point = function(x, y)
 
 }
 
+/*
+	Class: doufu.Display.Drawing.Line
+	
+	A line class
+*/
 doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 {
 	doufu.OOP.Class(this);
@@ -76,6 +102,11 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 	this.Ctor();
 }
 
+/*
+	Class: doufu.Display.Drawing.Rectangle
+	
+	Rectangle class
+*/
 doufu.Display.Drawing.Rectangle = function()
 {
 	
@@ -87,6 +118,11 @@ doufu.Display.Drawing.Rectangle = function()
 	this.Height = 0;
 }
 
+/*
+	Class: doufu.Display.Drawing.Polygon
+	
+	Polygon class
+*/
 doufu.Display.Drawing.Polygon = function(obj)
 {
 	doufu.OOP.Class(this);
@@ -127,6 +163,11 @@ doufu.Display.Drawing.Polygon = function(obj)
 	this.Ctor();
 }
 
+/*
+	Class: doufu.Display.Drawing.Cube
+	
+	Cube class, describing sharp and position of a 3d cube.
+*/
 doufu.Display.Drawing.Cube = function(obj)
 {
 	doufu.OOP.Class(this);
@@ -165,3 +206,80 @@ doufu.Display.Drawing.Cube = function(obj)
 	this.Ctor();
 }
 
+/* 
+	Section: Static Functions
+	
+	Static drawing related helpers.
+*/
+
+/*
+	Function: doufu.Display.Drawing.ConvertPointsToRectangle
+	
+	Convert two points to a rectangle, the width and height of rectangle will be a positive number.
+	
+	Parameters:
+	
+		oPoint1 - Specify the first point.
+		oPoint2 - Specify the second point.
+		oRectangle - [Out, Optional] if a rectangle is specified, function will modify the rectangle and return it.
+					 if not, function will create a new rectangle.
+					 Note: Creating new object will consuming lots of cpu times
+	
+	Returns:
+	
+		A rectangle which has two points same as the inputted point.
+*/
+doufu.Display.Drawing.ConvertPointsToRectangle = function(oPoint1, oPoint2, oRectangle)
+{
+	if (!oPoint1.InstanceOf(doufu.Display.Drawing.Point))
+	{
+		throw doufu.System.Exception("doufu.Display.Drawing.ConvertPointsToRectangle(): oPoint1 is not a Point.");
+	}
+	
+	if (!oPoint2.InstanceOf(doufu.Display.Drawing.Point))
+	{
+		throw doufu.System.Exception("doufu.Display.Drawing.ConvertPointsToRectangle(): oPoint2 is not a Point.");
+	}
+	
+	// smallest x point and y point, biggest x point and y point.
+	var sPointX, sPointY, bPointX, bPointY;
+	var rectRet;
+	
+	if (oPoint1.X < oPoint2.X)
+	{
+		sPointX = oPoint1.X;
+		bPointX = oPoint2.X;
+	}
+	else
+	{
+		sPointX = oPoint2.X;
+		bPointX = oPoint1.X;
+	}
+	
+	if (oPoint1.Y < oPoint2.Y)
+	{
+		sPointY = oPoint1.Y;
+		bPointY = oPoint2.Y;
+	}
+	else
+	{
+		sPointY = oPoint2.Y;
+		bPointY = oPoint1.Y;
+	}
+	
+	if (!oRectangle)
+	{
+		rectRet = new doufu.Display.Drawing.Rectangle();
+	}
+	else
+	{
+		rectRet = oRectangle;
+	}
+	
+	rectRet.X = sPointX;
+	rectRet.Y = sPointY;
+	rectRet.Width = bPointX - sPointX;
+	rectRet.Height = bPointY - sPointY;
+	
+	return rectRet;
+}

@@ -42,7 +42,7 @@ doufu.Game.Animation = function(oGameObj)
 			throw doufu.System.Exception("doufu.Game.Animation::Play(): oAnimationInfo must be an instance of doufu.Game.Animation.Info.");
 		}
 		
-		doufu.System.Logger.Debug("doufu.Game.Animation::Play(): Was invoked with following parameters, oAnimationInfo.Row = " + oAnimationInfo.Row.toString());
+		doufu.System.Logger.Verbose("doufu.Game.Animation::Play(): Was invoked with following parameters, oAnimationInfo.Row = " + oAnimationInfo.Row.toString());
 		
 		if (this.IsPlaying() == true)
 		{
