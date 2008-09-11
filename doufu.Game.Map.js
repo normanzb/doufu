@@ -1,3 +1,11 @@
+/*
+	Class: doufu.Game.Map
+	
+	Game map class, containning the information camera and map sharp.
+	
+	Constructor:
+		oPlayGround - Specified a playground object, new map will bind to the specified playground.
+*/
 doufu.Game.Map = function(oPlayGround)
 {
 	doufu.OOP.Class(this);

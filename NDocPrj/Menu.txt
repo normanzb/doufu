@@ -47,6 +47,8 @@ Format: 1.4
 
 
 File: doufu  (doufu.js)
+File: doufu.Game  (doufu.Game.js)
+File: doufu.Game.Map  (doufu.Game.Map.js)
 
 Group: Index  {
 
