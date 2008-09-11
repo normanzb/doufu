@@ -1,4 +1,13 @@
-doufu.Game.Sprites.Sprite = function(){
+/*
+	Class: doufu.Game.Sprites.Sprite
+	
+	An sprite implementation which provide basic functionalities of a game sprite
+	
+	See also:
+		<doufu.Game.Sprites.FourDirectionSprite>
+*/
+doufu.Game.Sprites.Sprite = function()
+{
 	
 	doufu.OOP.Class(this);
 	
@@ -12,17 +21,51 @@ doufu.Game.Sprites.Sprite = function(){
 	var stepLength;
 	var frameCounter=0;
 	
+	/*
+		Property: IsMoving
+		
+		Indicate whether this sprite is moving.
+	*/
 	this.IsMoving = false;
 	
+	/*
+		Property: Direction
+		
+		<doufu.Game.Direction>
+		Indicate current sprite direction.
+	*/
 	this.Direction = new doufu.Game.Direction();
 	
-	// The polygon for collision detecting while object is moving
-	this.Polygon = new doufu.Display.Drawing.Polygon();
+	/*
+		Property: Sharp
+		
+		<doufu.Display.Drawing.Drawable>
+		The sharps for collision detecting while object is moving.
+		
+		Allowed drawable objects:
+		<doufu.Display.Drawing.Rectangle>
+		<doufu.Display.Drawing.Polygon>
+	*/
+	this.Sharp = new doufu.Display.Drawing.Drawable();
 	
-	// The polygon for collsion detecting while object being attacked.
-	this.InRangePolygon = new doufu.Display.Drawing.Polygon();
+	/*
+		Property: InRangeSharp
+		
+		<doufu.Display.Drawing.Drawable>
+		The sharps for collsion detecting while object being attacked.
+		
+		Allowed drawable objects:
+		<doufu.Display.Drawing.Rectangle>
+		<doufu.Display.Drawing.Polygon>
+	*/
+	this.InRangeSharp = new doufu.Display.Drawing.Drawable();
 	
-	// OnConfirmMovable event
+	/*
+		Event: OnConfirmMovable
+		
+		Will be fired when character moving.
+		If any of attached event callback return false, character will stop moving.
+	*/
 	this.OnConfirmMovable = new doufu.Event.EventHandler(this);
 	
 	/////////////////////////
@@ -49,7 +92,7 @@ doufu.Game.Sprites.Sprite = function(){
 		cubeNextStep.Z = this.Z + oDirection.Z() * iLength;
 		
 		// Collision detecting and others...
-		lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Polygon:this.Polygon});
+		lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp});
 		
 		// TODO: Release the cube
 		// Should not move.

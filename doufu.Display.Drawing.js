@@ -13,12 +13,32 @@ doufu.Display.Drawing = {};
 doufu.Display.Drawing.Drawable = function()
 {
 	doufu.OOP.Class(this);
+	
+	/* 
+		Property: DeepCopy
+			<doufu.Property>
+			Copy or get a new copy of current instance.
+			If Property value is specified, function will copy the inputted Line object to current instance.
+			Otherwise, function will genenrate a new instance of current instance.
+	*/
+	this.NewProperty("DeepCopy");
+	this.DeepCopy.Get = function()
+	{
+		return new doufu.Display.Drawing.Drawable();
+	}
+	this.DeepCopy.Set = function(obj)
+	{
+
+	}
 }
 
 /*
 	Class: doufu.Display.Drawing.Point
 	
 	A point class
+	
+	Inherit: 
+	<doufu.Display.Drawing.Drawable>
 */
 doufu.Display.Drawing.Point = function(x, y)
 {
@@ -27,9 +47,17 @@ doufu.Display.Drawing.Point = function(x, y)
 	this.Inherit(doufu.Display.Drawing.Drawable);
 	
 	/*
-		Property: this.X - the X coordinator
+		Property: X
+		
+		The X coordinator
 	*/
 	this.X;
+	
+	/*
+		Property: Y
+		
+		The X coordinator
+	*/
 	this.Y;
 	
 	this.Ctor = function()
@@ -54,6 +82,16 @@ doufu.Display.Drawing.Point = function(x, y)
 	Class: doufu.Display.Drawing.Line
 	
 	A line class
+	
+	Inherit: 
+	<doufu.Display.Drawing.Drawable>
+	
+	Constructor: 
+		x1 - The x coordinator of first point or a instace of doufu.Display.Drawing.Line.
+			If a instance of line was specified, constructor will do a deep copy.
+		y1 - The y coordinator of first point.
+		x2 - The x coordinator of second point.
+		y2 - The y coordinator of second point.
 */
 doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 {
@@ -61,9 +99,25 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 	
 	this.Inherit(doufu.Display.Drawing.Drawable);
 	
+	/* 
+		Property: X1
+			Indicate the x coordinator of first point.
+	*/
 	this.X1 = 0;
+	/* 
+		Property: Y1
+			Indicate the y coordinator of first point.
+	*/
 	this.Y1 = 0;
+	/* 
+		Property: X2
+			Indicate the x coordinator of second point.
+	*/
 	this.X2 = 0;
+	/* 
+		Property: Y2
+			Indicate the y coordinator of second point.
+	*/
 	this.Y2 = 0;
 	
 	this.Ctor = function()
@@ -82,6 +136,13 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 		}
 	}
 	
+	/* 
+		Property: DeepCopy
+			<doufu.Property>
+			Copy or get a new copy of current instance.
+			If Property value is specified, function will copy the inputted Line object to current instance.
+			Otherwise, function will genenrate a new instance of current instance.
+	*/
 	this.NewProperty("DeepCopy");
 	this.DeepCopy.Get = function()
 	{
@@ -106,22 +167,74 @@ doufu.Display.Drawing.Line = function(x1, y1, x2, y2)
 	Class: doufu.Display.Drawing.Rectangle
 	
 	Rectangle class
+	
+	Inherit: 
+	<doufu.Display.Drawing.Point>
+	
+	Constructor:
+		obj - [Optional] If obj is specified and is a rectangle instance, contructor will do a deep copy of obj to current instance.
 */
-doufu.Display.Drawing.Rectangle = function()
+doufu.Display.Drawing.Rectangle = function(obj)
 {
 	
 	doufu.OOP.Class(this);
 	
 	this.Inherit(doufu.Display.Drawing.Point);
 	
+	/* 
+		Property: Width
+			Indicate the width of the rectangle.
+	*/
 	this.Width = 0;
+	/* 
+		Property: Height
+			Indicate the height of the rectangle.
+	*/
 	this.Height = 0;
+	
+	/* 
+		Property: DeepCopy
+			<doufu.Property>
+			Copy or get a new copy of current instance.
+			If Property value is specified, function will copy the inputted Line object to current instance.
+			Otherwise, function will genenrate a new instance of current instance.
+	*/
+	this.NewProperty("DeepCopy");
+	this.DeepCopy.Get = function()
+	{
+		return new doufu.Display.Drawing.Polygon(this);
+	}
+	this.DeepCopy.Set = function(oRectangle)
+	{
+		if (!oRectangle.InstanceOf(doufu.Display.Drawing.Rectangle))
+		{
+			throw doufu.System.Exception("doufu.Display.Drawing.Rectangle::DeepCopy.Set(): oRectangle must be an instance of doufu.Display.Drawing.Rectangle or null");
+		}
+		
+		this.X = oRectangle.X;
+		this.Y = oRectangle.Y;
+		this.Width = oRectangle.Width;
+		this.Height = oRectangle.Height;
+	}
+	
+	this.Ctor = function()
+	{
+		if (obj != null)
+		{
+			this.DeepCopy(obj);
+		}
+	}
+	
+	this.Ctor();
 }
 
 /*
 	Class: doufu.Display.Drawing.Polygon
 	
 	Polygon class
+	
+	Inherit: 
+	<doufu.Display.Drawing.Drawable>, <doufu.CustomTypes.Collection> (<doufu.Display.Drawing.Point>)
 */
 doufu.Display.Drawing.Polygon = function(obj)
 {
@@ -140,6 +253,13 @@ doufu.Display.Drawing.Polygon = function(obj)
 		}
 	}
 	
+	/* 
+		Property: DeepCopy
+			<doufu.Property>
+			Copy or get a new copy of current instance.
+			If Property value is specified, function will copy the inputted Line object to current instance.
+			Otherwise, function will genenrate a new instance of current instance.
+	*/
 	this.NewProperty("DeepCopy");
 	this.DeepCopy.Get = function()
 	{
@@ -167,6 +287,9 @@ doufu.Display.Drawing.Polygon = function(obj)
 	Class: doufu.Display.Drawing.Cube
 	
 	Cube class, describing sharp and position of a 3d cube.
+	
+	Inherit: 
+	<doufu.Display.Drawing.Rectangle>
 */
 doufu.Display.Drawing.Cube = function(obj)
 {

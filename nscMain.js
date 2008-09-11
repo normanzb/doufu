@@ -79,12 +79,24 @@ doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
 		throw doufu.System.Exception("doufu.SampleGame.Roles.Helpers.SetPolygon(): fourDirectionSprite must be an instance of doufu.Game.Sprites.FourDirectionSprite.");
 	}
 	
+	// use polygon, slower
 	var point1 = new doufu.Display.Drawing.Point(6, 28);
 	var point2 = new doufu.Display.Drawing.Point(18, 28);
 	var point3 = new doufu.Display.Drawing.Point(18, 36);
 	var point4 = new doufu.Display.Drawing.Point(6, 36);
 	
-	fourDirectionSprite.Polygon.AddArray([point1, point2, point3, point4]);
+	var polygon = new doufu.Display.Drawing.Polygon();
+	
+	polygon.AddArray([point1, point2, point3, point4]);
+		
+	// use rectangle, faster
+	var oRect = new doufu.Display.Drawing.Rectangle();
+	oRect.X = 6;
+	oRect.Y = 28;
+	oRect.Width = 12;
+	oRect.Height = 8;
+	
+	fourDirectionSprite.Sharp = oRect;
 }
 doufu.SampleGame.Roles.Grandpa = function()
 {

@@ -14,6 +14,7 @@ set __frepackagename=doufu.packed.fre.js
 
 if %1==chk goto ChkBuild
 if %1==fre goto FreBuild
+if %1==doc goto DocBuild
 
 :ChkBuild
 
@@ -35,6 +36,16 @@ for /f %%f in (BuildList.txt) do set __filenames=!__filenames! %%f
 %__binariespath%Packer.exe -o %__binariespath%%__frepackagename% -m %__packmode% %__filenames%
 
 copy %__binariespath%%__frepackagename% %__binariespath%doufu.packed.js
+
+goto CleanUp
+
+:DocBuild
+
+del %__binariespath%%__chkpackagename% /q
+del %__binariespath%%__frepackagename% /q
+del %__binariespath%doufu.packed.js /q
+
+call CreateDocs.bat
 
 goto CleanUp
 

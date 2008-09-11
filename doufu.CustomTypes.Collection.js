@@ -1,4 +1,11 @@
-// Strong typed array
+/*
+	Class: doufu.CustomTypes.Collection
+	
+	A strong typed array
+	
+	Constructor:
+		baseClass - Specify a base class, all elements in this collection should inherited from the base class
+*/
 doufu.CustomTypes.Collection = function(baseClass)
 {
 	doufu.OOP.Class(this);

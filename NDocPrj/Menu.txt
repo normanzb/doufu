@@ -47,6 +47,9 @@ Format: 1.4
 
 
 File: doufu  (doufu.js)
+File: doufu...Sprites.FourDirectionSprite  (doufu.Game.Sprites.FourDirectionSprite.js)
+File: doufu...Sprites.Sprite  (doufu.Game.Sprites.Sprite.js)
+File: doufu.CustomTypes.Collection  (doufu.CustomTypes.Collection.js)
 File: doufu.Display.Drawing  (doufu.Display.Drawing.js)
 File: doufu.Game  (doufu.Game.js)
 File: doufu.Game.Helpers  (doufu.Game.Helpers.js)
@@ -58,5 +61,6 @@ Group: Index  {
    Class Index: Classes
    Function Index: Functions
    Property Index: Properties
+   Event Index: Events
    }  # Group: Index
 

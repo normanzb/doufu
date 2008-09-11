@@ -1,3 +1,11 @@
+/*
+	Class: doufu.Game.Sprites.FourDirectionSprite
+	
+	An 4 way moving sprite implementation which provide functionalities allow sprite moving in 4 direction.
+	
+	Inherit:
+		<doufu.Game.Sprites.Sprite>
+*/
 doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 {
 	doufu.OOP.Class(this);
