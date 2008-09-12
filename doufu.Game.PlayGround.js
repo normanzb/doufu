@@ -93,7 +93,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = displayBufferOffset.Y - this.Camera().Y;
 				
 				// The actual z value in the screen depend on the y coordinate. the game object is start from 4000 layer
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = (_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = Math.round((_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y);
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Width = _gameObjects.InnerArray()[i].Width;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Height = _gameObjects.InnerArray()[i].Height;
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().ImageOffset = _gameObjects.InnerArray()[i].ImageOffset;
