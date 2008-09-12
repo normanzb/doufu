@@ -47,6 +47,8 @@ Format: 1.4
 
 
 File: doufu  (doufu.js)
+File: doufu...PlayGround.Camera  (doufu.Game.PlayGround.Camera.js)
+File: doufu...PlayGround.Helpers  (doufu.Game.PlayGround.js)
 File: doufu...Sprites.FourDirectionSprite  (doufu.Game.Sprites.FourDirectionSprite.js)
 File: doufu...Sprites.Sprite  (doufu.Game.Sprites.Sprite.js)
 File: doufu.CustomTypes.Collection  (doufu.CustomTypes.Collection.js)
@@ -54,6 +56,7 @@ File: doufu.Display.Drawing  (doufu.Display.Drawing.js)
 File: doufu.Game  (doufu.Game.js)
 File: doufu.Game.Helpers  (doufu.Game.Helpers.js)
 File: doufu.Game.Map  (doufu.Game.Map.js)
+File: doufu.System.Logger  (doufu.System.Logger.js)
 
 Group: Index  {
 

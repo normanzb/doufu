@@ -83,7 +83,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 			displayBufferOffset.Width = _gameObjects.InnerArray()[i].Width;
 			displayBufferOffset.Height = _gameObjects.InnerArray()[i].Height;
 			displayBufferOffset.X = _gameObjects.InnerArray()[i].X;
-			displayBufferOffset.Y = Math.floor(_gameObjects.InnerArray()[i].Y / 1.5);
+			displayBufferOffset.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(_gameObjects.InnerArray()[i].Y);
 			
 			if(doufu.Game.Helpers.IsCollided(displayBufferOffset, this.Camera()))
 			{
@@ -149,4 +149,25 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	//			 So the sprite/object movement must be controlled by playground object.
 	//		  2) Add ability to set background color.
 	
+}
+
+/*
+	Namespace: doufu.Game.PlayGround.Helpers
+*/
+doufu.Game.PlayGround.Helpers = {};
+
+/*
+	Function: doufu.Game.PlayGround.Helpers.RealYToScreenY
+	
+	Convert real game world Y coordinate to screen Y coordinate
+	
+	Parameters:
+		iRealY - The real game world Y coordinate.
+		
+	Returns:
+		The corresponding screen y coordinate.
+*/
+doufu.Game.PlayGround.Helpers.RealYToScreenY = function(iRealY)
+{
+	return Math.floor(iRealY / 1.5);
 }

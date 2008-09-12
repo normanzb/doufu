@@ -6,6 +6,8 @@ doufu.Display.BaseObject = function()
 	
 	this.Inherit(doufu.Display.Drawing.Rectangle);
 	
+	var BACKGROUND_REPEAT_STYLE = "no-repeat";
+	
 	// Properties
 	var _htmlElement;
 	this.NewProperty("HTMLElement");
@@ -41,9 +43,19 @@ doufu.Display.BaseObject = function()
 			this.HTMLElement().style.zIndex = this.Z;
 			this.HTMLElement().style.width = this.Width + "px";
 			this.HTMLElement().style.height = this.Height + "px";
-			this.HTMLElement().style.backgroundPosition = "-" + doufu.System.Convert.ToString(this.ImageOffset.X) + "px -" + doufu.System.Convert.ToString(this.ImageOffset.Y) + "px";
-			this.HTMLElement().style.backgroundRepeat = "no-repeat";
-			this.HTMLElement().style.backgroundImage = "url(" + this.ImagePath + ")";
+			this.HTMLElement().style.backgroundPosition = doufu.System.Convert.ToString(-this.ImageOffset.X) + "px " + doufu.System.Convert.ToString(-this.ImageOffset.Y) + "px";
+			
+			this.HTMLElement().style.backgroundRepeat = BACKGROUND_REPEAT_STYLE;
+			
+			// deal with background image
+			var backgroundImage = "url(" + this.ImagePath + ")";
+			
+			if (backgroundImage != this.HTMLElement().style.backgroundImage)
+			{
+				this.HTMLElement().style.backgroundImage = backgroundImage;
+			}
+			
+			// verbose log
 			doufu.System.Logger.Verbose("doufu.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
 		}
 	},

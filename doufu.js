@@ -88,6 +88,46 @@ doufu.OOP.Inherit = function(obj,baseClass,args)
 		oCurr = oCurr.__nsc_OOP_Inherit_Stack;
 	}
 	
+	/* 
+		Function: OverrideMethod
+		
+		Override a method which in super/base class.
+		
+		Parameters:
+			methodName - The method name which in base class.
+			fn - A new method which will replace the old method.
+		
+		Sample:
+			BaseClassA = function()
+			{
+				doufu.OOP.Class(this);
+				this.SayHello = function()
+				{
+					return "Hello world!";
+				}
+				this.InvokeSay = function()
+				{
+					alert(this.SayHello());
+				}
+			}
+			DerivedFromA = function()
+			{
+				doufu.OOP.Class(this);
+				this.Inherit(BaseClassA);
+				var _base_SayHello = this.OverrideMethod("SayHello",
+					function()
+					{
+						return "Overrided " + _base_SayHello();
+					}
+				);
+			}
+
+			ba = new BaseClassA();
+			da = new DerivedFromA();
+
+			ba.InvokeSay();
+			da.InvokeSay();
+	*/
 	obj.OverrideMethod = function(methodName, fn){
 		var retMethod = this[methodName];
 		this[methodName]=fn;

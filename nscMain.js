@@ -309,6 +309,8 @@ godFather.Z = 0;
 godFather.X = 220;
 godFather.Y = 150;
 
+GeneralPlayGroundManager.Camera().Trace(godFather);
+
 GeneralPlayGroundManager.InsertObject(godFather);
 
 testLoop = function()

@@ -24,33 +24,7 @@ doufu.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWi
 	
 	if (doufu.Browser.DOM.CompatibleMode() == doufu.Browser.DOM.CompatibleMode.CSS1_COMPAT)
 	{
-		if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer)
-		{
-			if (doufu.Browser.BrowserDetect.Version == 8)
-			{
-				doufu.System.APIs.FunctionHooker("appendChild", function(obj)
-					{
-						obj.style.clip="rect(0px " + 
-							doufu.System.Convert.ToString(retDiv.clientLeft + iWidth) + "px " + 
-							iHeight + "px " + retDiv.clientLeft + "px)";
-						//alert(doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y);
-						//alert(retDiv.clientTop + 
-						//	doufu.System.Convert.ToInt(retDiv.marginTop.replace("px", "")));
-						obj.style.marginTop = "9px";//doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y;
-						obj.style.marginLeft = "8px";
-					},
-				retDiv);
-			}
-			else 
-			{
-				retDiv.style.position = "relative";
-			}
-			
-		}
-		else
-		{
-			retDiv.style.position = "relative";
-		}
+		retDiv.style.position = "relative";
 	}
 	else if (doufu.Browser.DOM.CompatibleMode() == doufu.Browser.DOM.CompatibleMode.BACK_COMPAT)
 	{
@@ -58,7 +32,18 @@ doufu.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWi
 	}
 	else
 	{
-
+		doufu.System.APIs.FunctionHooker("appendChild", function(obj)
+			{
+				obj.style.clip="rect(0px " + 
+					doufu.System.Convert.ToString(retDiv.clientLeft + iWidth) + "px " + 
+					iHeight + "px " + retDiv.clientLeft + "px)";
+				//alert(doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y);
+				//alert(retDiv.clientTop + 
+				//	doufu.System.Convert.ToInt(retDiv.marginTop.replace("px", "")));
+				obj.style.marginTop = "9px";//doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y;
+				obj.style.marginLeft = "8px";
+			},
+		retDiv);
 	}
 
 	return retDiv;
