@@ -65,7 +65,7 @@ doufu.Game.PlayGround.Camera = function()
 		if (this.IsTracing)
 		{
 			this.X = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
-			this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2) - this.Height / 2;
+			this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2 - this.Height / 2);
 		}
 		
 		_base_Pacer(oMsg);

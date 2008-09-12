@@ -169,5 +169,5 @@ doufu.Game.PlayGround.Helpers = {};
 */
 doufu.Game.PlayGround.Helpers.RealYToScreenY = function(iRealY)
 {
-	return Math.floor(iRealY / 1.5);
+	return Math.round(iRealY / 1.5);
 }
