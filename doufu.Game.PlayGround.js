@@ -163,11 +163,26 @@ doufu.Game.PlayGround.Helpers = {};
 	
 	Parameters:
 		iRealY - The real game world Y coordinate.
+		bAccuracy - [Optional] If true, return a accurate Y coordinate, otherwise return a rounded integer.
 		
 	Returns:
 		The corresponding screen y coordinate.
 */
-doufu.Game.PlayGround.Helpers.RealYToScreenY = function(iRealY)
+doufu.Game.PlayGround.Helpers.RealYToScreenY = function(iRealY, bAccuracy)
 {
-	return Math.round(iRealY / 1.5);
+	if (bAccuracy == null)
+	{
+		bAccuracy = false;
+	}
+	var oCndtAccuracy = {};
+	oCndtAccuracy[true] = function()
+	{
+		return iRealY / 1.5;
+	}
+	oCndtAccuracy[false] = function()
+	{
+		return Math.round(iRealY / 1.5);
+	}
+	
+	return oCndtAccuracy[bAccuracy]();
 }

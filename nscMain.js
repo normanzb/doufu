@@ -280,7 +280,7 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.Camera().Width = 322;
 	this.Camera().Height = 242;
 	
-	var grandma = new doufu.SampleGame.Roles.Grandma();
+	grandma = new doufu.SampleGame.Roles.Grandma();
 	grandma.X = 220;
 	grandma.Y = 180;
 	
