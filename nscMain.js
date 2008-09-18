@@ -113,6 +113,44 @@ doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
 	
 	fourDirectionSprite.Sharp = oRect;
 }
+
+doufu.SampleGame.Roles.Helpers.SetAnimation = function(fourDirectionSprite)
+{
+	if (fourDirectionSprite == null || !fourDirectionSprite.InstanceOf(doufu.Game.Sprites.FourDirectionSprite))
+	{
+		throw doufu.System.Exception("doufu.SampleGame.Roles.Helpers.SetPolygon(): fourDirectionSprite must be an instance of doufu.Game.Sprites.FourDirectionSprite.");
+	}
+	
+	var frameNumber = 3;
+	var repeatNumber = -1;
+	var frameSkip = 1;
+	var playreboundly = true;
+	
+	fourDirectionSprite.AnimationInfos.MoveRight = new doufu.Game.Animation.Info();
+	fourDirectionSprite.AnimationInfos.MoveRight.FrameNumber = frameNumber;
+	fourDirectionSprite.AnimationInfos.MoveRight.RepeatNumber = repeatNumber;
+	fourDirectionSprite.AnimationInfos.MoveRight.FrameSkip = frameSkip;
+	fourDirectionSprite.AnimationInfos.MoveRight.PlayReboundly = playreboundly;
+	
+	fourDirectionSprite.AnimationInfos.MoveLeft = new doufu.Game.Animation.Info();
+	fourDirectionSprite.AnimationInfos.MoveLeft.FrameNumber = frameNumber;
+	fourDirectionSprite.AnimationInfos.MoveLeft.RepeatNumber = repeatNumber;
+	fourDirectionSprite.AnimationInfos.MoveLeft.FrameSkip = frameSkip;
+	fourDirectionSprite.AnimationInfos.MoveLeft.PlayReboundly = playreboundly;
+	
+	fourDirectionSprite.AnimationInfos.MoveUp = new doufu.Game.Animation.Info();
+	fourDirectionSprite.AnimationInfos.MoveUp.FrameNumber = frameNumber;
+	fourDirectionSprite.AnimationInfos.MoveUp.RepeatNumber = repeatNumber;
+	fourDirectionSprite.AnimationInfos.MoveUp.FrameSkip = frameSkip;
+	fourDirectionSprite.AnimationInfos.MoveUp.PlayReboundly = playreboundly;
+	
+	fourDirectionSprite.AnimationInfos.MoveDown = new doufu.Game.Animation.Info();
+	fourDirectionSprite.AnimationInfos.MoveDown.FrameNumber = frameNumber;
+	fourDirectionSprite.AnimationInfos.MoveDown.RepeatNumber = repeatNumber;
+	fourDirectionSprite.AnimationInfos.MoveDown.FrameSkip = frameSkip;
+	fourDirectionSprite.AnimationInfos.MoveDown.PlayReboundly = playreboundly;
+}
+
 doufu.SampleGame.Roles.Grandpa = function()
 {
 	$c(this);
@@ -126,7 +164,7 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.Width = 24;
 	this.Height = 32;
 	
-	this.ImagePath = CONFIG_CHARS_FULL_DIR + "char01.gif";
+	this.ImagePath = CONFIG_CHARS_PATH + "char01.gif";
 	
 	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
@@ -137,37 +175,19 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.AnimationInfos.Init.RepeatNumber = 1;
 	this.AnimationInfos.Init.FrameSkip = 5;
 	
-	this.AnimationInfos.MoveRight = new doufu.Game.Animation.Info();
+	doufu.SampleGame.Roles.Helpers.SetAnimation(this);
+	
 	this.AnimationInfos.MoveRight.Row = 1;
 	this.AnimationInfos.MoveRight.Column = 0;
-	this.AnimationInfos.MoveRight.FrameNumber = 3;
-	this.AnimationInfos.MoveRight.RepeatNumber = -1;
-	this.AnimationInfos.MoveRight.FrameSkip = 1;
-	this.AnimationInfos.MoveRight.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveLeft = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveLeft.Row = 3;
 	this.AnimationInfos.MoveLeft.Column = 0;
-	this.AnimationInfos.MoveLeft.FrameNumber = 3;
-	this.AnimationInfos.MoveLeft.RepeatNumber = -1;
-	this.AnimationInfos.MoveLeft.FrameSkip = 1;
-	this.AnimationInfos.MoveLeft.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveUp = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveUp.Row = 0;
 	this.AnimationInfos.MoveUp.Column = 0;
-	this.AnimationInfos.MoveUp.FrameNumber = 3;
-	this.AnimationInfos.MoveUp.RepeatNumber = -1;
-	this.AnimationInfos.MoveUp.FrameSkip = 1;
-	this.AnimationInfos.MoveUp.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveDown = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveDown.Row = 2;
 	this.AnimationInfos.MoveDown.Column = 0;
-	this.AnimationInfos.MoveDown.FrameNumber = 3;
-	this.AnimationInfos.MoveDown.RepeatNumber = -1;
-	this.AnimationInfos.MoveDown.FrameSkip = 1;
-	this.AnimationInfos.MoveDown.PlayReboundly = true;
 	
 	this.AnimationInfos.StopRight = new doufu.Game.Animation.Info();
 	this.AnimationInfos.StopRight.Row = 1;
@@ -205,7 +225,7 @@ doufu.SampleGame.Roles.Grandma = function()
 	this.Width = 24;
 	this.Height = 32;
 	
-	this.ImagePath = CONFIG_CHARS_FULL_DIR + "char01.gif";
+	this.ImagePath = CONFIG_CHARS_PATH + "char01.gif";
 	
 	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
@@ -216,37 +236,19 @@ doufu.SampleGame.Roles.Grandma = function()
 	this.AnimationInfos.Init.RepeatNumber = 1;
 	this.AnimationInfos.Init.FrameSkip = 5;
 	
-	this.AnimationInfos.MoveRight = new doufu.Game.Animation.Info();
+	doufu.SampleGame.Roles.Helpers.SetAnimation(this);
+	
 	this.AnimationInfos.MoveRight.Row = 1;
 	this.AnimationInfos.MoveRight.Column = 3;
-	this.AnimationInfos.MoveRight.FrameNumber = 3;
-	this.AnimationInfos.MoveRight.RepeatNumber = -1;
-	this.AnimationInfos.MoveRight.FrameSkip = 12;
-	this.AnimationInfos.MoveRight.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveLeft = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveLeft.Row = 3;
 	this.AnimationInfos.MoveLeft.Column = 3;
-	this.AnimationInfos.MoveLeft.FrameNumber = 3;
-	this.AnimationInfos.MoveLeft.RepeatNumber = -1;
-	this.AnimationInfos.MoveLeft.FrameSkip = 12;
-	this.AnimationInfos.MoveLeft.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveUp = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveUp.Row = 0;
 	this.AnimationInfos.MoveUp.Column = 3;
-	this.AnimationInfos.MoveUp.FrameNumber = 3;
-	this.AnimationInfos.MoveUp.RepeatNumber = -1;
-	this.AnimationInfos.MoveUp.FrameSkip = 12;
-	this.AnimationInfos.MoveUp.PlayReboundly = true;
 	
-	this.AnimationInfos.MoveDown = new doufu.Game.Animation.Info();
 	this.AnimationInfos.MoveDown.Row = 2;
 	this.AnimationInfos.MoveDown.Column = 3;
-	this.AnimationInfos.MoveDown.FrameNumber = 3;
-	this.AnimationInfos.MoveDown.RepeatNumber = -1;
-	this.AnimationInfos.MoveDown.FrameSkip = 12;
-	this.AnimationInfos.MoveDown.PlayReboundly = true;
 	
 	this.AnimationInfos.StopRight = new doufu.Game.Animation.Info();
 	this.AnimationInfos.StopRight.Row = 1;
@@ -276,13 +278,98 @@ doufu.SampleGame.Roles.Grandma = function()
 	
 }
 
+doufu.SampleGame.Roles.MaskKiller = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.FourDirectionSprite);
+	
+	this.Width = 24;
+	this.Height = 32;
+	
+	this.ImagePath = CONFIG_CHARS_PATH + "char02.png";
+	
+	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 2;
+	this.AnimationInfos.Init.Column = 1;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	this.AnimationInfos.Init.FrameSkip = 5;
+	
+	doufu.SampleGame.Roles.Helpers.SetAnimation(this);
+	
+	this.AnimationInfos.MoveRight.Row = 1;
+	this.AnimationInfos.MoveRight.Column = 0;
+	
+	this.AnimationInfos.MoveLeft.Row = 3;
+	this.AnimationInfos.MoveLeft.Column = 0;
+	
+	this.AnimationInfos.MoveUp.Row = 0;
+	this.AnimationInfos.MoveUp.Column = 0;
+	
+	this.AnimationInfos.MoveDown.Row = 2;
+	this.AnimationInfos.MoveDown.Column = 0;
+	
+	this.AnimationInfos.StopRight = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopRight.Row = 1;
+	this.AnimationInfos.StopRight.Column = 1;
+	this.AnimationInfos.StopRight.FrameNumber = 1;
+	this.AnimationInfos.StopRight.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopLeft = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopLeft.Row = 3;
+	this.AnimationInfos.StopLeft.Column = 1;
+	this.AnimationInfos.StopLeft.FrameNumber = 1;
+	this.AnimationInfos.StopLeft.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopUp = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopUp.Row = 0;
+	this.AnimationInfos.StopUp.Column = 1;
+	this.AnimationInfos.StopUp.FrameNumber = 1;
+	this.AnimationInfos.StopUp.RepeatNumber = 1;
+	
+	this.AnimationInfos.StopDown = new doufu.Game.Animation.Info();
+	this.AnimationInfos.StopDown.Row = 2;
+	this.AnimationInfos.StopDown.Column = 1;
+	this.AnimationInfos.StopDown.FrameNumber = 1;
+	this.AnimationInfos.StopDown.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
+doufu.SampleGame.Roles.Flower = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.Sprite);
+	
+	this.Width = 23;
+	this.Height = 33;
+	
+	this.ImagePath = CONFIG_PLANTS_PATH + "flower01.gif";
+	
+	this.AnimationInfos = {};
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 0;
+	this.AnimationInfos.Init.Column = 0;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
 doufu.SampleGame.Maps = new Object();
 doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 {
 	$c(this);
 	this.Inherit(doufu.Game.Map, [oPlayGround]);
 	
-	this.ImagePath = CONFIG_STAGES_DIR + "Stage01.gif";
+	this.ImagePath = CONFIG_STAGES_PATH + "Stage01.gif";
 	this.Width = 454;
 	this.Height = 340;
 	this.Camera().X = 100;
@@ -301,7 +388,17 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	grandma.X = 220;
 	grandma.Y = 180;
 	
+	var mKiller = new doufu.SampleGame.Roles.MaskKiller();
+	mKiller.X = 180;
+	mKiller.Y = 200;
+	
+	var flower = new doufu.SampleGame.Roles.Flower();
+	flower.X = 177;
+	flower.Y = 163;
+	
 	this.InitSprites.Add(grandma);
+	//this.InitSprites.Add(mKiller);
+	this.InitSprites.Add(flower);
 }
 
 mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
