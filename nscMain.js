@@ -42,7 +42,7 @@ doufu.System.Logger.Debug("Display area is set");
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
 
 var EmptyMessage = new doufu.System.Message();
-var loopTimeout = 30;
+var loopTimeout = 70;
 
 // TODO: Abstract loop
 function __nsc_MainLoop(){
@@ -142,7 +142,7 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.AnimationInfos.MoveRight.Column = 0;
 	this.AnimationInfos.MoveRight.FrameNumber = 3;
 	this.AnimationInfos.MoveRight.RepeatNumber = -1;
-	this.AnimationInfos.MoveRight.FrameSkip = 12;
+	this.AnimationInfos.MoveRight.FrameSkip = 1;
 	this.AnimationInfos.MoveRight.PlayReboundly = true;
 	
 	this.AnimationInfos.MoveLeft = new doufu.Game.Animation.Info();
@@ -150,7 +150,7 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.AnimationInfos.MoveLeft.Column = 0;
 	this.AnimationInfos.MoveLeft.FrameNumber = 3;
 	this.AnimationInfos.MoveLeft.RepeatNumber = -1;
-	this.AnimationInfos.MoveLeft.FrameSkip = 12;
+	this.AnimationInfos.MoveLeft.FrameSkip = 1;
 	this.AnimationInfos.MoveLeft.PlayReboundly = true;
 	
 	this.AnimationInfos.MoveUp = new doufu.Game.Animation.Info();
@@ -158,7 +158,7 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.AnimationInfos.MoveUp.Column = 0;
 	this.AnimationInfos.MoveUp.FrameNumber = 3;
 	this.AnimationInfos.MoveUp.RepeatNumber = -1;
-	this.AnimationInfos.MoveUp.FrameSkip = 12;
+	this.AnimationInfos.MoveUp.FrameSkip = 1;
 	this.AnimationInfos.MoveUp.PlayReboundly = true;
 	
 	this.AnimationInfos.MoveDown = new doufu.Game.Animation.Info();
@@ -166,7 +166,7 @@ doufu.SampleGame.Roles.Grandpa = function()
 	this.AnimationInfos.MoveDown.Column = 0;
 	this.AnimationInfos.MoveDown.FrameNumber = 3;
 	this.AnimationInfos.MoveDown.RepeatNumber = -1;
-	this.AnimationInfos.MoveDown.FrameSkip = 12;
+	this.AnimationInfos.MoveDown.FrameSkip = 1;
 	this.AnimationInfos.MoveDown.PlayReboundly = true;
 	
 	this.AnimationInfos.StopRight = new doufu.Game.Animation.Info();
