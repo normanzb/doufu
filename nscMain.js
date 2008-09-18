@@ -51,7 +51,9 @@ function __nsc_MainLoop(){
 		// bump out all messages
 		while(doufu.System.MessageQueue.Length() > 0)
 		{
+			doufu.System.Logger.Verbose("__nsc_MainLoop(): Start Looper.");
 			doufu.Cycling.Manager.Looper(doufu.System.MessageQueue.Shift());
+			doufu.System.Logger.Verbose("__nsc_MainLoop(): Looper Ended.");
 		}
 	}
 	else
@@ -273,7 +275,7 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	$c(this);
 	this.Inherit(doufu.Game.Map, [oPlayGround]);
 	
-	this.ImagePath = CONFIG_STAGES_DIR + "stage01.gif";
+	this.ImagePath = CONFIG_STAGES_DIR + "Stage01.gif";
 	this.Width = 454;
 	this.Height = 340;
 	this.Camera().X = 100;

@@ -22,6 +22,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	/////////////////////////
 	
 	var linkedDisplayMgr = null;
+	var displayBufferOffset = new doufu.Display.Drawing.Rectangle();
 	
 	// for saving all inserted elements
 	var _gameObjects = new doufu.CustomTypes.Collection(doufu.Game.BaseObject);
@@ -79,7 +80,6 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		{
 			
 			// this is the player rectangle which on the screen surface (caculated by the analog);
-			var displayBufferOffset = new doufu.Display.Drawing.Rectangle();
 			displayBufferOffset.Width = _gameObjects.InnerArray()[i].Width;
 			displayBufferOffset.Height = _gameObjects.InnerArray()[i].Height;
 			displayBufferOffset.X = _gameObjects.InnerArray()[i].X;

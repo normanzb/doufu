@@ -23,6 +23,7 @@ doufu.Game.BaseObject = function(){
 	// Will be invoked by main cycle
 	this.Pacer = function(oMsg)
 	{
+		doufu.System.Logger.Verbose("doufu.Game.BaseObject::Pacer(): Pacer Invoked.");
 		this.Animation.Pacer(oMsg);
 	}
 	
@@ -30,6 +31,7 @@ doufu.Game.BaseObject = function(){
 	this.Ctor = function()
 	{
 		// attach self to pace controller
+		doufu.System.Logger.Debug("doufu.Game.BaseObject::Ctor(): Attach self to pace controller");
 		doufu.Game.PaceController.Attach(this);
 	}
 	

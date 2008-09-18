@@ -13,7 +13,16 @@ doufu.Game.PlayGround.Camera = function()
 	
 	this.Inherit(doufu.Display.Drawing.Rectangle);
 	
-	this.Inherit(doufu.Game.BaseObject);
+	var callbackOffsetCaculation = new doufu.Event.CallBack(function()
+	{
+		doufu.System.Logger.Verbose("doufu.Game.PlayGround.Camera::callbackOffsetCaculation(): Invoked.");
+		
+		if (this.IsTracing)
+		{
+			this.X = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
+			this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
+		}
+	}, this)
 	
 	/*
 		Property: IsTracing
@@ -39,8 +48,9 @@ doufu.Game.PlayGround.Camera = function()
 	*/
 	this.Trace = function(gameObj)
 	{
+		doufu.System.Logger.Debug("doufu.Game.PlayGround.Camera::Trace(): Attach OnPaceControlCompleted event.");
 		// Camera should follow the pace of sprites.
-		doufu.Game.PaceController.Attach(this);
+		doufu.Game.PaceController.OnPaceControlCompleted.Attach(callbackOffsetCaculation);
 		
 		this.IsTracing = true;
 		this.TracedObject = gameObj;
@@ -53,27 +63,16 @@ doufu.Game.PlayGround.Camera = function()
 	*/
 	this.StopTrace = function()
 	{
-		doufu.Game.PaceController.Detach(this);
+		doufu.Game.PaceController.Detach(callbackOffsetCaculation);
 		
 		this.IsTracing = false;
 		this.TracedObject = null;
 	}
 	
-	// Override the pacer
-	var _base_Pacer = this.OverrideMethod("Pacer", function(oMsg)
-	{
-		if (this.IsTracing)
-		{
-			this.X = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
-			this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
-		}
-		
-		_base_Pacer(oMsg);
-	});
-	
 	this.Ctor = function()
 	{
-		
+		// detach self becase game object will attach self automatically
+		doufu.Game.PaceController.Detach(this);
 	}
 	
 	this.Ctor();

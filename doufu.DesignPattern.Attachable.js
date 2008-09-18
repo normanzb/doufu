@@ -22,7 +22,7 @@ doufu.DesignPattern.Attachable = function(type)
 	{
 		_collection.Add(obj);
 	}
-	this.Detach = function()
+	this.Detach = function(obj)
 	{
 		_collection.Remove(obj);
 	}
