@@ -42,9 +42,11 @@ doufu.System.Logger.Debug("Display area is set");
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
 
 var EmptyMessage = new doufu.System.Message();
+var loopTimeout = 30;
+
 // TODO: Abstract loop
 function __nsc_MainLoop(){
-	
+	var startTime = new Date().getTime();
 	
 	if (doufu.System.MessageQueue.Length() > 0)
 	{
@@ -60,8 +62,13 @@ function __nsc_MainLoop(){
 	{
 		//doufu.Cycling.Manager.Looper(EmptyMessage);
 	}
+	var lastTimeout = loopTimeout - new Date().getTime() + startTime;
+	if (lastTimeout < 10)
+	{
+		lastTimeout = 10;
+	}
 	
-	if (__Global_MainLoop_Stop == false) setTimeout(__nsc_MainLoop,10);
+	if (__Global_MainLoop_Stop == false) setTimeout(__nsc_MainLoop, lastTimeout);
 }
 
 __nsc_MainLoop();
@@ -325,8 +332,17 @@ GeneralPlayGroundManager.InsertObject(godFather);
 
 testLoop = function()
 {
+	var startTime = new Date().getTime();
+	
 	doufu.System.MessageQueue.Push(tmpMsg);
-	setTimeout(testLoop, 11);
+	
+	var lastTimeout = loopTimeout - new Date().getTime() + startTime;
+	if (lastTimeout < 10)
+	{
+		lastTimeout = 10;
+	}
+	
+	setTimeout(testLoop, lastTimeout);
 }
 testLoop();
 //godFather.StartMoving(new doufu.Game.Direction(16), 49)
