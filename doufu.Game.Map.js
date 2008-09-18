@@ -16,7 +16,6 @@ doufu.Game.Map = function(oPlayGround)
 	var tmpRectangle1 = new doufu.Display.Drawing.Rectangle();
 	var tmpRectangle2 = new doufu.Display.Drawing.Rectangle();
 	var tmpCube = new doufu.Display.Drawing.Cube();
-	var mapPolygon = new doufu.Display.Drawing.Polygon();
 	
 	/*
 		Property: LinkedPlayGround
@@ -48,11 +47,11 @@ doufu.Game.Map = function(oPlayGround)
 	this.Height;
 	
 	/*
-		Property: Sharp
+		Property: Sharps
 		
-		Can be a polygon or a rectangle that present the edge of current map.
+		Can be a polygon collection that present the edge of current map.
 	*/
-	this.Sharp;
+	this.Sharps = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
 	
 	/*
 		Property: Camera
@@ -129,21 +128,12 @@ doufu.Game.Map = function(oPlayGround)
 				// if map has edge
 				// Do map edge collision detection first
 				// if obj(sprite) is collided with the map edge, break.
-				if (this.Sharp != null)
+				if (this.Sharps.Length() > 0)
 				{
-					for (var k = 0; k < this.Sharp.Length(); k++)
+					for (var k = 0; k < this.Sharps.Length(); k++)
 					{
-						var j = k + 1;
-						if (j >=  this.Sharp.Length())
-						{
-							j = 0;
-						}
-						mapPolygon.Clear();
-						
-						mapPolygon.Add(this.Sharp.Items(k));
-						mapPolygon.Add(this.Sharp.Items(j));
-						
-						if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, mapPolygon))
+					
+						if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k)))
 						{
 							return false;
 						}

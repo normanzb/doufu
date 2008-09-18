@@ -87,8 +87,14 @@ doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 */
 doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) {
 	
-	polygonA.BuildEdges();
-	polygonB.BuildEdges();
+	if (polygonA.Edges == null || polygonA.Edges.Length() == 0)
+	{
+		polygonA.BuildEdges();
+	}
+	if (polygonB.Edges == null || polygonB.Edges.Length() == 0)
+	{
+		polygonB.BuildEdges();
+	}
 	
 	// Calculate the distance between [minA, maxA] and [minB, maxB]
 	// The distance will be negative if the intervals overlap

@@ -376,13 +376,25 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.Camera().Width = 322;
 	this.Camera().Height = 242;
 	
-	this.Sharp = new doufu.Display.Drawing.Polygon();
-	this.Sharp.AddArray([
-		new doufu.Display.Drawing.Vector(146,228),
-		new doufu.Display.Drawing.Vector(222,267),
-		new doufu.Display.Drawing.Vector(290,197),
-		new doufu.Display.Drawing.Vector(211,151)
-	]);
+	
+	// todo add helper to create walls
+	v1 = new doufu.Display.Drawing.Vector(146,228);
+	v2 = new doufu.Display.Drawing.Vector(222,267);
+	v3 = new doufu.Display.Drawing.Vector(290,197);
+	v4 = new doufu.Display.Drawing.Vector(211,151);
+		
+		
+	var p1 = new doufu.Display.Drawing.Polygon();
+	p1.AddArray([v1, v2]);
+	var p2 = new doufu.Display.Drawing.Polygon();
+	p2.AddArray([v2, v3]);
+	var p3 = new doufu.Display.Drawing.Polygon();
+	p3.AddArray([v3, v4]);
+	var p4 = new doufu.Display.Drawing.Polygon();
+	p4.AddArray([v4, v1]);
+	
+	this.Sharps
+	this.Sharps.AddArray([p1, p2, p3, p4]);
 	
 	var grandma = new doufu.SampleGame.Roles.Grandma();
 	grandma.X = 220;
