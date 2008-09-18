@@ -83,14 +83,14 @@ doufu.Game.PlayGround = function(oDisplayManager)
 			displayBufferOffset.Width = _gameObjects.InnerArray()[i].Width;
 			displayBufferOffset.Height = _gameObjects.InnerArray()[i].Height;
 			displayBufferOffset.X = _gameObjects.InnerArray()[i].X;
-			displayBufferOffset.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(_gameObjects.InnerArray()[i].Y);
+			displayBufferOffset.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(_gameObjects.InnerArray()[i].Y, true);
 			
 			if(doufu.Game.Helpers.IsCollided(displayBufferOffset, this.Camera()))
 			{
 				// translate game object to display object.
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().X = displayBufferOffset.X - this.Camera().X;
 				// Assuming the anglog is 60 degree.
-				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = displayBufferOffset.Y - this.Camera().Y;
+				_gameObjects.InnerArray()[i].LinkedDisplayObject().Y = Math.round(displayBufferOffset.Y - this.Camera().Y);
 				
 				// The actual z value in the screen depend on the y coordinate. the game object is start from 4000 layer
 				_gameObjects.InnerArray()[i].LinkedDisplayObject().Z = Math.round((_gameObjects.InnerArray()[i].Z + 1) * 4000 + _gameObjects.InnerArray()[i].LinkedDisplayObject().Y);
