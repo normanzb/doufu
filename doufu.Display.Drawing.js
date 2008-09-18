@@ -79,6 +79,98 @@ doufu.Display.Drawing.Point = function(x, y)
 }
 
 /*
+	Class: doufu.Display.Drawing.Vector
+	
+	Vector class
+	
+	Inherit:
+		<doufu.Display.Drawing.Point>
+		
+	See also:
+		http://en.wikipedia.org/wiki/Vector_(spatial)
+*/
+doufu.Display.Drawing.Vector = function(x, y)
+{
+	doufu.OOP.Class(this);
+	
+	this.Inherit(doufu.Display.Drawing.Point, [x, y]);
+	
+	/*
+		Property: Magnitude
+		
+		Get the magnitude/length/norm of current point.
+	*/
+	this.NewProperty("Magnitude");
+	this.Magnitude.Get = function()
+	{
+		return Math.sqrt(this.X * this.X + this.Y * this.Y);
+	}
+	
+	/*
+		Function: Normalize
+		
+		Normalize current point.
+	*/
+	this.Normalize = function()
+	{
+		var magnitude = this.Magnitude();
+		this.X = this.X / magnitude;
+		this.Y = this.Y / magnitude;
+	}
+	
+	/*
+		Function: GetNormalized
+		
+		Get a normalized new point.
+	*/
+	this.GetNormalized = function() 
+	{
+		var magnitude = this.Magnitude();
+
+		return new doufu.Display.Drawing.Vector(this.X / magnitude, this.Y / magnitude);
+	}
+	
+	/*
+		Function: DotProduct
+		
+		Return dot product of current vector and specified vector.
+		
+		Parameters:
+			vector - Specified the second vector
+	*/
+	this.DotProduct = function(vector) 
+	{
+		return this.X * vector.X + this.Y * vector.Y;
+	}
+	
+	/*
+		Function: DistanceTo
+		
+		Caculate the distance from current vector to specified vector
+		
+		Parameters:
+			vector - Specified the destinate vector.
+	*/
+	this.DistanceTo = function(vector) {
+		return Math.sqrt(Math.pow(vector.X - this.X, 2) + Math.pow(vector.Y - this.Y, 2));
+	}
+}
+
+/*
+	Function: Subtract
+	
+	Do a subtraction of two vector and return the result vector.
+	
+	Parameters: 
+		vector1 - The minuend
+		vector2 - The subtrahend
+*/
+doufu.Display.Drawing.Vector.Subtract = function(vector1, vector2)
+{
+	return new doufu.Display.Drawing.Vector(vector1.X - vector2.X, vector1.Y - vector2.Y);
+}
+
+/*
 	Class: doufu.Display.Drawing.Line
 	
 	A line class
@@ -242,15 +334,34 @@ doufu.Display.Drawing.Polygon = function(obj)
 	
 	this.Inherit(doufu.Display.Drawing.Drawable);
 	
-	this.Inherit(doufu.CustomTypes.Collection, [doufu.Display.Drawing.Point]);
+	this.Inherit(doufu.CustomTypes.Collection, [doufu.Display.Drawing.Vector]);
 	
-	this.Ctor = function()
+	/* 
+		Property: Edges
+		
+		<doufu.CustomTypes.Collection>
+		Get a set of points represent the hull of current polygon.
+	*/
+	this.Edges = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Vector);
+	
+	/*
+		Property: Center
+		
+		<doufu.Property>
+		Get the center vector.
+	*/
+	this.NewProperty("Center");
+	this.Center.Get = function()
 	{
-		// Deep copying
-		if (obj != null && obj.InstanceOf(doufu.Display.Drawing.Polygon))
+		var totalX = 0;
+		var totalY = 0;
+		for (var i = 0; i < this.Length(); i++)
 		{
-			this.DeepCopy(obj);
+			totalX += this.Items(i).X;
+			totalY += this.Items(i).Y;
 		}
+
+		return new doufu.Display.Drawing.Vector(totalX / this.Length(), totalY / this.Length());
 	}
 	
 	/* 
@@ -277,6 +388,50 @@ doufu.Display.Drawing.Polygon = function(obj)
 		for (var i = 0; i < oPolygon.Length(); i ++)
 		{
 			this.Add(doufu.System.APIs.Clone(oPolygon.Items(i), 0));
+		}
+	}
+	
+	/*
+		Function: BuildEdges
+		
+		Build the edges of current polygon.
+	*/
+	this.BuildEdges = function()
+	{
+		var p1,p2;
+		
+		this.Edges.Clear();
+		
+		for (var i = 0; i < this.Length(); i++) {
+			p1 = this.Items(i);
+			if (i + 1 >= this.Length()) {
+				p2 = this.Items(0);
+			} else {
+				p2 = this.Items(i + 1);
+			}
+			this.Edges.Add(doufu.Display.Drawing.Vector.Subtract(p2,p1));
+		}
+	}
+	
+	this.OverloadMethod("Offset", function(v)
+	{
+		this.Offset(v.X, v.Y);
+	});
+	
+	this.OverloadMethod("Offset", function(x, y) 
+	{
+		for (var i = 0; i < this.Length(); i++) {
+			var p = this.Items(i);
+			this.InnerArray()[i] = new doufu.Display.Drawing.Vector(p.X + x, p.Y + y);
+		}
+	});
+	
+	this.Ctor = function()
+	{
+		// Deep copying
+		if (obj != null && obj.InstanceOf(doufu.Display.Drawing.Polygon))
+		{
+			this.DeepCopy(obj);
 		}
 	}
 	
@@ -405,4 +560,44 @@ doufu.Display.Drawing.ConvertPointsToRectangle = function(oPoint1, oPoint2, oRec
 	rectRet.Height = bPointY - sPointY;
 	
 	return rectRet;
+}
+
+/*
+	Function: doufu.Display.Drawing.ConvertRectangleToPolygon
+	
+	Convert a rectangle to a polygon.
+	
+	Parameters:
+	
+		oRectangle - Specify the rectangle to be converted.
+		outPolygon - [Out, Optional] if a polygon is specified, function will modify the polygon and return it.
+					 if not, function will create a new polygon.
+					 Note: Creating new object will consuming lots of cpu times
+	
+	Returns:
+		A new polygon which has 4 points from the rectangle.
+*/
+doufu.Display.Drawing.ConvertRectangleToPolygon = function(oRectangle, outPolygon)
+{
+	if (!oRectangle.InstanceOf(doufu.Display.Drawing.Rectangle))
+	{
+		throw doufu.System.Exception("doufu.Display.Drawing.doufu.Display.Drawing.ConvertRectangleToPolygon(): oRectangle is not a Rectangle.");
+	}
+	var retPolygon;
+	if (outPolygon == null)
+	{
+		retPolygon = new doufu.Display.Drawing.Polygon();
+	}
+	else
+	{
+		retPolygon = outPolygon;
+	}
+	
+	retPolygon.Clear();
+	retPolygon.Add(new doufu.Display.Drawing.Vector(oRectangle.X, oRectangle.Y));
+	retPolygon.Add(new doufu.Display.Drawing.Vector(oRectangle.X + oRectangle.Width, oRectangle.Y));
+	retPolygon.Add(new doufu.Display.Drawing.Vector(oRectangle.X + oRectangle.Width, oRectangle.Y + oRectangle.Height));
+	retPolygon.Add(new doufu.Display.Drawing.Vector(oRectangle.X, oRectangle.Y + oRectangle.Height));
+	
+	return retPolygon;
 }

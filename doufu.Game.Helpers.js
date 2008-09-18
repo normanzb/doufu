@@ -16,20 +16,32 @@ doufu.Game.Helpers = {};
 */
 doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 {
-	if (!doufu.Game.Helpers.IsAllowedCollisionObject(obj1, obj2))
-	{
-		throw doufu.System.Exception("doufu.Game.Helpers.IsCollided(): class of obj1 or obj2 did not inherited from an allowed type.");
-	}
-	
-	if (obj1.InstanceOf(doufu.Display.Drawing.Rectangle) && obj2.InstanceOf(doufu.Display.Drawing.Rectangle))
+	if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Rectangle, obj1, obj2) == 2)
 	{
 		return doufu.Game.Helpers.IsRectangleCollided(obj1, obj2);
 	}
-	else if (obj1.InstanceOf(doufu.Display.Drawing.Polygon))
+	else if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Polygon, obj1, obj2) == 2)
 	{
 		return doufu.Game.Helpers.IsPolygonCollided(obj1, obj2);
 	}
+	else if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Rectangle, obj1, obj2) == 1 &&
+		doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Polygon, obj1, obj2) == 1)
+	{
+		if(obj1.InstanceOf(doufu.Display.Drawing.Rectangle))
+		{
+			doufu.Display.Drawing.ConvertRectangleToPolygon(obj1, doufu.Game.Helpers.IsCollided.__poly);
+			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj2);
+		}
+		else if(obj2.InstanceOf(doufu.Display.Drawing.Rectangle))
+		{
+			doufu.Display.Drawing.ConvertRectangleToPolygon(obj2, doufu.Game.Helpers.IsCollided.__poly);
+			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj1);
+		}
+	}
 }
+
+// don't want to instantiate at runtime.
+doufu.Game.Helpers.IsCollided.__poly = new doufu.Display.Drawing.Polygon();
 
 /*
 	Function: doufu.Game.Helpers.IsRectangleCollided
@@ -67,113 +79,83 @@ doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 /*
 	Function: doufu.Game.Helpers.IsRectangleCollided
 	
-	Return true if two polygon object are collided. otherwise, return false.
+	Check if polygon A is going to collide with polygon B for the given velocity
 	
 	Parameters:
-		obj1 - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
-		obj2 - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+		polygonA - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+		polygonB - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
 */
-doufu.Game.Helpers.IsPolygonCollided = function(oPolygon1, oPolygon2)
-{
-	if (!oPolygon1.InstanceOf(doufu.Display.Drawing.Polygon))
+doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) {
+	
+	polygonA.BuildEdges();
+	polygonB.BuildEdges();
+	
+	// Calculate the distance between [minA, maxA] and [minB, maxB]
+	// The distance will be negative if the intervals overlap
+	var IntervalDistance = function(minA, maxA, minB, maxB) 
 	{
-		throw doufu.System.Exception("doufu.Game.Helpers.IsCollided(): oPolygon1 is not a Polygon.");
-	}
-	
-	if (!oPolygon2.InstanceOf(doufu.Display.Drawing.Polygon))
-	{
-		throw doufu.System.Exception("doufu.Game.Helpers.IsCollided(): oPolygon2 is not a Polygon.");
-	}
-	
-	// Initializing static varaible for speeding up the caculation.
-	if (typeof doufu.Game.Helpers.IsPolygonCollided.__rec1 == doufu.System.Constants.TYPE_UNDEFINED ||
-		typeof doufu.Game.Helpers.IsPolygonCollided.__rec2 == doufu.System.Constants.TYPE_UNDEFINED )
-	{
-		doufu.Game.Helpers.IsPolygonCollided.__rec1 = new doufu.Display.Drawing.Rectangle();
-		doufu.Game.Helpers.IsPolygonCollided.__rec2 = new doufu.Display.Drawing.Rectangle();
-	}
-	
-	// Create reference
-	var oRectangle1 = doufu.Game.Helpers.IsPolygonCollided.__rec1;
-	var oRectangle2 = doufu.Game.Helpers.IsPolygonCollided.__rec2;
-	// Speed up end
-	
-	// do a rectangle collision detection first to avoid heavily cpu usage.
-	var bRecCollided = false;
-	
-	for (var i = 0; i < oPolygon1.Length(); i++)
-	{
-		
-		var i1 = i - 1;
-		var i2 = i;
-		
-		if (i1 < 0)
-		{
-			i1 = oPolygon1.Length() - 1;
-		}
-		
-		//doufu.System.Logger.Debug("oPolygon1, i: " + i);
-		//doufu.System.Logger.Debug("\tX: " + oPolygon1.Items(1).X);
-		//doufu.System.Logger.Debug("\tY: " + oPolygon1.Items(1).Y);
-		
-		doufu.Display.Drawing.ConvertPointsToRectangle(oPolygon2.Items(i1), oPolygon2.Items(i2), oRectangle1);
-		
-		for (var j = 0; j < oPolygon2.Length(); j++)
-		{
-			
-			var j1 = j - 1;
-			var j2 = j;
-			
-			if (j1 < 0)
-			{
-				j1 = oPolygon2.Length() - 1;
-			}
-			
-			doufu.Display.Drawing.ConvertPointsToRectangle(oPolygon1.Items(j1), oPolygon1.Items(j2), oRectangle2);
-			
-			//doufu.System.Logger.Debug("oRec1: ");
-			//doufu.System.Logger.Debug("\tX: " + oRectangle1.X);
-			//doufu.System.Logger.Debug("\tY: " + oRectangle1.Y);
-			//doufu.System.Logger.Debug("\tWidth: " + oRectangle1.Width);
-			//doufu.System.Logger.Debug("\tHeight: " + oRectangle1.Height);
-			
-			//doufu.System.Logger.Debug("oRec2: ");
-			//doufu.System.Logger.Debug("\tX: " + oRectangle2.X);
-			//doufu.System.Logger.Debug("\tY: " + oRectangle2.Y);
-			//doufu.System.Logger.Debug("\tWidth: " + oRectangle2.Width);
-			//doufu.System.Logger.Debug("\tHeight: " + oRectangle2.Height);
-			
-			if(doufu.Game.Helpers.IsRectangleCollided(oRectangle1, oRectangle2))
-			{
-				bRecCollided = true;
-				return bRecCollided;
-			}
+		if (minA < minB) {
+			return minB - maxA;
+		} else {
+			return minA - maxB;
 		}
 	}
 
-	return bRecCollided;
-}
-
-/*
-	Function: doufu.Game.Helpers.IsAllowedCollisionObject
-	
-	Return true if two drawable object are allowed to do collision test. otherwise, return false.
-	
-	Parameters:
-		obj1 - a Drawable object which to be tested.
-		obj2 - a Drawable object which to be tested.
-*/
-doufu.Game.Helpers.IsAllowedCollisionObject = function(obj1, obj2)
-{
-	var baseClasses = [doufu.Display.Drawing.Rectangle, doufu.Display.Drawing.Polygon];
-	for (var i = 0; i < baseClasses.length; i++)
+	// Calculate the projection of a polygon on an axis and returns it as a [min, max] interval
+	var ProjectPolygon = function(axis, polygon, min, max)
 	{
-		// the two object base class must identical
-		if (obj1.InstanceOf(baseClasses[i]) && obj2.InstanceOf(baseClasses[i]))
-		{
-			return true;
+		// To project a point on an axis use the dot product
+		var d = axis.DotProduct(polygon.Items(0));
+		min.value = d;
+		max.value = d;
+		for (var i = 0; i < polygon.Length(); i++) {
+			d = polygon.Items(i).DotProduct(axis);
+			if (d < min.value) {
+				min.value = d;
+			} else {
+				if (d > max.value) {
+					max.value = d;
+				}
+			}
 		}
 	}
 	
-	return false;
+	var edgeCountA = polygonA.Edges.Length();
+	var edgeCountB = polygonB.Edges.Length();
+	// TODO: use a constant
+	var minIntervalDistance = 99999999999999999;
+	var translationAxis = new doufu.Display.Drawing.Vector();
+	var edge;
+	
+	// Loop through all the edges of both polygons
+	for (var edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++) {
+		if (edgeIndex < edgeCountA) {
+			edge = polygonA.Edges.Items(edgeIndex);
+		} else {
+			edge = polygonB.Edges.Items(edgeIndex - edgeCountA);
+		}
+
+		// ===== 1. Find if the polygons are currently intersecting =====
+
+		// Find the axis perpendicular to the current edge
+		var axis = new doufu.Display.Drawing.Vector(-edge.Y, edge.X);
+		axis.Normalize();
+
+		// Find the projection of the polygon on the current axis
+		var minA = new Object();
+		var minB = new Object();
+		var maxA = new Object();
+		var maxB = new Object();
+		
+		ProjectPolygon(axis, polygonA, minA, maxA);
+		ProjectPolygon(axis, polygonB, minB, maxB);
+
+		// Check if the polygon projections are currentlty intersecting
+		if (IntervalDistance(minA.value, maxA.value, minB.value, maxB.value) > 0) 
+		{
+			return false;
+		}
+	}
+		
+	return true;
 }

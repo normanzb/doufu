@@ -16,6 +16,8 @@ doufu.Game.Map = function(oPlayGround)
 	var tmpRectangle1 = new doufu.Display.Drawing.Rectangle();
 	var tmpRectangle2 = new doufu.Display.Drawing.Rectangle();
 	var tmpCube = new doufu.Display.Drawing.Cube();
+	var mapPolygon = new doufu.Display.Drawing.Polygon();
+	
 	/*
 		Property: LinkedPlayGround
 		
@@ -30,18 +32,27 @@ doufu.Game.Map = function(oPlayGround)
 		If the map is not tiled, map will using the image as background.
 	*/
 	this.ImagePath;
+	
 	/*
 		Property: Width
 		
 		Indicate the width of current map.
 	*/
 	this.Width;
+	
 	/*
 		Property: Height
 		
 		Indicate the height of current map.
 	*/
 	this.Height;
+	
+	/*
+		Property: Sharp
+		
+		Can be a polygon or a rectangle that present the edge of current map.
+	*/
+	this.Sharp;
 	
 	/*
 		Property: Camera
@@ -84,48 +95,86 @@ doufu.Game.Map = function(oPlayGround)
 			// Only sprites has polygon
 			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite))
 			{
+				// if the obj is playground, we don't have to do collision test.
+				if (obj.Sharp == this.Sharp)
+				{
+					return true;
+				}
+				
+				var tmpColideDrawable1,tmpColideDrawable2;
+				
+				// caculate the actual obj coodinates in the map
+				if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+				{
+					tmpRectangle1.DeepCopy(obj.Sharp);
+					
+					tmpRectangle1.X += obj.Cube.X;
+					tmpRectangle1.Y += obj.Cube.Y;
+					
+					tmpColideDrawable1 = tmpRectangle1;
+				}
+				else if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+				{
+					tmpPolygon1.DeepCopy(obj.Sharp);
+					
+					for (var j = 0; i < tmpPolygon1.Length(); i++)
+					{
+						tmpPolygon1.Items(j).X += obj.Cube.X;
+						tmpPolygon1.Items(j).Y += obj.Cube.Y;
+					}
+					
+					tmpColideDrawable1 = tmpPolygon1;
+				}
+				
+				// if map has edge
+				// Do map edge collision detection first
+				// if obj(sprite) is collided with the map edge, break.
+				if (this.Sharp != null)
+				{
+					for (var k = 0; k < this.Sharp.Length(); k++)
+					{
+						var j = k + 1;
+						if (j >=  this.Sharp.Length())
+						{
+							j = 0;
+						}
+						mapPolygon.Clear();
+						
+						mapPolygon.Add(this.Sharp.Items(k));
+						mapPolygon.Add(this.Sharp.Items(j));
+						
+						if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, mapPolygon))
+						{
+							return false;
+						}
+					}
+				}
+				
 				if (obj.Sharp != this.LinkedPlayGround.GameObjects().Items(i).Sharp)
 				{
-					var tmpColideDrawable1,tmpColideDrawable2;
 					
 					tmpCube.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i));
 					
-					if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle) && 
-						this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+					if (this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
 					{
 						
-						tmpRectangle1.DeepCopy(obj.Sharp);
 						tmpRectangle2.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i).Sharp);
-						
-						tmpRectangle1.X += obj.Cube.X;
-						tmpRectangle1.Y += obj.Cube.Y;
 						
 						tmpRectangle2.X += tmpCube.X;
 						tmpRectangle2.Y += tmpCube.Y;
-						
-						tmpColideDrawable1 = tmpRectangle1;
+
 						tmpColideDrawable2 = tmpRectangle2;
 					}
-					else if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Polygon) && 
-						this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+					else if (this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
 					{
-						tmpPolygon1.DeepCopy(obj.Sharp);
 						tmpPolygon2.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i).Sharp);
 						
-						// caculate the actual polygon coodinates in the map
-						for (var i = 0; i < tmpPolygon1.Length(); i++)
+						for (var j = 0; i < tmpPolygon2.Length(); i++)
 						{
-							tmpPolygon1.Items(i).X += obj.Cube.X;
-							tmpPolygon1.Items(i).Y += obj.Cube.Y;
+							tmpPolygon2.Items(j).X += tmpCube.X;
+							tmpPolygon2.Items(j).Y += tmpCube.Y;
 						}
 						
-						for (var i = 0; i < tmpPolygon2.Length(); i++)
-						{
-							tmpPolygon2.Items(i).X += tmpCube.X;
-							tmpPolygon2.Items(i).Y += tmpCube.Y;
-						}
-						
-						tmpColideDrawable1 = tmpPolygon1;
 						tmpColideDrawable2 = tmpPolygon2;
 					}
 					

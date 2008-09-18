@@ -144,9 +144,9 @@ doufu.System.Logger.Adapters.IE8Console = function()
 }
 
 /*
-	Singleton: doufu.System.Logger
+	Class: doufu.System.Logger
 	
-	A logging helper, helpers automatically select available console, and display debug information in it.
+	A singleton logging helper, helpers automatically select available console, and display debug information in it.
 	If debug is enabled but there is no browser integrated console available, helper will use a web console instead.
 	How to use:
 		Press alt + shift + ` to open the web console interface.

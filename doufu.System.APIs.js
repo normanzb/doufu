@@ -152,3 +152,20 @@ doufu.System.APIs.Clone = function(obj, level){
 	};
 	return f(obj, level == null?0:level);		
 }
+
+/*
+	Function: doufu.System.APIs.NumberOfType
+*/
+doufu.System.APIs.NumberOfType = function(type)
+{
+	var iRetCount = 0;
+	for (var i = 1; i < arguments.length; i++)
+	{
+		if (arguments[i].InstanceOf(type))
+		{
+			iRetCount++;
+		}
+	}
+		
+	return iRetCount;
+}

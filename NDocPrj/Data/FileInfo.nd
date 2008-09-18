@@ -4,7 +4,7 @@ E:\Web Root\DouFu\Documentations\Namespace, Class and Method Descriptor Spec.txt
 E:\Web Root\DouFu\doufu.Cycling.Cycle.js	1215999826	0	E:\Web Root\DouFu\doufu.Cycling.Cycle.js
 E:\Web Root\DouFu\nscCommon.js	1215683605	0	E:\Web Root\DouFu\nscCommon.js
 E:\Web Root\DouFu\doufu.Event.EventHandler.js	1216088242	0	E:\Web Root\DouFu\doufu.Event.EventHandler.js
-E:\Web Root\DouFu\doufu.Game.PaceController.js	1215999826	0	E:\Web Root\DouFu\doufu.Game.PaceController.js
+E:\Web Root\DouFu\doufu.Game.PaceController.js	1221711038	1	doufu.Game.PaceController
 E:\Web Root\DouFu\BuildList.txt	1216352875	0	E:\Web Root\DouFu\BuildList.txt
 E:\Web Root\DouFu\Helpers\DebugHelper\prototype-1.4.0.js	1215683603	0	E:\Web Root\DouFu\Helpers\DebugHelper\prototype-1.4.0.js
 E:\Web Root\DouFu\doufu.DesignPattern.js	1215683799	0	E:\Web Root\DouFu\doufu.DesignPattern.js
@@ -13,27 +13,27 @@ E:\Web Root\DouFu\doufu.Cycling.js	1215683797	0	E:\Web Root\DouFu\doufu.Cycling.
 E:\Web Root\DouFu\doufu.System.Handle.Handlable.js	1215683823	0	E:\Web Root\DouFu\doufu.System.Handle.Handlable.js
 E:\Web Root\DouFu\doufu.Game.Helpers.js	1221182908	1	doufu.Game.Helpers
 E:\Web Root\DouFu\doufu.Event.js	1215683806	0	E:\Web Root\DouFu\doufu.Event.js
-E:\Web Root\DouFu\doufu.Game.PlayGround.js	1221197070	1	doufu.Game.PlayGround.Helpers
+E:\Web Root\DouFu\doufu.Game.PlayGround.js	1221711038	1	doufu.Game.PlayGround.Helpers
 E:\Web Root\DouFu\doufu.Game.Map.js	1221129464	1	doufu.Game.Map
 E:\Web Root\DouFu\nscConfig.js	1215740345	0	E:\Web Root\DouFu\nscConfig.js
 E:\Web Root\DouFu\doufu.System.Handle.Constants.js	1215683822	0	E:\Web Root\DouFu\doufu.System.Handle.Constants.js
 E:\Web Root\DouFu\doufu.Cycling.Pool.js	1215683796	0	E:\Web Root\DouFu\doufu.Cycling.Pool.js
-E:\Web Root\DouFu\doufu.Game.PlayGround.Camera.js	1221197077	1	doufu.Game.PlayGround.Camera
+E:\Web Root\DouFu\doufu.Game.PlayGround.Camera.js	1221711038	1	doufu.Game.PlayGround.Camera
 E:\Web Root\DouFu\doufu.System.Hacks.js	1218173725	0	E:\Web Root\DouFu\doufu.System.Hacks.js
-E:\Web Root\DouFu\doufu.Game.BaseObject.js	1216088242	0	E:\Web Root\DouFu\doufu.Game.BaseObject.js
+E:\Web Root\DouFu\doufu.Game.BaseObject.js	1221711038	0	E:\Web Root\DouFu\doufu.Game.BaseObject.js
 E:\Web Root\DouFu\nsgClass.js	1215683605	0	E:\Web Root\DouFu\nsgClass.js
 E:\Web Root\DouFu\doufu.System.MessageConstants.js	1215683827	0	E:\Web Root\DouFu\doufu.System.MessageConstants.js
 E:\Web Root\DouFu\doufu.Browser.DOM.js	1215683787	0	E:\Web Root\DouFu\doufu.Browser.DOM.js
 E:\Web Root\DouFu\doufu.Display.Manager.js	1215999826	0	E:\Web Root\DouFu\doufu.Display.Manager.js
-E:\Web Root\DouFu\doufu.CustomTypes.Collection.js	1221116356	1	doufu.CustomTypes.Collection
+E:\Web Root\DouFu\doufu.CustomTypes.Collection.js	1221728715	1	doufu.CustomTypes.Collection
 E:\Web Root\DouFu\nsgWorld.js	1215683605	0	E:\Web Root\DouFu\nsgWorld.js
 E:\Web Root\DouFu\doufu.Game.Sprites.Sprite.Speed.js	1215999826	0	E:\Web Root\DouFu\doufu.Game.Sprites.Sprite.Speed.js
 E:\Web Root\DouFu\doufu.System.MessageProcessor.js	1215683828	0	E:\Web Root\DouFu\doufu.System.MessageProcessor.js
 E:\Web Root\DouFu\doufu.System.APIs.js	1219906620	0	E:\Web Root\DouFu\doufu.System.APIs.js
-E:\Web Root\DouFu\doufu.DesignPattern.Attachable.js	1215999826	0	E:\Web Root\DouFu\doufu.DesignPattern.Attachable.js
+E:\Web Root\DouFu\doufu.DesignPattern.Attachable.js	1221711038	0	E:\Web Root\DouFu\doufu.DesignPattern.Attachable.js
 E:\Web Root\DouFu\doufu.Browser.Window.js	1215683789	0	E:\Web Root\DouFu\doufu.Browser.Window.js
 E:\Web Root\DouFu\doufu.Display.BaseObject.js	1221197606	0	E:\Web Root\DouFu\doufu.Display.BaseObject.js
-E:\Web Root\DouFu\nscMain.js	1221197627	0	E:\Web Root\DouFu\nscMain.js
+E:\Web Root\DouFu\nscMain.js	1221711038	0	E:\Web Root\DouFu\nscMain.js
 E:\Web Root\DouFu\doufu.Game.js	1221098111	1	doufu.Game
 E:\Web Root\DouFu\doufu.Game.Animation.js	1221030959	0	E:\Web Root\DouFu\doufu.Game.Animation.js
 E:\Web Root\DouFu\doufu.System.Exception.js	1215683821	0	E:\Web Root\DouFu\doufu.System.Exception.js
@@ -42,9 +42,9 @@ E:\Web Root\DouFu\doufu.Game.Sprites.FourDirectionSprite.js	1221119036	1	doufu.G
 E:\Web Root\DouFu\doufu.System.MessageQueue.js	1215683829	0	E:\Web Root\DouFu\doufu.System.MessageQueue.js
 E:\Web Root\DouFu\doufu.Cycling.Manager.js	1215683795	0	E:\Web Root\DouFu\doufu.Cycling.Manager.js
 E:\Web Root\DouFu\doufu.System.Message.js	1215683826	0	E:\Web Root\DouFu\doufu.System.Message.js
-E:\Web Root\DouFu\doufu.Browser.Helpers.js	1219894181	0	E:\Web Root\DouFu\doufu.Browser.Helpers.js
-E:\Web Root\DouFu\doufu.System.Logger.js	1221201388	1	doufu.System.Logger
-E:\Web Root\DouFu\doufu.Display.Drawing.js	1221127108	1	doufu.Display.Drawing
+E:\Web Root\DouFu\doufu.Browser.Helpers.js	1221203550	0	E:\Web Root\DouFu\doufu.Browser.Helpers.js
+E:\Web Root\DouFu\doufu.System.Logger.js	1221716641	1	doufu.System.Logger
+E:\Web Root\DouFu\doufu.Display.Drawing.js	1221729968	1	doufu.Display.Drawing
 E:\Web Root\DouFu\doufu.Game.Direction.js	1215999826	0	E:\Web Root\DouFu\doufu.Game.Direction.js
 E:\Web Root\DouFu\doufu.System.Convert.js	1215683820	0	E:\Web Root\DouFu\doufu.System.Convert.js
 E:\Web Root\DouFu\doufu.System.Constants.js	1215683819	0	E:\Web Root\DouFu\doufu.System.Constants.js

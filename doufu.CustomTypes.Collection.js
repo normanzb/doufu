@@ -10,7 +10,12 @@ doufu.CustomTypes.Collection = function(baseClass)
 {
 	doufu.OOP.Class(this);
 	
-	// Properties
+	/*
+		Property: InnerArray
+		
+		<doufu.Property>
+		Get or set the inner array which used by collection.
+	*/
 	var _innerArray = new Array();
 	this.NewProperty("InnerArray");
 	this.InnerArray.Get = function()
@@ -22,6 +27,12 @@ doufu.CustomTypes.Collection = function(baseClass)
 		_innerArray = value
 	}
 	
+	/*
+		Property: Length
+		
+		<doufu.Property>
+		Get the lenght of current collection.
+	*/
 	this.NewProperty("Length");
 	this.Length.Get = function()
 	{
@@ -34,6 +45,14 @@ doufu.CustomTypes.Collection = function(baseClass)
 	}
 	// Properties end
 	
+	/*
+		Function: Add
+		
+		Add a object of specified type to the collection.
+		
+		Parameters:
+			obj - An object to be added.
+	*/
 	this.Add = function(obj)
 	{
 		if (typeof obj.InstanceOf == doufu.System.Constants.TYPE_UNDEFINED  || !obj.InstanceOf(baseClass))
@@ -45,6 +64,14 @@ doufu.CustomTypes.Collection = function(baseClass)
 		return this.Length();
 	}
 	
+	/*
+		Function: AddArray
+		
+		Add a set of objects of specified type to the collection.
+		
+		Parameters:
+			obj - An array of object of specified type .
+	*/
 	this.AddArray = function(obj)
 	{
 		if (typeof obj.length == doufu.System.Constants.TYPE_UNDEFINED || obj.length <= 0)
@@ -64,6 +91,14 @@ doufu.CustomTypes.Collection = function(baseClass)
 		return this.Length();
 	}
 	
+	/*
+		Function: Remove
+		
+		Remove a object from collection
+		
+		Parameters:
+			obj - An object to be removed.
+	*/
 	this.Remove = function(obj)
 	{
 		for (var i = 0; i < this.Length; i++)
@@ -77,11 +112,21 @@ doufu.CustomTypes.Collection = function(baseClass)
 		return this.Length();
 	}
 	
+	/*
+		Function: Clear
+		
+		Clear the elements in the collection.
+	*/
 	this.Clear = function()
 	{
 		this.InnerArray().length = 0;
 	}
 	
+	/*
+		Function: Items
+		
+		Get the element in the collection with speicifed index.
+	*/
 	this.Items = function(index)
 	{
 		return _innerArray[index];

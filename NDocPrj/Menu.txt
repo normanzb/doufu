@@ -56,6 +56,7 @@ File: doufu.Display.Drawing  (doufu.Display.Drawing.js)
 File: doufu.Game  (doufu.Game.js)
 File: doufu.Game.Helpers  (doufu.Game.Helpers.js)
 File: doufu.Game.Map  (doufu.Game.Map.js)
+File: doufu.Game.PaceController  (doufu.Game.PaceController.js)
 File: doufu.System.Logger  (doufu.System.Logger.js)
 
 Group: Index  {

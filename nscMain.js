@@ -88,10 +88,10 @@ doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
 	}
 	
 	// use polygon, slower
-	var point1 = new doufu.Display.Drawing.Point(6, 28);
-	var point2 = new doufu.Display.Drawing.Point(18, 28);
-	var point3 = new doufu.Display.Drawing.Point(18, 36);
-	var point4 = new doufu.Display.Drawing.Point(6, 36);
+	var point1 = new doufu.Display.Drawing.Vector(6, 28);
+	var point2 = new doufu.Display.Drawing.Vector(18, 28);
+	var point3 = new doufu.Display.Drawing.Vector(18, 36);
+	var point4 = new doufu.Display.Drawing.Vector(6, 36);
 	
 	var polygon = new doufu.Display.Drawing.Polygon();
 	
@@ -282,6 +282,14 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.Camera().Width = 322;
 	this.Camera().Height = 242;
 	
+	this.Sharp = new doufu.Display.Drawing.Polygon();
+	this.Sharp.AddArray([
+		new doufu.Display.Drawing.Vector(146,228),
+		new doufu.Display.Drawing.Vector(222,267),
+		new doufu.Display.Drawing.Vector(290,197),
+		new doufu.Display.Drawing.Vector(211,151)
+	]);
+	
 	var grandma = new doufu.SampleGame.Roles.Grandma();
 	grandma.X = 220;
 	grandma.Y = 180;
@@ -318,7 +326,7 @@ GeneralPlayGroundManager.InsertObject(godFather);
 testLoop = function()
 {
 	doufu.System.MessageQueue.Push(tmpMsg);
-	setTimeout(testLoop, 10);
+	setTimeout(testLoop, 11);
 }
 testLoop();
 //godFather.StartMoving(new doufu.Game.Direction(16), 49)
