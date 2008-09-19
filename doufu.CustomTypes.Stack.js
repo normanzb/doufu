@@ -31,10 +31,14 @@ doufu.CustomTypes.Stack = function()
 	
 	this.Pop = function()
 	{
-		var tmp = _top;
-		_top = _top.LinkedStackElement;
-		_length--;
-		return tmp.RefObject;
+		if (_top != null)
+		{
+			var tmp = _top;
+			_top = _top.LinkedStackElement;
+			_length--;
+			return tmp.RefObject;
+		}
+		return null;
 	}
 	
 

@@ -43,12 +43,15 @@ doufu.BenchMark = function()
 		if (enable)
 		{
 			var elmt = dtStarts.Pop();
-			if (sName != null)
+			if (elmt != null)
 			{
-				elmt.Name += "/" + sName;
+				if (sName != null)
+				{
+					elmt.Name += "/" + sName;
+				}
+				elmt.Cost = (new Date().getTime()) - elmt.StartTime;
+				iResults.push(elmt);
 			}
-			elmt.Cost = (new Date().getTime()) - elmt.StartTime;
-			iResults.push(elmt);
 		}
 	}
 	
