@@ -35,12 +35,18 @@ doufu.BenchMark = function()
 		Function: End
 		
 		End a recording, and push the costed time into array.
+		
+		
 	*/
-	this.End = function()
+	this.End = function(sName)
 	{
 		if (enable)
 		{
 			var elmt = dtStarts.Pop();
+			if (sName != null)
+			{
+				elmt.Name += "/" + sName;
+			}
 			elmt.Cost = (new Date().getTime()) - elmt.StartTime;
 			iResults.push(elmt);
 		}
