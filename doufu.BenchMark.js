@@ -19,11 +19,17 @@ doufu.BenchMark = function()
 		
 		Parameters:
 			sName - Specified a name for current record.
+			signal - If this is not null, benchmark will work only if the signal is set.
 	*/
-	this.Record = function(sName)
+	this.Record = function(sName, signal)
 	{
 		if (enable)
 		{
+			// if the signal specified but not set, return directly.
+			if (signal != null && !signal.IsSet())
+			{
+				return;
+			}
 			var elmt = new doufu.BenchMark.Element();
 			elmt.Name = sName;
 			elmt.StartTime = new Date().getTime();
@@ -36,12 +42,20 @@ doufu.BenchMark = function()
 		
 		End a recording, and push the costed time into array.
 		
+		Parameters:
+			sName - Specified a end name for current record.
+			signal - If this is not null, benchmark will work only if the signal is set.
 		
 	*/
-	this.End = function(sName)
+	this.End = function(sName, signal)
 	{
 		if (enable)
 		{
+			// if the signal specified but not set, return directly.
+			if (signal != null && !signal.IsSet())
+			{
+				return;
+			}
 			var elmt = dtStarts.Pop();
 			if (elmt != null)
 			{
@@ -95,6 +109,25 @@ doufu.BenchMark.Element = function()
 		Property: Cost
 	*/
 	this.Cost = 0;
+}
+
+doufu.BenchMark.Signal = function()
+{
+	var value = false;
+	this.Set = function()
+	{
+		value = true;
+	}
+	
+	this.Release = function()
+	{
+		value = false;
+	}
+	
+	this.IsSet = function()
+	{
+		return value;
+	}
 }
 
 doufu.BenchMark.Instance = new doufu.BenchMark();
