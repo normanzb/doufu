@@ -91,6 +91,11 @@ doufu.BenchMark = function()
 	}
 }
 
+/*
+	Struct: doufu.BenchMark.Element
+	
+	Element struct which used by benchmark class.
+*/
 doufu.BenchMark.Element = function()
 {
 	/*
@@ -111,23 +116,48 @@ doufu.BenchMark.Element = function()
 	this.Cost = 0;
 }
 
+/*
+	Class: doufu.BenchMark.Signal
+	
+	Signal which used for control when benchmark should start to record.
+*/
 doufu.BenchMark.Signal = function()
 {
 	var value = false;
+	
+	/*
+		Property: IsSet
+		
+		Get current status of signal, return true if set.
+	*/
+	this.IsSet = function()
+	{
+		return value;
+	}
+	
+	/*
+		Function: Set
+		Set the signal, corresponding benchmark will start to record.
+	*/
 	this.Set = function()
 	{
 		value = true;
 	}
 	
+	/*
+		Function: Release
+		
+		Release the signal, benchmark will stop recording.
+	*/
 	this.Release = function()
 	{
 		value = false;
 	}
-	
-	this.IsSet = function()
-	{
-		return value;
-	}
 }
 
+/*
+	Section: doufu.BenchMark.Instance
+	
+	A singleton benchmark.
+*/
 doufu.BenchMark.Instance = new doufu.BenchMark();
