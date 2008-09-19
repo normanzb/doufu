@@ -29,12 +29,12 @@ doufu.CustomTypes.Stack = function()
 		return _top = tmp;
 	}
 	
-	this.Pop = function(obj)
+	this.Pop = function()
 	{
 		var tmp = _top;
 		_top = _top.LinkedStackElement;
 		_length--;
-		return tmp;
+		return tmp.RefObject;
 	}
 	
 

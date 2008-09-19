@@ -77,6 +77,44 @@ doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 }
 
 /*
+	Function: doufu.Game.Helpers.__intervalDistance
+	
+	Calculate the distance between [minA, maxA] and [minB, maxB]
+	The distance will be negative if the intervals overlap
+*/
+doufu.Game.Helpers.__intervalDistance = function(minA, maxA, minB, maxB) 
+{
+	if (minA < minB) {
+		return minB - maxA;
+	} else {
+		return minA - maxB;
+	}
+}
+
+/*
+	Function: doufu.Game.Helpers.ProjectPolygon
+	
+	Calculate the projection of a polygon on an axis and returns it as a [min, max] interval.
+*/
+doufu.Game.Helpers.ProjectPolygon = function(axis, polygon, min, max)
+{
+	// To project a point on an axis use the dot product
+	var d = axis.DotProduct(polygon.Items(0));
+	min.value = d;
+	max.value = d;
+	for (var i = 0; i < polygon.Length(); i++) {
+		d = polygon.Items(i).DotProduct(axis);
+		if (d < min.value) {
+			min.value = d;
+		} else {
+			if (d > max.value) {
+				max.value = d;
+			}
+		}
+	}
+}
+
+/*
 	Function: doufu.Game.Helpers.IsRectangleCollided
 	
 	Check if polygon A is going to collide with polygon B for the given velocity
@@ -85,7 +123,8 @@ doufu.Game.Helpers.IsRectangleCollided = function(oRectangle1, oRectangle2)
 		polygonA - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
 		polygonB - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
 */
-doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) {
+doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) 
+{
 	
 	if (polygonA.Edges == null || polygonA.Edges.Length() == 0)
 	{
@@ -96,45 +135,15 @@ doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) {
 		polygonB.BuildEdges();
 	}
 	
-	// Calculate the distance between [minA, maxA] and [minB, maxB]
-	// The distance will be negative if the intervals overlap
-	var IntervalDistance = function(minA, maxA, minB, maxB) 
-	{
-		if (minA < minB) {
-			return minB - maxA;
-		} else {
-			return minA - maxB;
-		}
-	}
-
-	// Calculate the projection of a polygon on an axis and returns it as a [min, max] interval
-	var ProjectPolygon = function(axis, polygon, min, max)
-	{
-		// To project a point on an axis use the dot product
-		var d = axis.DotProduct(polygon.Items(0));
-		min.value = d;
-		max.value = d;
-		for (var i = 0; i < polygon.Length(); i++) {
-			d = polygon.Items(i).DotProduct(axis);
-			if (d < min.value) {
-				min.value = d;
-			} else {
-				if (d > max.value) {
-					max.value = d;
-				}
-			}
-		}
-	}
-	
 	var edgeCountA = polygonA.Edges.Length();
 	var edgeCountB = polygonB.Edges.Length();
-	// TODO: use a constant
-	var minIntervalDistance = 99999999999999999;
-	var translationAxis = new doufu.Display.Drawing.Vector();
+
 	var edge;
 	
 	// Loop through all the edges of both polygons
-	for (var edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++) {
+	for (var edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++) 
+	{
+		
 		if (edgeIndex < edgeCountA) {
 			edge = polygonA.Edges.Items(edgeIndex);
 		} else {
@@ -153,15 +162,16 @@ doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) {
 		var maxA = new Object();
 		var maxB = new Object();
 		
-		ProjectPolygon(axis, polygonA, minA, maxA);
-		ProjectPolygon(axis, polygonB, minB, maxB);
+		doufu.Game.Helpers.ProjectPolygon(axis, polygonA, minA, maxA);
+		doufu.Game.Helpers.ProjectPolygon(axis, polygonB, minB, maxB);
 
 		// Check if the polygon projections are currentlty intersecting
-		if (IntervalDistance(minA.value, maxA.value, minB.value, maxB.value) > 0) 
+		if (doufu.Game.Helpers.__intervalDistance(minA.value, maxA.value, minB.value, maxB.value) > 0) 
 		{
 			return false;
 		}
-	}
 		
+	}
+	
 	return true;
 }

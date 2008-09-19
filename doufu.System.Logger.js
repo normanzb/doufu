@@ -156,6 +156,7 @@ doufu.System.Logger.Adapters.IE8Console = function()
 */
 doufu.System.Logger = new function()
 {
+	doufu.OOP.Class(this);
 	
 	var doufuLogger = new doufu.System.Logger.Adapters.Doufu();
 	var ie8Logger = new doufu.System.Logger.Adapters.IE8Console();
@@ -168,6 +169,18 @@ doufu.System.Logger = new function()
 	if (__DOUFU_DEBUG && ie8Logger.IsAvailable())
 	{
 		selectedLogger = ie8Logger;
+	}
+	
+	/*
+		Property: IsDebug
+		
+		<doufu.Property>
+		Return true if in debug mode.
+	*/
+	this.NewProperty("IsDebug");
+	this.IsDebug.Get = function()
+	{
+		return __DOUFU_DEBUG;
 	}
 	
 	/*

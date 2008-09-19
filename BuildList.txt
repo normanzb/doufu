@@ -34,6 +34,7 @@ doufu.Display.Manager.js
 doufu.CustomTypes.js
 doufu.CustomTypes.Collection.js
 doufu.CustomTypes.Stack.js
+doufu.BenchMark.js
 doufu.Game.js
 doufu.Game.Helpers.js
 doufu.Game.PlayGround.js
