@@ -21,6 +21,11 @@ doufu.Game.Sprites.Sprite = function()
 	var stepLength;
 	var frameCounter=0;
 	
+	var tmpVector = new doufu.Display.Drawing.Vector();
+	// do not assign value to this cube's property.
+	var tmpClearCube = new doufu.Display.Drawing.Cube();
+	var cubeNextStep = new doufu.Display.Drawing.Cube();
+	
 	/*
 		Property: IsMoving
 		
@@ -85,7 +90,8 @@ doufu.Game.Sprites.Sprite = function()
 		}
 		
 		var lastConfirmResult = false;
-		var cubeNextStep = new doufu.Display.Drawing.Cube();
+		// Clear the cube
+		cubeNextStep.DeepCopy(tmpClearCube);
 		
 		cubeNextStep.X = this.X + oDirection.X() * iLength;
 		cubeNextStep.Y = this.Y + oDirection.Y() * iLength;
@@ -94,8 +100,10 @@ doufu.Game.Sprites.Sprite = function()
 		// if no sharp assigned, don't need to do collsion.
 		if (this.Sharp != null)
 		{
+			tmpVector.X = oDirection.X() * iLength;
+			tmpVector.Y = oDirection.Y() * iLength;
 			// Collision detecting and others...
-			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp});
+			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector});
 		}
 		else
 		{

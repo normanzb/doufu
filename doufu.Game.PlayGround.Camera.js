@@ -62,7 +62,7 @@ doufu.Game.PlayGround.Camera = function()
 		
 		Indicate how many frames were skipped while using smooth tracing.
 	*/
-	this.SkipFrame = 1;
+	this.SkipFrame = 0;
 	
 	/*
 		Property: TracedObject
@@ -81,6 +81,10 @@ doufu.Game.PlayGround.Camera = function()
 	*/
 	this.Trace = function(gameObj)
 	{
+		if (this.IsTracing)
+		{
+			this.StopTrace();
+		}
 		doufu.System.Logger.Debug("doufu.Game.PlayGround.Camera::Trace(): Attach OnPaceControlCompleted event.");
 		// Camera should follow the pace of sprites.
 		doufu.Game.PaceController.OnPaceControlCompleted.Attach(callbackOffsetCaculation);
@@ -96,7 +100,7 @@ doufu.Game.PlayGround.Camera = function()
 	*/
 	this.StopTrace = function()
 	{
-		doufu.Game.PaceController.Detach(callbackOffsetCaculation);
+		doufu.Game.PaceController.OnPaceControlCompleted.Detach(callbackOffsetCaculation);
 		
 		this.IsTracing = false;
 		this.TracedObject = null;

@@ -16,6 +16,8 @@ doufu.Game.Map = function(oPlayGround)
 	var tmpRectangle1 = new doufu.Display.Drawing.Rectangle();
 	var tmpRectangle2 = new doufu.Display.Drawing.Rectangle();
 	var tmpCube = new doufu.Display.Drawing.Cube();
+	var tmpVector1 = new doufu.Display.Drawing.Vector();
+	var tmpVector2 = new doufu.Display.Drawing.Vector();
 	
 	/*
 		Property: LinkedPlayGround
@@ -68,6 +70,13 @@ doufu.Game.Map = function(oPlayGround)
 		Can be a polygon collection that present the edge of current map.
 	*/
 	this.Sharps = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
+	
+	/*
+		Property: UsePointCollision
+		
+		True to use point rather than the entire rectangle of sprite to do collision detect with edges of map.
+	*/
+	this.UsePointCollision = true;
 	
 	/*
 		Property: Camera
@@ -144,8 +153,28 @@ doufu.Game.Map = function(oPlayGround)
 				{
 					for (var k = 0; k < this.Sharps.Length(); k++)
 					{
-					
-						if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k)))
+						// Convert rectangle to a point, this will speed up the caculation
+						// And we don't want it to do a full collision detecton when it is just collide with
+						// the edges.
+						// This function can only be enabled when using rectangle for sprite collision.
+						if (this.UsePointCollision == true && obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+						{
+							var x = Math.round(tmpColideDrawable1.Width / 2) + tmpColideDrawable1.X;
+							var y = Math.round(tmpColideDrawable1.Height / 2) + tmpColideDrawable1.Y;
+							tmpVector1.X = x - obj.Velocity.X;
+							tmpVector1.Y = y - obj.Velocity.Y;
+							tmpVector2.X = obj.Velocity.X + x;
+							tmpVector2.Y = obj.Velocity.Y + y;
+							tmpPolygon1.Clear();
+							tmpPolygon1.Add(tmpVector1);
+							tmpPolygon1.Add(tmpVector2);
+							
+							if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k)))
+							{
+								return false;
+							}
+						}
+						else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k)))
 						{
 							return false;
 						}

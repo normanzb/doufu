@@ -36,7 +36,7 @@ var __Global_MainLoop_Stop = false;
 doufu.System.Logger.Debug("nscMain looping in.");
 
 // Create a display manager (and its display area)
-var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 800, 200);
+var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 322, 200);
 doufu.System.Logger.Debug("Display area is set");
 
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
@@ -553,7 +553,7 @@ godFather.X = 320;
 godFather.Y = 350;
 
 GeneralPlayGroundManager.Camera().SmoothTracing = true;
-GeneralPlayGroundManager.Camera().SkipFrame = 1;
+GeneralPlayGroundManager.Camera().SkipFrame = 0;
 GeneralPlayGroundManager.Camera().Trace(godFather);
 
 GeneralPlayGroundManager.InsertObject(godFather);

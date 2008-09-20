@@ -164,10 +164,25 @@ doufu.Display.Drawing.Vector = function(x, y)
 	Parameters: 
 		vector1 - The minuend
 		vector2 - The subtrahend
+		outVector - [Out, Optional] The vector to output. If not specified, will create a new one.
 */
-doufu.Display.Drawing.Vector.Subtract = function(vector1, vector2)
+doufu.Display.Drawing.Vector.Subtract = function(vector1, vector2, outVector)
 {
-	return new doufu.Display.Drawing.Vector(vector1.X - vector2.X, vector1.Y - vector2.Y);
+	var retVector;
+	
+	if (outVector == null)
+	{
+		retVector = new doufu.Display.Drawing.Vector();
+	}
+	else
+	{
+		retVector = outVector;
+	}
+	
+	retVector.X = vector1.X - vector2.X;
+	retVector.Y = vector1.Y - vector2.Y;
+	
+	return retVector;
 }
 
 /*
@@ -336,6 +351,13 @@ doufu.Display.Drawing.Polygon = function(obj)
 	
 	this.Inherit(doufu.CustomTypes.Collection, [doufu.Display.Drawing.Vector]);
 	
+	var edgeBuffer = [];
+	// Create edge buffer
+	for(var i = 0; i < 255; i++)
+	{
+		edgeBuffer.push(new doufu.Display.Drawing.Vector());
+	}
+	
 	/* 
 		Property: Edges
 		
@@ -409,7 +431,15 @@ doufu.Display.Drawing.Polygon = function(obj)
 			} else {
 				p2 = this.Items(i + 1);
 			}
-			this.Edges.Add(doufu.Display.Drawing.Vector.Subtract(p2,p1));
+			if (i >= edgeBuffer.length)
+			{
+				for (var j = edgeBuffer.length; j <= i; j++)
+				{
+					edgeBuffer[j] = new doufu.Display.Drawing.Vector();
+				}
+			}
+			doufu.Display.Drawing.Vector.Subtract(p2,p1, edgeBuffer[i]);
+			this.Edges.Add(edgeBuffer[i]);
 		}
 	}
 	
@@ -424,6 +454,14 @@ doufu.Display.Drawing.Polygon = function(obj)
 			var p = this.Items(i);
 			this.InnerArray()[i] = new doufu.Display.Drawing.Vector(p.X + x, p.Y + y);
 		}
+	});
+	
+	__base_Clear = this.OverrideMethod("Clear", function()
+	{
+		
+		this.Edges.Clear();
+		
+		__base_Clear.call(this);
 	});
 	
 	this.Ctor = function()
