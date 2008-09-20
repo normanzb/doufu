@@ -168,7 +168,9 @@ doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB)
 		// ===== 1. Find if the polygons are currently intersecting =====
 
 		// Find the axis perpendicular to the current edge
-		var axis = new doufu.Display.Drawing.Vector(-edge.Y, edge.X);
+		var axis = doufu.Game.Helpers.IsPolygonCollided.__axis;
+		axis.X = -edge.Y;
+		axis.Y = edge.X;
 		axis.Normalize();
 
 		// Find the projection of the polygon on the current axis
@@ -190,3 +192,5 @@ doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB)
 	
 	return true;
 }
+
+doufu.Game.Helpers.IsPolygonCollided.__axis = new doufu.Display.Drawing.Vector();

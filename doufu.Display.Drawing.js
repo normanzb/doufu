@@ -435,7 +435,7 @@ doufu.Display.Drawing.Polygon = function(obj)
 			{
 				for (var j = edgeBuffer.length; j <= i; j++)
 				{
-					edgeBuffer[j] = new doufu.Display.Drawing.Vector();
+					edgeBuffer.push(new doufu.Display.Drawing.Vector());
 				}
 			}
 			doufu.Display.Drawing.Vector.Subtract(p2,p1, edgeBuffer[i]);
@@ -456,7 +456,7 @@ doufu.Display.Drawing.Polygon = function(obj)
 		}
 	});
 	
-	__base_Clear = this.OverrideMethod("Clear", function()
+	var __base_Clear = this.OverrideMethod("Clear", function()
 	{
 		
 		this.Edges.Clear();
