@@ -29,11 +29,25 @@ doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 	{
 		if(obj1.InstanceOf(doufu.Display.Drawing.Rectangle))
 		{
+			// do rectangle collision first
+			doufu.Display.Drawing.ConvertPolygonToRectangle(obj2, doufu.Game.Helpers.IsCollided.__rect);
+			if (!doufu.Game.Helpers.IsRectangleCollided(obj1, doufu.Game.Helpers.IsCollided.__rect))
+			{
+				return false;
+			}
+			
 			doufu.Display.Drawing.ConvertRectangleToPolygon(obj1, doufu.Game.Helpers.IsCollided.__poly);
 			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj2);
 		}
 		else if(obj2.InstanceOf(doufu.Display.Drawing.Rectangle))
 		{
+			// do rectangle collision first
+			doufu.Display.Drawing.ConvertPolygonToRectangle(obj1, doufu.Game.Helpers.IsCollided.__rect);
+			if (!doufu.Game.Helpers.IsRectangleCollided(doufu.Game.Helpers.IsCollided.__rect, obj2))
+			{
+				return false;
+			}
+			
 			doufu.Display.Drawing.ConvertRectangleToPolygon(obj2, doufu.Game.Helpers.IsCollided.__poly);
 			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj1);
 		}
@@ -42,6 +56,7 @@ doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 
 // don't want to instantiate at runtime.
 doufu.Game.Helpers.IsCollided.__poly = new doufu.Display.Drawing.Polygon();
+doufu.Game.Helpers.IsCollided.__rect = new doufu.Display.Drawing.Rectangle();
 
 /*
 	Function: doufu.Game.Helpers.IsRectangleCollided

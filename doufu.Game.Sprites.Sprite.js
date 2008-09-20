@@ -46,7 +46,7 @@ doufu.Game.Sprites.Sprite = function()
 		<doufu.Display.Drawing.Rectangle>
 		<doufu.Display.Drawing.Polygon>
 	*/
-	this.Sharp = new doufu.Display.Drawing.Drawable();
+	this.Sharp = null;
 	
 	/*
 		Property: InRangeSharp
@@ -91,8 +91,16 @@ doufu.Game.Sprites.Sprite = function()
 		cubeNextStep.Y = this.Y + oDirection.Y() * iLength;
 		cubeNextStep.Z = this.Z + oDirection.Z() * iLength;
 		
-		// Collision detecting and others...
-		lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp});
+		// if no sharp assigned, don't need to do collsion.
+		if (this.Sharp != null)
+		{
+			// Collision detecting and others...
+			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp});
+		}
+		else
+		{
+			lastConfirmResult = true;
+		}
 		
 		// TODO: Release the cube
 		// Should not move.

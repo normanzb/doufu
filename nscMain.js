@@ -36,7 +36,7 @@ var __Global_MainLoop_Stop = false;
 doufu.System.Logger.Debug("nscMain looping in.");
 
 // Create a display manager (and its display area)
-var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 322, 242);
+var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 800, 200);
 doufu.System.Logger.Debug("Display area is set");
 
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
@@ -287,7 +287,7 @@ doufu.SampleGame.Roles.MaskKiller = function()
 	this.Width = 24;
 	this.Height = 32;
 	
-	this.ImagePath = CONFIG_CHARS_PATH + "char02.png";
+	this.ImagePath = CONFIG_CHARS_PATH + "char03.png";
 	
 	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
@@ -339,8 +339,8 @@ doufu.SampleGame.Roles.MaskKiller = function()
 	this.Animation.Play(this.AnimationInfos.Init);
 	
 }
-
-doufu.SampleGame.Roles.Flower = function()
+doufu.SampleGame.Items = {};
+doufu.SampleGame.Items.Flower = function()
 {
 	$c(this);
 	
@@ -363,25 +363,119 @@ doufu.SampleGame.Roles.Flower = function()
 	
 }
 
+doufu.SampleGame.Items.GiantCloud = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.Sprite);
+	
+	this.Width = 532;
+	this.Height = 282;
+	
+	this.ImagePath = CONFIG_OTHERS_PATH + "CloudG.png";
+	
+	this.AnimationInfos = {};
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 0;
+	this.AnimationInfos.Init.Column = 0;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
+doufu.SampleGame.Items.BigCloud = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.Sprite);
+	
+	this.Width = 72;
+	this.Height = 35;
+	
+	this.ImagePath = CONFIG_OTHERS_PATH + "CloudB.png";
+	
+	this.AnimationInfos = {};
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 0;
+	this.AnimationInfos.Init.Column = 0;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
+doufu.SampleGame.Items.MediumCloud = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.Sprite);
+	
+	this.Width = 33;
+	this.Height = 16;
+	
+	this.ImagePath = CONFIG_OTHERS_PATH + "CloudM.png";
+	
+	this.AnimationInfos = {};
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 0;
+	this.AnimationInfos.Init.Column = 0;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
+doufu.SampleGame.Items.SmallCloud = function()
+{
+	$c(this);
+	
+	this.Inherit(doufu.Game.Sprites.Sprite);
+	
+	this.Width = 45;
+	this.Height = 22;
+	
+	this.ImagePath = CONFIG_OTHERS_PATH + "CloudS.png";
+	
+	this.AnimationInfos = {};
+	
+	this.AnimationInfos.Init = new doufu.Game.Animation.Info();
+	this.AnimationInfos.Init.Row = 0;
+	this.AnimationInfos.Init.Column = 0;
+	this.AnimationInfos.Init.FrameNumber = 1;
+	this.AnimationInfos.Init.RepeatNumber = 1;
+	
+	this.Animation.Play(this.AnimationInfos.Init);
+	
+}
+
 doufu.SampleGame.Maps = new Object();
 doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 {
 	$c(this);
 	this.Inherit(doufu.Game.Map, [oPlayGround]);
 	
-	this.ImagePath = CONFIG_STAGES_PATH + "Stage01.gif";
-	this.Width = 454;
-	this.Height = 340;
-	this.Camera().X = 100;
-	this.Camera().Width = 322;
-	this.Camera().Height = 242;
+	this.ImagePath = CONFIG_STAGES_PATH + "Stage02.gif";
+	this.BackgroundImagePath(CONFIG_STAGES_PATH + "Stage02_bg.gif");
+	
+	this.Width = 800;
+	this.Height = 600;
+	//this.Camera().X = 100;
+	//this.Camera().Width = 322;
+	//this.Camera().Height = 242;
 	
 	
 	// todo add helper to create walls
-	v1 = new doufu.Display.Drawing.Vector(146,228);
-	v2 = new doufu.Display.Drawing.Vector(222,267);
-	v3 = new doufu.Display.Drawing.Vector(290,197);
-	v4 = new doufu.Display.Drawing.Vector(211,151);
+	v1 = new doufu.Display.Drawing.Vector(170, 475);
+	v2 = new doufu.Display.Drawing.Vector(405, 605);
+	v3 = new doufu.Display.Drawing.Vector(610, 385);
+	v4 = new doufu.Display.Drawing.Vector(380, 245);
 		
 		
 	var p1 = new doufu.Display.Drawing.Polygon();
@@ -397,25 +491,48 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.Sharps.AddArray([p1, p2, p3, p4]);
 	
 	var grandma = new doufu.SampleGame.Roles.Grandma();
-	grandma.X = 220;
-	grandma.Y = 180;
+	grandma.X = 420;
+	grandma.Y = 405;
 	
-	var mKiller = new doufu.SampleGame.Roles.MaskKiller();
-	mKiller.X = 180;
-	mKiller.Y = 200;
-	
-	var flower = new doufu.SampleGame.Roles.Flower();
-	flower.X = 177;
-	flower.Y = 163;
+	var flower = new doufu.SampleGame.Items.Flower();
+	flower.X = 247;
+	flower.Y = 443;
+	var c0 = new doufu.SampleGame.Items.GiantCloud();
+	c0.X = 600;
+	c0.Y = 340;
+	c0.Z = 1;
+	c0.StartMoving(new doufu.Game.Direction(48), 99);
+	var c1 = new doufu.SampleGame.Items.BigCloud();
+	c1.X = 690;
+	c1.Y = 290;
+	c1.Z = 1;
+	c1.StartMoving(new doufu.Game.Direction(48), 48);
+	var c2 = new doufu.SampleGame.Items.MediumCloud();
+	c2.X = 720;
+	c2.Y = 480;
+	c2.Z = -1;
+	c2.StartMoving(new doufu.Game.Direction(48), 47);
+	var c3 = new doufu.SampleGame.Items.SmallCloud();
+	c3.X = 780;
+	c3.Y = 300;
+	c3.Z = -1;
+	c3.StartMoving(new doufu.Game.Direction(48), 46);
 	
 	this.InitSprites.Add(grandma);
-	//this.InitSprites.Add(mKiller);
 	this.InitSprites.Add(flower);
+	this.InitSprites.Add(c0);
+	this.InitSprites.Add(c1);
+	this.InitSprites.Add(c2);
+	this.InitSprites.Add(c3);
 }
 
 mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
 mapLonglyIsland.Initialize();
 
+mKiller = new doufu.SampleGame.Roles.MaskKiller();
+mKiller.X = 480;
+mKiller.Y = 300;
+	
 godFather = new doufu.SampleGame.Roles.Grandpa()
 
 // TODO: Z index should be generated by something caculator, 
@@ -432,12 +549,15 @@ godFather = new doufu.SampleGame.Roles.Grandpa()
 // on the sky range. the movement caculator just ignore the z index.
 
 godFather.Z = 0;
-godFather.X = 220;
-godFather.Y = 150;
+godFather.X = 320;
+godFather.Y = 350;
 
+GeneralPlayGroundManager.Camera().SmoothTracing = true;
+GeneralPlayGroundManager.Camera().SkipFrame = 1;
 GeneralPlayGroundManager.Camera().Trace(godFather);
 
 GeneralPlayGroundManager.InsertObject(godFather);
+GeneralPlayGroundManager.InsertObject(mKiller);
 
 testLoop = function()
 {

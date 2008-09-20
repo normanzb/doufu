@@ -33,6 +33,22 @@ doufu.Game.Map = function(oPlayGround)
 	this.ImagePath;
 	
 	/*
+		Property: BackgroundImagePath
+		
+		<doufu.Property>
+		Get or set the background image path of current map.
+	*/
+	this.NewProperty("BackgroundImagePath");
+	this.BackgroundImagePath.Get = function()
+	{
+		return this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundImage;
+	}
+	this.BackgroundImagePath.Set = function(value)
+	{
+		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundImage = "url(\"" + value + "\")";
+	}
+	
+	/*
 		Property: Width
 		
 		Indicate the width of current map.
@@ -56,17 +72,13 @@ doufu.Game.Map = function(oPlayGround)
 	/*
 		Property: Camera
 		
-		<doufu.Property> Get or set the camera object of current map.
+		<doufu.Property> Get the camera object of current map.
 	*/
 	var _camera = new doufu.Game.PlayGround.Camera();
 	this.NewProperty("Camera");
 	this.Camera.Get = function()
 	{
 		return _camera;
-	}
-	this.Camera.Set = function(value)
-	{
-		_camera = value;
 	}
 	
 	/*
@@ -92,7 +104,7 @@ doufu.Game.Map = function(oPlayGround)
 		for(var i = 0 ; i < this.LinkedPlayGround.GameObjects().Length(); i++)
 		{
 			// Only sprites has polygon
-			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite))
+			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite) && this.LinkedPlayGround.GameObjects().Items(i).Sharp != null)
 			{
 				// if the obj is playground, we don't have to do collision test.
 				if (obj.Sharp == this.Sharp)
@@ -212,10 +224,25 @@ doufu.Game.Map = function(oPlayGround)
 		this.LinkedPlayGround.ImagePath = this.ImagePath;
 		this.LinkedPlayGround.Width = this.Width;
 		this.LinkedPlayGround.Height = this.Height;
-		this.LinkedPlayGround.Camera().X = this.Camera().X;
-		this.LinkedPlayGround.Camera().Y = this.Camera().Y;
-		this.LinkedPlayGround.Camera().Width = this.Camera().Width;
-		this.LinkedPlayGround.Camera().Height = this.Camera().Height;
+		
+		// set current setting to playground object
+		if (this.Camera().X != 0)
+		{
+			this.LinkedPlayGround.Camera().X = this.Camera().X;
+		}
+		if (this.Camera().Y != 0)
+		{
+			this.LinkedPlayGround.Camera().Y = this.Camera().Y;
+		}
+		if (this.Camera().Width != 0)
+		{
+			this.LinkedPlayGround.Camera().Width = this.Camera().Width;
+		}
+		if (this.Camera().Height != 0)
+		{
+			this.LinkedPlayGround.Camera().Height = this.Camera().Height;
+		}
+		this.Camera(this.LinkedPlayGround.Camera());
 		
 		for (var i = 0; i < this.InitSprites.Length(); i++)
 		{

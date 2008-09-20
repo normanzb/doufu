@@ -13,14 +13,33 @@ doufu.Game.PlayGround.Camera = function()
 	
 	this.Inherit(doufu.Display.Drawing.Rectangle);
 	
+	var skipFrameCount = 0;
+	
 	var callbackOffsetCaculation = new doufu.Event.CallBack(function()
 	{
 		doufu.System.Logger.Verbose("doufu.Game.PlayGround.Camera::callbackOffsetCaculation(): Invoked.");
 		
 		if (this.IsTracing)
 		{
-			this.X = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
-			this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
+			if (!this.SmoothTracing)
+			{
+				this.X = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
+				this.Y = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
+			}
+			else if(skipFrameCount % (this.SkipFrame + 1) == 0)
+			{
+				
+				var destX = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
+				var destY = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
+				
+				this.X += Math.ceil((destX - this.X) / 2);
+				this.Y += Math.ceil((destY - this.Y) / 2);
+			}
+			skipFrameCount++;
+			if (skipFrameCount == 10000000)
+			{
+				skipFrameCount = 0;
+			}
 		}
 	}, this)
 	
@@ -30,6 +49,20 @@ doufu.Game.PlayGround.Camera = function()
 		Indicate whether this camera is tracing a character
 	*/
 	this.IsTracing = false;
+	
+	/*
+		Property: SmoothTracing
+		
+		Enable or disable smooth tracing.
+	*/
+	this.SmoothTracing = false;
+	
+	/*
+		Property: SkipFrame
+		
+		Indicate how many frames were skipped while using smooth tracing.
+	*/
+	this.SkipFrame = 1;
 	
 	/*
 		Property: TracedObject

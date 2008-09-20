@@ -21,7 +21,18 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	// Define properties and variables
 	/////////////////////////
 	
+	/*
+		Property: LinkedDisplayManager
+		
+		<doufu.Propery>
+		Get the linked display manager of current playground.
+	*/
 	var linkedDisplayMgr = null;
+	this.NewProperty("LinkedDisplayManager");
+	this.LinkedDisplayManager.Get = function()
+	{
+		return linkedDisplayMgr;
+	}
 	var displayBufferOffset = new doufu.Display.Drawing.Rectangle();
 	
 	// for saving all inserted elements
@@ -140,6 +151,10 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		
 		// Playground layer has it default z index 2001;
 		this.Z = 2001;
+		
+		// Set camera property
+		this.Camera().Width = oDisplayManager.HTMLElement().clientWidth;
+		this.Camera().Height = oDisplayManager.HTMLElement().clientHeight;
 		
 	};
 	

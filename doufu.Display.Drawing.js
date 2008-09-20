@@ -493,19 +493,20 @@ doufu.Display.Drawing.Cube = function(obj)
 /*
 	Function: doufu.Display.Drawing.ConvertPointsToRectangle
 	
-	Convert two points to a rectangle, the width and height of rectangle will be a positive number.
+	Convert two points to a rectangle.
+	The first point will be the upleft point of the rectangle and the second point will be the bottom right point.
 	
 	Parameters:
 	
-		oPoint1 - Specify the first point.
-		oPoint2 - Specify the second point.
+		oPoint1 - Specify the upleft point.
+		oPoint2 - Specify the bottom right point.
 		oRectangle - [Out, Optional] if a rectangle is specified, function will modify the rectangle and return it.
 					 if not, function will create a new rectangle.
 					 Note: Creating new object will consuming lots of cpu times
 	
 	Returns:
 	
-		A rectangle which has two points same as the inputted point.
+		A rectangle.
 */
 doufu.Display.Drawing.ConvertPointsToRectangle = function(oPoint1, oPoint2, oRectangle)
 {
@@ -581,7 +582,7 @@ doufu.Display.Drawing.ConvertRectangleToPolygon = function(oRectangle, outPolygo
 {
 	if (!oRectangle.InstanceOf(doufu.Display.Drawing.Rectangle))
 	{
-		throw doufu.System.Exception("doufu.Display.Drawing.doufu.Display.Drawing.ConvertRectangleToPolygon(): oRectangle is not a Rectangle.");
+		throw doufu.System.Exception("doufu.Display.Drawing.ConvertRectangleToPolygon(): oRectangle is not a rectangle.");
 	}
 	var retPolygon;
 	if (outPolygon == null)
@@ -600,4 +601,75 @@ doufu.Display.Drawing.ConvertRectangleToPolygon = function(oRectangle, outPolygo
 	retPolygon.Add(new doufu.Display.Drawing.Vector(oRectangle.X, oRectangle.Y + oRectangle.Height));
 	
 	return retPolygon;
+}
+
+/*
+	Function: doufu.Display.Drawing.ConvertPolygonToRectangle
+	
+	Create a rectangle hull for a polygon.
+	The smallest and biggest coordinates of rectangle will be the same as the corresponding coordinates of the polygon.
+	
+	Parameters:
+	
+		oPolygon - Specify the polygon to be converted.
+		outRectangle - [Out, Optional] if a rectangle is specified, function will modify the rectangle and return it.
+					 if not, function will create a new rectangle.
+					 Note: Creating new object will consuming lots of cpu times
+	
+	Returns:
+		A new rectangle hull.
+*/
+doufu.Display.Drawing.ConvertPolygonToRectangle = function(oPolygon, outRectangle)
+{
+	if (!oPolygon.InstanceOf(doufu.Display.Drawing.Polygon))
+	{
+		throw doufu.System.Exception("doufu.Display.Drawing.ConvertRectangleToPolygon(): oPolygon is not a polygon.");
+	}
+	var retRectangle;
+	if (outRectangle == null)
+	{
+		retRectangle = new doufu.Display.Drawing.Rectangle();
+	}
+	else
+	{
+		retRectangle = outRectangle;
+	}
+	
+	var sX, sY, bX, bY;
+	
+	sX = oPolygon.Items(0).X;
+	sY = oPolygon.Items(0).Y;
+	bX = oPolygon.Items(0).X;
+	bY = oPolygon.Items(0).Y;
+	
+	for(var i = 1; i < oPolygon.Length(); i++)
+	{
+		// get the lowest point.
+		if (sX > oPolygon.Items(i).X)
+		{
+			sX = oPolygon.Items(i).X;
+		}
+		
+		if (sY > oPolygon.Items(i).Y)
+		{
+			sY = oPolygon.Items(i).Y;
+		}
+		
+		if (bX < oPolygon.Items(i).X)
+		{
+			bX = oPolygon.Items(i).X;
+		}
+		
+		if (bY < oPolygon.Items(i).Y)
+		{
+			bY = oPolygon.Items(i).Y;
+		}
+	}
+	
+	retRectangle.X = sX;
+	retRectangle.Y = sY;
+	retRectangle.Width = bX - sX;
+	retRectangle.Height = bY - sY;
+	
+	return retRectangle;
 }
