@@ -235,10 +235,7 @@ doufu.OOP.Property = function(sPropertyName, oContext){
 		
 		oContext[sPropertyName] = function(value)
 		{
-			if (
-				value != null &&
-				typeof value != undefined //don't use doufu.System.Constants.TYPE_UNDEFINED, so that doufu.js can be used indivdually
-				)
+			if (value != null)
 			{
 				// return directly, if user want to get the value, them can call it themself.
 				return oContext[sPropertyName].Set.call(oContext, value);
