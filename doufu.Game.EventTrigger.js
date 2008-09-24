@@ -8,6 +8,7 @@ doufu.Game.EventTrigger = function()
 	doufu.OOP.Class(this);
 	
 	var monitoredSprites = new doufu.CustomTypes.Collection(doufu.Game.Sprites.Sprite);
+	var activatedForSprites = {};
 	var activated = true;
 	
 	/*
@@ -33,6 +34,11 @@ doufu.Game.EventTrigger = function()
 	{
 		if (!this.IsActivated())
 		{
+			return;
+		}
+		
+		if (!this.IsSpriteActivate(args.Who))
+		{
 			if (this.AutoReactivate())
 			{
 				// check where
@@ -40,7 +46,7 @@ doufu.Game.EventTrigger = function()
 				{
 					if (this.Where().Z != args.Cube.Z || !doufu.Game.Helpers.IsRectangleCollided(args.Cube, this.Where()))
 					{
-						this.Activate();
+						this.Activate(args.Who);
 					}
 					else
 					{
@@ -49,7 +55,7 @@ doufu.Game.EventTrigger = function()
 				}
 				else
 				{
-					this.Activate();
+					this.Activate(args.Who);
 				}
 			}
 			else
@@ -98,7 +104,14 @@ doufu.Game.EventTrigger = function()
 			{
 				this.OnTrigger.Invoke(args);
 				
-				this.Inactivate();
+				if (this.AutoReactivate())
+				{
+					this.Inactivate(args.Who);
+				}
+				else
+				{
+					this.Inactivate();
+				}
 			}
 		}
 	}
@@ -119,7 +132,7 @@ doufu.Game.EventTrigger = function()
 		if (obj.InstanceOf(doufu.Game.Sprites.Sprite))
 		{
 			obj.OnTriggerEvent.Attach(triggerCallback, this);
-			monitoredSprites.Add(obj);
+			this.Who(obj);
 		}
 		else if (obj.InstanceOf(doufu.Game.Map))
 		{
@@ -131,20 +144,56 @@ doufu.Game.EventTrigger = function()
 		Function: Activate
 		
 		Activate this event trigger.
+		
+		Parameters:
+			who - [Optional] Enable trigger for specified sprite, if not specified, will enable entire trigger
 	*/
-	this.Activate = function()
+	this.Activate = function(who)
 	{
-		activated = true;
+		if (who != null)
+		{
+			activatedForSprites[who.Handle.ID] = true;
+		}
+		else
+		{
+			activated = true;
+		}
 	}
 	
 	/*
 		Function: Inactivate
 		
 		Inactivate this event trigger.
+		
+		Parameters:
+			who - [Optional] Disable trigger for specified sprite, if not specified, will disable entire trigger
 	*/
-	this.Inactivate = function()
+	this.Inactivate = function(who)
 	{
-		activated = false;
+		if (who != null)
+		{
+			activatedForSprites[who.Handle.ID] = false;
+		}
+		else
+		{
+			activated = false
+		}
+	}
+	
+	/*
+		Function: IsSpriteActivate
+		
+		Get a value indicate whether a sprite is activated for this trigger.
+		
+		Parameters:
+			who - Specify the sprite.
+		
+		Return:
+			True if the sprite is activated.
+	*/
+	this.IsSpriteActivate = function(who)
+	{
+		return activatedForSprites[who.Handle.ID];
 	}
 	
 	/*
@@ -164,6 +213,7 @@ doufu.Game.EventTrigger = function()
 		if (!monitoredSprites.Contain(value))
 		{
 			monitoredSprites.Add(value);
+			activatedForSprites[value] = true;
 		}
 	}
 	
