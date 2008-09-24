@@ -14,6 +14,21 @@ doufu.System.Hacks.Date = new function()
 	{
 		this.setTime(this.getTime() + 1000 * 60 * 60 * 24 * iNum);
 	});
+	
+	Date.prototype.addHour || (Date.prototype.addHour = function(iNum)
+	{
+		this.setTime(this.getTime() + 1000 * 60 * 60 * iNum);
+	});
+	
+	Date.prototype.addMinute || (Date.prototype.addMinute = function(iNum)
+	{
+		this.setTime(this.getTime() + 1000 * 60 * iNum);
+	});
+	
+	Date.prototype.addSecond || (Date.prototype.addSecond = function(iNum)
+	{
+		this.setTime(this.getTime() + 1000 * iNum);
+	});
 }
 doufu.System.Hacks.String = new function()
 {

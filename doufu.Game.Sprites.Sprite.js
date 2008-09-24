@@ -70,8 +70,21 @@ doufu.Game.Sprites.Sprite = function()
 		
 		Will be fired when character moving.
 		If any of attached event callback return false, character will stop moving.
+		
+		EventArgs:
+			{Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector, Direction: oDirection}
 	*/
 	this.OnConfirmMovable = new doufu.Event.EventHandler(this);
+	
+	/*
+		Event: OnTriggerEvent
+		
+		Will be fired when the moving completed, trigger the event triggers which attached to this sprite.
+		
+		EventArgs:
+			{Cube: cubeNextStep}
+	*/
+	this.OnTriggerEvent = new doufu.Event.EventHandler(this);
 	
 	/////////////////////////
 	// Define Public Methods
@@ -117,6 +130,7 @@ doufu.Game.Sprites.Sprite = function()
 			return;
 		}
 		
+		this.OnTriggerEvent.Invoke({Cube: this});
 		
 		// Caculating the next position
 		this.X = cubeNextStep.X;

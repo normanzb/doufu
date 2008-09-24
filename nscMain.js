@@ -470,6 +470,17 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	//this.Camera().Width = 322;
 	//this.Camera().Height = 242;
 	
+	var goodGuy;
+	this.NewProperty("GoodGuy");
+	this.GoodGuy.Get = function()
+	{
+		return goodGuy;
+	}
+	this.GoodGuy.Set = function(value)
+	{
+		goodGuy = value;
+	}
+	
 	
 	// todo add helper to create walls
 	v1 = new doufu.Display.Drawing.Vector(170, 475);
@@ -490,9 +501,24 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.Sharps
 	this.Sharps.AddArray([p1, p2, p3, p4]);
 	
+	// adding characters
+	var myTrigger = new doufu.Game.EventTrigger();
+	
 	var grandma = new doufu.SampleGame.Roles.Grandma();
 	grandma.X = 420;
 	grandma.Y = 405;
+	
+	var triggerWhere = new doufu.Display.Drawing.Cube();
+	triggerWhere.X = grandma.X - 20;
+	triggerWhere.Y = grandma.Y - 20;
+	triggerWhere.Width = grandma.Width + 40;
+	triggerWhere.Height = grandma.Height + 40;
+	
+	myTrigger.Where(triggerWhere);
+	myTrigger.OnTrigger.Attach(new doufu.Event.CallBack(function()
+	{
+		alert("Hi Honey!");
+	}, this));
 	
 	var flower = new doufu.SampleGame.Items.Flower();
 	flower.X = 247;
@@ -524,10 +550,13 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	this.InitSprites.Add(c1);
 	this.InitSprites.Add(c2);
 	this.InitSprites.Add(c3);
+	
+	var _base_Initialize = this.OverrideMethod("Initialize", function()
+	{
+		myTrigger.Monitor(this.GoodGuy());
+		_base_Initialize.call(this);
+	});
 }
-
-mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
-mapLonglyIsland.Initialize();
 
 mKiller = new doufu.SampleGame.Roles.MaskKiller();
 mKiller.X = 480;
@@ -551,6 +580,10 @@ godFather = new doufu.SampleGame.Roles.Grandpa()
 godFather.Z = 0;
 godFather.X = 320;
 godFather.Y = 350;
+
+mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
+mapLonglyIsland.GoodGuy(godFather);
+mapLonglyIsland.Initialize();
 
 GeneralPlayGroundManager.Camera().SmoothTracing = true;
 GeneralPlayGroundManager.Camera().SkipFrame = 0;

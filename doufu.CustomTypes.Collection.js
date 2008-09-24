@@ -132,4 +132,22 @@ doufu.CustomTypes.Collection = function(baseClass)
 		return _innerArray[index];
 	}
 	
+	/*
+		Function: Contain
+		
+		Check if specified obj is in this collection.
+	*/
+	this.Contain = function(obj)
+	{
+		for( var i = 0; i < this.Length(); i++)
+		{
+			if (obj === this.Items(i))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 }
