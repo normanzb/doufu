@@ -33,10 +33,32 @@ doufu.Game.EventTrigger = function()
 	{
 		if (!this.IsActivated())
 		{
-			return;
+			if (this.AutoReactivate())
+			{
+				// check where
+				if (this.Where() != null)
+				{
+					if (this.Where().Z != args.Cube.Z || !doufu.Game.Helpers.IsRectangleCollided(args.Cube, this.Where()))
+					{
+						this.Activate();
+					}
+					else
+					{
+						return;
+					}
+				}
+				else
+				{
+					this.Activate();
+				}
+			}
+			else
+			{
+				return;
+			}
 		}
 		// check who
-		if (this.Who().Contain(sender))
+		if (this.Who().Contain(args.Who))
 		{
 			// at least one condition
 			var atLeastOne = false;
@@ -74,7 +96,7 @@ doufu.Game.EventTrigger = function()
 			
 			if (atLeastOne== true)
 			{
-				this.OnTrigger.Invoke();
+				this.OnTrigger.Invoke(args);
 				
 				this.Inactivate();
 			}
@@ -191,6 +213,22 @@ doufu.Game.EventTrigger = function()
 	this.IsActivated.Get = function()
 	{
 		return activated;
+	}
+	
+	/*
+		Property: AutoReactivate
+		
+		Specify whether to reactivate event trigger after sprite leave collision area.
+	*/
+	var autoReactivate = true;
+	this.NewProperty("AutoReactivate");
+	this.AutoReactivate.Get = function()
+	{
+		return autoReactivate;
+	}
+	this.AutoReactivate.Set = function(value)
+	{
+		autoReactivate = value;
 	}
 
 }

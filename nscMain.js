@@ -481,6 +481,17 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 		goodGuy = value;
 	}
 	
+	var badGuy;
+	this.NewProperty("BadGuy");
+	this.BadGuy.Get = function()
+	{
+		return badGuy;
+	}
+	this.BadGuy.Set = function(value)
+	{
+		badGuy = value;
+	}
+	
 	
 	// todo add helper to create walls
 	v1 = new doufu.Display.Drawing.Vector(170, 475);
@@ -515,10 +526,18 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	triggerWhere.Height = grandma.Height + 40;
 	
 	myTrigger.Where(triggerWhere);
-	myTrigger.OnTrigger.Attach(new doufu.Event.CallBack(function()
+	myTrigger.OnTrigger.Attach(new doufu.Event.CallBack(function(sender, args)
 	{
-		alert("Hi Honey!");
+		if (args.Who.Attributes.GoodGuy == true)
+		{
+			alert("Hi Honey!");
+		}
+		else
+		{
+			alert("ahhhhhh!!!!!!! Leave me alone!");
+		}
 	}, this));
+	
 	
 	var flower = new doufu.SampleGame.Items.Flower();
 	flower.X = 247;
@@ -554,6 +573,7 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	var _base_Initialize = this.OverrideMethod("Initialize", function()
 	{
 		myTrigger.Monitor(this.GoodGuy());
+		myTrigger.Monitor(this.BadGuy());
 		_base_Initialize.call(this);
 	});
 }
@@ -561,6 +581,8 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 mKiller = new doufu.SampleGame.Roles.MaskKiller();
 mKiller.X = 480;
 mKiller.Y = 300;
+mKiller.Attributes = {};
+mKiller.Attributes.BadGuy = true;
 	
 godFather = new doufu.SampleGame.Roles.Grandpa()
 
@@ -580,9 +602,12 @@ godFather = new doufu.SampleGame.Roles.Grandpa()
 godFather.Z = 0;
 godFather.X = 320;
 godFather.Y = 350;
+godFather.Attributes = {};
+godFather.Attributes.GoodGuy = true;
 
 mapLonglyIsland = new doufu.SampleGame.Maps.LonglyIsland(GeneralPlayGroundManager);
 mapLonglyIsland.GoodGuy(godFather);
+mapLonglyIsland.BadGuy(mKiller);
 mapLonglyIsland.Initialize();
 
 GeneralPlayGroundManager.Camera().SmoothTracing = true;

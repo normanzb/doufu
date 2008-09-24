@@ -130,7 +130,7 @@ doufu.Game.Sprites.Sprite = function()
 			return;
 		}
 		
-		this.OnTriggerEvent.Invoke({Cube: this});
+		this.OnTriggerEvent.Invoke({Cube: this, Who: this});
 		
 		// Caculating the next position
 		this.X = cubeNextStep.X;
