@@ -324,6 +324,60 @@ doufu.Display.Drawing.Rectangle = function(obj)
 		this.Height = oRectangle.Height;
 	}
 	
+	/*
+		Function: IsDirectionOf
+		
+		Check if current rectangle is on the specified direction of specified rectangle
+		
+		Parameters:
+			oDirection - Specified direction
+			oRect - Specify a rectangle.
+			
+		Return:
+			Return true if current rectange is on the specified direction of specified rectangle.
+	*/
+	this.IsDirectionOf = function(oDirection, oRect)
+	{
+		var bRet = true;
+		
+		if (oDirection.X() > 0)
+		{
+			var x = oDirection.X() * (oRect.X + oRect.Width - this.X);
+			if (x <= 0)
+			{
+				bRet = false;
+			}
+		}
+		else if(oDirection.X() < 0)
+		{
+			var x = oDirection.X() * (oRect.X - this.X - this.Width);
+			if (x <= 0)
+			{
+				bRet = false;
+			}
+		}
+		
+		if (oDirection.Y() > 0)
+		{
+			var y = oDirection.Y() * (oRect.Y + oRect.Width - this.Y);
+			if (y <= 0)
+			{
+				bRet = false;
+			}
+		}
+		else if(oDirection.Y() < 0)
+		{
+			var y = oDirection.Y() * (oRect.Y - this.Y - this.Width);
+			if (y <= 0)
+			{
+				bRet = false;
+			}
+		}
+		
+		
+		return bRet;
+	}
+	
 	this.Ctor = function()
 	{
 		if (obj != null)

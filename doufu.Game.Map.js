@@ -106,6 +106,8 @@ doufu.Game.Map = function(oPlayGround)
 			sender - One who fired this event.
 			obj - Should be the game object which inserted into the playground.
 		
+		Return:
+			Return true if movement is allowed.
 	*/
 	this.ConfirmMovable = new doufu.Event.CallBack(function(sender, obj)
 	{
@@ -169,12 +171,12 @@ doufu.Game.Map = function(oPlayGround)
 							tmpPolygon1.Add(tmpVector1);
 							tmpPolygon1.Add(tmpVector2);
 							
-							if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k)))
+							if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k), obj.Direction))
 							{
 								return false;
 							}
 						}
-						else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k)))
+						else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k), obj.Direction))
 						{
 							return false;
 						}

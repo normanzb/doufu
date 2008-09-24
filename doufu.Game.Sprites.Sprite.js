@@ -103,7 +103,7 @@ doufu.Game.Sprites.Sprite = function()
 			tmpVector.X = oDirection.X() * iLength;
 			tmpVector.Y = oDirection.Y() * iLength;
 			// Collision detecting and others...
-			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector});
+			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector, Direction: oDirection});
 		}
 		else
 		{

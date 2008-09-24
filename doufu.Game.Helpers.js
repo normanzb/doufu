@@ -13,8 +13,9 @@ doufu.Game.Helpers = {};
 	Parameters:
 		obj1 - a Drawable object which to be tested.
 		obj2 - a Drawable object which to be tested.
+		oDirection -  [Optional] Only required when detecting polygon collision, if direction is specified, will speed up caculation.
 */
-doufu.Game.Helpers.IsCollided = function(obj1, obj2)
+doufu.Game.Helpers.IsCollided = function(obj1, obj2, oDirection)
 {
 	if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Rectangle, obj1, obj2) == 2)
 	{
@@ -22,32 +23,18 @@ doufu.Game.Helpers.IsCollided = function(obj1, obj2)
 	}
 	else if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Polygon, obj1, obj2) == 2)
 	{
-		return doufu.Game.Helpers.IsPolygonCollided(obj1, obj2);
+		return doufu.Game.Helpers.IsPolygonCollided(obj1, obj2, oDirection);
 	}
 	else if (doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Rectangle, obj1, obj2) == 1 &&
 		doufu.System.APIs.NumberOfType(doufu.Display.Drawing.Polygon, obj1, obj2) == 1)
 	{
 		if(obj1.InstanceOf(doufu.Display.Drawing.Rectangle))
 		{
-			// do rectangle collision first
-			doufu.Display.Drawing.ConvertPolygonToRectangle(obj2, doufu.Game.Helpers.IsCollided.__rect);
-			if (!doufu.Game.Helpers.IsRectangleCollided(obj1, doufu.Game.Helpers.IsCollided.__rect))
-			{
-				return false;
-			}
-			
 			doufu.Display.Drawing.ConvertRectangleToPolygon(obj1, doufu.Game.Helpers.IsCollided.__poly);
 			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj2);
 		}
 		else if(obj2.InstanceOf(doufu.Display.Drawing.Rectangle))
 		{
-			// do rectangle collision first
-			doufu.Display.Drawing.ConvertPolygonToRectangle(obj1, doufu.Game.Helpers.IsCollided.__rect);
-			if (!doufu.Game.Helpers.IsRectangleCollided(doufu.Game.Helpers.IsCollided.__rect, obj2))
-			{
-				return false;
-			}
-			
 			doufu.Display.Drawing.ConvertRectangleToPolygon(obj2, doufu.Game.Helpers.IsCollided.__poly);
 			return doufu.Game.Helpers.IsPolygonCollided(doufu.Game.Helpers.IsCollided.__poly, obj1);
 		}
@@ -135,11 +122,29 @@ doufu.Game.Helpers.ProjectPolygon = function(axis, polygon, min, max)
 	Check if polygon A is going to collide with polygon B for the given velocity
 	
 	Parameters:
-		polygonA - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+		polygonA - <doufu.Display.Drawing.Polygon> a polygon object which to be tested (The collidee).
 		polygonB - <doufu.Display.Drawing.Polygon> a polygon object which to be tested.
+		oDirection - [Optional] If specified, only do detection with the polygon in front of the collidee.
 */
-doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB) 
+doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB, oDirection) 
 {
+	// do velocity check
+	// only do detection with the polygon in front of the collidee.
+	doufu.Display.Drawing.ConvertPolygonToRectangle(polygonA, doufu.Game.Helpers.IsPolygonCollided.__rect1);
+	doufu.Display.Drawing.ConvertPolygonToRectangle(polygonB, doufu.Game.Helpers.IsPolygonCollided.__rect2);
+	
+	if (oDirection != null)
+	{
+		if (!doufu.Game.Helpers.IsPolygonCollided.__rect1.IsDirectionOf(oDirection,  doufu.Game.Helpers.IsPolygonCollided.__rect2))
+		{
+			return false;
+		}
+	}
+	if (!doufu.Game.Helpers.IsRectangleCollided(doufu.Game.Helpers.IsPolygonCollided.__rect1, doufu.Game.Helpers.IsPolygonCollided.__rect2))
+	{
+		return false;
+	}
+	
 	
 	if (polygonA.Edges == null || polygonA.Edges.Length() == 0)
 	{
@@ -194,3 +199,5 @@ doufu.Game.Helpers.IsPolygonCollided = function(polygonA, polygonB)
 }
 
 doufu.Game.Helpers.IsPolygonCollided.__axis = new doufu.Display.Drawing.Vector();
+doufu.Game.Helpers.IsPolygonCollided.__rect1 = new doufu.Display.Drawing.Rectangle();
+doufu.Game.Helpers.IsPolygonCollided.__rect2 = new doufu.Display.Drawing.Rectangle();
