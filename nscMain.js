@@ -536,6 +536,8 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 		{
 			alert("ahhhhhh!!!!!!! Leave me alone!");
 		}
+		
+		args.Who.StopMoving();
 	}, this));
 	
 	
