@@ -25,11 +25,8 @@
 //		corresponding the method of user controlled character.
 // 
 
-// Force IE to use cache.
-if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer)
-{
-	document.execCommand("BackgroundImageCache",false,true);
-}
+// Enable background cache
+doufu.Browser.Helpers.EnableBackgroundCache(true);
 
 var __Global_MainLoop_Stop = false;
 

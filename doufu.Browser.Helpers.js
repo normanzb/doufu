@@ -120,3 +120,20 @@ doufu.Browser.Helpers.GetAbsolutePosition = function(element) {
     
     return r;
 }
+
+/*
+	Function: doufu.Browser.Helpers.EnableBackgroundCache
+	
+	Helps to enable/disable background cache
+	
+	Parameters:
+		bEnable - True to enable, false to disable
+*/
+doufu.Browser.Helpers.EnableBackgroundCache = function(bEnable)
+{
+	// Force IE to use cache.
+	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer)
+	{
+		document.execCommand("BackgroundImageCache", false, bEnable);
+	}
+}

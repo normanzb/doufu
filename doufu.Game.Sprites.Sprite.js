@@ -34,6 +34,13 @@ doufu.Game.Sprites.Sprite = function()
 	this.IsMoving = false;
 	
 	/*
+		Property: EnableCollision
+		
+		Indicate whether to do collision detection while moving.
+	*/
+	this.EnableCollision = true;
+	
+	/*
 		Property: Direction
 		
 		<doufu.Game.Direction>
@@ -79,7 +86,7 @@ doufu.Game.Sprites.Sprite = function()
 	/*
 		Event: OnTriggerEvent
 		
-		Will be fired when the moving completed, trigger the event triggers which attached to this sprite.
+		Will be fired when a single step movement was completed, trigger the event triggers which attached to this sprite.
 		
 		EventArgs:
 			{Cube: cubeNextStep}
@@ -111,7 +118,7 @@ doufu.Game.Sprites.Sprite = function()
 		cubeNextStep.Z = this.Z + oDirection.Z() * iLength;
 		
 		// if no sharp assigned, don't need to do collsion.
-		if (this.Sharp != null)
+		if (this.Sharp != null && this.EnableCollision == true)
 		{
 			tmpVector.X = oDirection.X() * iLength;
 			tmpVector.Y = oDirection.Y() * iLength;
