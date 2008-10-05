@@ -138,25 +138,6 @@ doufu.Http.Request = function()
         return true;
 	}
 	
-	// Create time stamp
-	var CreateTimeStamp = function()
-	{
-		var tDate = new Date();
-		return (new String(tDate.getSeconds()+tDate.getMinutes()*60 + tDate.getHours()*3600) + "-" + tDate.getDate().toString() + (tDate.getMonth() + 1).toString() + tDate.getYear().toString());
-	}
-	
-	// 
-	var AddStampToUrl = function(sUrl)
-	{
-        if (sUrl.lastIndexOf("?") + 1 == sUrl.length)
-        	sUrl = sUrl + CreateTimeStamp();
-        else if (sUrl.lastIndexOf("?") != -1)
-        		 sUrl = sUrl + "&DoufuUrlTimeStamp=" + CreateTimeStamp();
-        	 else
-        	 	 sUrl = sUrl + "?DoufuUrlTimeStamp=" + CreateTimeStamp();
-       	return sUrl
-	}
-	
 	/*
 		Function: SetRequestHeader
 		
@@ -205,7 +186,7 @@ doufu.Http.Request = function()
 		
 		if (this.DisableCache() && sMethod == "GET")
 		{
-			sActualUrl = AddStampToUrl(sUrl);
+			sActualUrl = doufu.Http.Request.AddStampToUrl(sUrl);
 		}
 		
 		nativeRequest.open(sMethod, sActualUrl, bAsync, sUser, sPassword);
@@ -320,4 +301,31 @@ doufu.Http.Request = function()
 	}
 	
 	this.Ctor();
+}
+
+/*
+	Function: doufu.Http.Request.CreateTimeStamp
+	
+	Create a time stamp
+*/
+doufu.Http.Request.CreateTimeStamp = function()
+{
+	var tDate = new Date();
+	return (new String(tDate.getSeconds()+tDate.getMinutes()*60 + tDate.getHours()*3600) + "-" + tDate.getDate().toString() + (tDate.getMonth() + 1).toString() + tDate.getYear().toString());
+}
+
+/*
+	Function: doufu.Http.Request.AddStampToUrl
+	
+	Paste a time stamp at the end of url string.
+*/
+doufu.Http.Request.AddStampToUrl = function(sUrl)
+{
+    if (sUrl.lastIndexOf("?") + 1 == sUrl.length)
+    	sUrl = sUrl + doufu.Http.Request.CreateTimeStamp();
+    else if (sUrl.lastIndexOf("?") != -1)
+    		 sUrl = sUrl + "&DoufuUrlTimeStamp=" + doufu.Http.Request.CreateTimeStamp();
+    	 else
+    	 	 sUrl = sUrl + "?DoufuUrlTimeStamp=" + doufu.Http.Request.CreateTimeStamp();
+   	return sUrl
 }

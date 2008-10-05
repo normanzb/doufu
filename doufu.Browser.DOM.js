@@ -18,16 +18,53 @@ doufu.Browser.DOMBase = function(docRef)
 		return _docRef;
 	}
 	
+	this.Inherit(doufu.Browser.Element, [_docRef]);
 	
+	/*
+		Function: CreateElement
+		
+		Create a element from current document.
+		
+		Parameters:
+			sElement - The element tag name
+	*/
 	this.CreateElement = function(sElement)
 	{
-		return this.DocRef().createElement(sElement);
+		return new doufu.Browser.Element(this.DocRef().createElement(sElement));
 	}
 	
-	this.AppendChild = function(elmtAppend)
+	this.$c = this.CreateElement;
+	
+	/*
+		Function: Select
+		
+		Select a element in current document with specified id.
+		
+		Parameters:
+			sElementId - Specify the element id.
+	*/
+	this.Select = function(sElementId)
 	{
-		return this.DocRef().appendChild(elmtAppend);
+		
+		var elmt;
+		if (sElementId.substring(0,1) == "$")
+		{
+			elmt = this.DocRef().getElementsByTagName(sElementId.substring(1, sElementId.length))[0];
+		}
+		else
+		{
+			elmt = this.DocRef().getElementById(sElementId);
+		}
+		
+		if (elmt != null)
+		{
+			return new doufu.Browser.Element(elmt);
+		}
+		
+		return null;
 	}
+	
+	this.$s = this.Select;
 
 	this.CompatibleMode = function()
 	{

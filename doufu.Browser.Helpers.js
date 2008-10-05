@@ -13,7 +13,7 @@ doufu.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWi
 	}
 	
 	var retDiv;
-	retDiv = doufu.Browser.DOM.CreateElement("div");
+	retDiv = doufu.Browser.DOM.CreateElement("div").Native();
 	retDiv.setAttribute("id", sDivID);
 	retDiv.style.overflow = "hidden";
 	retDiv.style.width = iWidth + "px";

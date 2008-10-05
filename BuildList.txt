@@ -19,6 +19,7 @@ doufu.Event.js
 doufu.Event.EventHandler.js
 doufu.Event.CallBack.js
 doufu.Browser.js
+doufu.Browser.Element.js
 doufu.Browser.DOM.js
 doufu.Browser.Window.js
 doufu.Browser.Helpers.js
@@ -51,4 +52,5 @@ doufu.Game.EventTrigger.js
 doufu.Game.Map.js
 doufu.Http.js
 doufu.Http.Request.js
+doufu.Http.Comet.js
 doufu.Http.JSON.js
