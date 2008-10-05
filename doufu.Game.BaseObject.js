@@ -3,7 +3,7 @@ doufu.Game.BaseObject = function(){
 	doufu.OOP.Class(this);
 	
 	this.Inherit(doufu.Display.Drawing.Cube);
-	this.Inherit(doufu.System.Handle.Handlable);
+	this.Inherit(doufu.System.Handler.Handlable);
 	
 	// Saving the image information, this.ImageOffset.X/Y stands for the offset.
 	this.ImageOffset = new doufu.Display.Drawing.Point();
@@ -31,7 +31,7 @@ doufu.Game.BaseObject = function(){
 	// Constructor
 	this.Ctor = function()
 	{
-		this.Handle = doufu.System.Handle.Generate();
+		this.Handler = doufu.System.Handler.Generate();
 		// attach self to pace controller
 		doufu.System.Logger.Debug("doufu.Game.BaseObject::Ctor(): Attach self to pace controller");
 		doufu.Game.PaceController.Attach(this);

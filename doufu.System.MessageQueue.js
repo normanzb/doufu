@@ -7,16 +7,16 @@ doufu.OOP.Property(doufu.System.MessageQueue);
 doufu.System.MessageQueue._internalQueue = new Array();
 
 
-doufu.System.MessageQueue.Push = function(oHandleOrMessage, sMsg, wParam, lParam)
+doufu.System.MessageQueue.Push = function(oHandlerOrMessage, sMsg, wParam, lParam)
 {
 	var tmpMsg;
-	if (!(oHandleOrMessage instanceof doufu.System.Message))
+	if (!(oHandlerOrMessage instanceof doufu.System.Message))
 	{
-		tmpMsg = doufu.System.Message(oHandleOrMessage, sMsg, wParam, lParam);
+		tmpMsg = doufu.System.Message(oHandlerOrMessage, sMsg, wParam, lParam);
 	}
 	else
 	{
-		tmpMsg = oHandleOrMessage;
+		tmpMsg = oHandlerOrMessage;
 	}
 	return doufu.System.MessageQueue._internalQueue.push(tmpMsg);
 }

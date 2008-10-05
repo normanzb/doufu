@@ -3,9 +3,9 @@ doufu.System.js
 doufu.System.Hacks.js
 doufu.System.Constants.js
 doufu.System.Logger.js
-doufu.System.Handle.js
-doufu.System.Handle.Constants.js
-doufu.System.Handle.Handlable.js
+doufu.System.Handler.js
+doufu.System.Handler.Constants.js
+doufu.System.Handler.Handlable.js
 doufu.System.Message.js
 doufu.System.MessageQueue.js
 doufu.System.MessageProcessor.js
@@ -49,3 +49,6 @@ doufu.Game.Sprites.Sprite.Speed.js
 doufu.Game.Sprites.FourDirectionSprite.js
 doufu.Game.EventTrigger.js
 doufu.Game.Map.js
+doufu.Http.js
+doufu.Http.Request.js
+doufu.Http.JSON.js

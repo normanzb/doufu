@@ -1,9 +1,9 @@
-doufu.System.Handle.Handlable = function()
+doufu.System.Handler.Handlable = function()
 {
 	doufu.OOP.Class(this);
 	
 	/////////////////////////
 	// Attributes
 	/////////////////////////
-	this.Handle = 0;
+	this.Handler = 0;
 }

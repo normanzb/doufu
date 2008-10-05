@@ -2,7 +2,7 @@ doufu.Display.BaseObject = function()
 {
 	doufu.OOP.Class(this);
 	
-	this.Inherit(doufu.System.Handle.Handlable);
+	this.Inherit(doufu.System.Handler.Handlable);
 	
 	this.Inherit(doufu.Display.Drawing.Rectangle);
 	
@@ -35,7 +35,7 @@ doufu.Display.BaseObject = function()
 		if (
 			doufu.System.MessageConstants.IsMessage(oMsg,
 			doufu.System.MessageConstants.DISPLAY_RENDER) &&
-			doufu.System.Handle.IsMe(this, oMsg.Handle)
+			doufu.System.Handler.IsMe(this, oMsg.Handler)
 			)
 		{
 			this.HTMLElement().style.left = this.X + "px";
@@ -56,7 +56,7 @@ doufu.Display.BaseObject = function()
 			}
 			
 			// verbose log
-			doufu.System.Logger.Verbose("doufu.Display.BaseObject: Message=" + oMsg.Message + "; Handle=" + oMsg.Handle);
+			doufu.System.Logger.Verbose("doufu.Display.BaseObject: Message=" + oMsg.Message + "; Handler=" + oMsg.Handler);
 		}
 	},
 	this);
@@ -71,7 +71,7 @@ doufu.Display.BaseObject = function()
 	
 	// variables
 	
-	this.Handle = doufu.System.Handle.Generate();
+	this.Handler = doufu.System.Handler.Generate();
 	
 	this.Ctor = function()
 	{
