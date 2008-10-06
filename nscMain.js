@@ -76,7 +76,7 @@ __nsc_MainLoop();
 
 
 tmpMsg = new doufu.System.Message();
-tmpMsg.Handler = doufu.System.Handler.Constants.BROADCAST;
+tmpMsg.Handle = doufu.System.Handle.Constants.BROADCAST;
 tmpMsg.Message = doufu.System.MessageConstants.DISPLAY_RENDER;
 
 doufu.System.MessageQueue.Push(tmpMsg);

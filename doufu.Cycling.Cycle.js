@@ -16,7 +16,7 @@
 doufu.Cycling.Cycle = function(pCallback)
 {
 	// The Cycle Handle
-	this.Handler = doufu.System.Handler.Generate();
+	this.Handle = doufu.System.Handle.Generate();
 	
 	// Indicate whether Cycle should be halted.
 	this.Halted = true;

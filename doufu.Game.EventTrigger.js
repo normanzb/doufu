@@ -152,7 +152,7 @@ doufu.Game.EventTrigger = function()
 	{
 		if (who != null)
 		{
-			activatedForSprites[who.Handler.ID] = true;
+			activatedForSprites[who.Handle.ID] = true;
 		}
 		else
 		{
@@ -172,7 +172,7 @@ doufu.Game.EventTrigger = function()
 	{
 		if (who != null)
 		{
-			activatedForSprites[who.Handler.ID] = false;
+			activatedForSprites[who.Handle.ID] = false;
 		}
 		else
 		{
@@ -193,7 +193,7 @@ doufu.Game.EventTrigger = function()
 	*/
 	this.IsSpriteActivate = function(who)
 	{
-		return activatedForSprites[who.Handler.ID];
+		return activatedForSprites[who.Handle.ID];
 	}
 	
 	/*

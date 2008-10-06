@@ -1,9 +1,9 @@
-doufu.System.Message = function(oHandler, sMsg, wParam, lParam)
+doufu.System.Message = function(oHandle, sMsg, wParam, lParam)
 {
-	if (oHandler == null)
-		this.Handler = new doufu.System.Handler(0);
+	if (oHandle == null)
+		this.Handle = new doufu.System.Handle(0);
 	else
-		this.Handler = oHandler;
+		this.Handle = oHandle;
 	
 	if (sMsg == null)
 		this.Message = new Number();

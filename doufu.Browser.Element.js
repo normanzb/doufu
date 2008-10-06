@@ -30,7 +30,7 @@ doufu.Browser.Element = function(element)
 	{
 		if (sName.toLowerCase() == "class")
 		{
-			return _native.class = sValue;
+			return _native.className = sValue;
 		}
 		else
 		{
