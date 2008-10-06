@@ -359,7 +359,7 @@ doufu.Display.Drawing.Rectangle = function(obj)
 		
 		if (oDirection.Y() > 0)
 		{
-			var y = oDirection.Y() * (oRect.Y + oRect.Width - this.Y);
+			var y = oDirection.Y() * (oRect.Y + oRect.Height - this.Y);
 			if (y <= 0)
 			{
 				bRet = false;
@@ -367,7 +367,7 @@ doufu.Display.Drawing.Rectangle = function(obj)
 		}
 		else if(oDirection.Y() < 0)
 		{
-			var y = oDirection.Y() * (oRect.Y - this.Y - this.Width);
+			var y = oDirection.Y() * (oRect.Y - this.Y - this.Height);
 			if (y <= 0)
 			{
 				bRet = false;
