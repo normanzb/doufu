@@ -7,8 +7,14 @@ doufu.Http.JSON = function()
 {
 	doufu.OOP.Class(this);
 	
+	this.Inherit(doufu.System.Handle.Handlable);
+	
+	this.Handle = doufu.System.Handle.Generate();
+	
 	var CONTAINER_ID = 'doufu_Http_JSON_Container';
 	var _url;
+	var _callbackParameterName;
+	var sGCallbackFunc;
 	
 	// Unopen 0
 	// Opened 1
@@ -29,13 +35,33 @@ doufu.Http.JSON = function()
 	}
 	
 	/*
+		Property: CallbackParameterName
+		
+		Get the CallbackParameterName
+	*/
+	this.NewProperty("CallbackParameterName");
+	this.CallbackParameterName.Get = function()
+	{
+		return _callbackParameterName;
+	}
+	
+	/*
+		Event: OnSuccess
+	*/
+	this.OnSuccess = new doufu.Event.EventHandler(this);
+	
+	/*
 		Function: Open
 		
 		Open a connection
 	*/
-	this.Open = function(sUrl)
+	this.Open = function(sUrl, sCallbackParameterName)
 	{
 		_url = sUrl;
+		_callbackParameterName = sCallbackParameterName;
+		
+		// register this instance to callback manager.
+		sGCallbackFunc = doufu.Http.JSON.CallbackManager.Register(this);
 		
 		this.ReadyState = 1;
 	}
@@ -47,30 +73,54 @@ doufu.Http.JSON = function()
 			throw doufu.System.Exception('doufu.Http.JSON::Send() - Conneciton was not opened.');
 		}
 		
-		// Add a script tag to fetch json data
-		
-		
-		var container = doufu.Browser.DOM.$s(CONTAINER_ID)
-		// Check if json script tag container( a div element is existed),
-		// if not create it.
-		if (!container)
+		if (_callbackParameterName != null)
 		{
-			container = doufu.Browser.DOM.CreateElement('div');
-			container.SetAttribute('id',CONTAINER_ID);
-			doufu.Browser.DOM.Select('$body').AppendChild(container);
+			// Add a script tag to fetch json data
+			
+			var container = doufu.Browser.DOM.$s(CONTAINER_ID)
+			// Check if json script tag container( a div element is existed),
+			// if not create it.
+			if (!container)
+			{
+				container = doufu.Browser.DOM.CreateElement('div');
+				container.SetAttribute('id',CONTAINER_ID);
+				doufu.Browser.DOM.Select('$body').AppendChild(container);
+			}
+			
+			var script = doufu.Browser.DOM.CreateElement('script');
+			script.Native().type = "text/javascript";
+			script.Native().src = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), "_callbackParameterName", sGCallbackFunc));
+			
+			container.AppendChild(script);
 		}
-		
-		var script = doufu.Browser.DOM.CreateElement('script');
-		script.Native().type = "text/javascript";
-		script.Native().src = doufu.Http.Request.AddStampToUrl(this.Url());
-		
-		container.AppendChild(script);
+		else
+		{
+			// TODO: use xmlhttprequest to get json data
+			var rq = new doufu.Http.Request();
+			rq.OnSuccess.Attach(new doufu.Event.CallBack(function(sender, args)
+			{
+				alert(this == a);
+				this.OnSuccess.Invoke({"ResponseJSON": doufu.Http.JSON.Parse(args.ResponseText)});
+			},this));
+			rq.Open('GET', this.Url(), true);
+			rq.Send();
+		}
 	}
 	
 	this.Close = function()
 	{
+		if (_callbackParameterName != null)
+		{
+			doufu.Http.JSON.CallbackManager.Unregister(this);
+		}
+	}
+	
+	this.Ctor = function()
+	{
 		
 	}
+	
+	this.Ctor();
 };
 
 /*
@@ -81,8 +131,45 @@ doufu.Http.JSON = function()
 	Return:
 		javascript object which build from json string
 */
-doufu.Http.JSON.GetObject = function(sJSONStr)
+doufu.Http.JSON.Parse = function(sJSONStr)
 {
 	eval("var tmpobj = " + sJSONStr);
 	return tmpobj;
+}
+
+/*
+	Class: doufu.Http.JSON.CallbackManager
+	
+	callback manage singleton
+*/
+doufu.Http.JSON.CallbackManager = new function()
+{
+	doufu.OOP.Class(this);
+	
+	this.Callbacks = {};
+
+	this.Register = function(oJSONRequst)
+	{
+		if (!oJSONRequst.InstanceOf(doufu.Http.JSON))
+		{
+			throw doufu.System.Exception("doufu.Http.JSON.CallbackManager::Register() - The object specified was not a json request object.");
+		}
+		
+		this.Callbacks[oJSONRequst.Handle.ID] = function(oJData)
+		{
+			oJSONRequst.OnSuccess.Invoke({"ResponseJSON": oJData});
+		}
+		
+		return "doufu.Http.JSON.CallbackManager.Callbacks[" + oJSONRequst.Handle.ID + "]";
+	}
+	
+	this.Unregister = function(oJSONRequst)
+	{
+		if (!oJSONRequst.InstanceOf(doufu.Http.JSON))
+		{
+			throw doufu.System.Exception("doufu.Http.JSON.CallbackManager::Register() - The object specified was not a json request object.");
+		}
+		
+		this.Callbacks[oJSONRequst.Handle.ID] = null;
+	}
 }
