@@ -40,7 +40,7 @@ doufu.Http.AddParameterToUrl = function(sUrl, sParameterName, sValue)
     {
 		sUrl = sUrl + "?" + sParameterName + "=" + sValue;
     }
-   	return sUrl
+   	return sUrl;
 }
 
 /*

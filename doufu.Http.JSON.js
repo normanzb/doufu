@@ -2,6 +2,12 @@
 	Class: doufu.Http.JSON
 	
 	JSON request implementation
+	
+	Sample
+		json = new doufu.Http.JSON();
+		json.Open('http://jsondatatest.appjet.net/?keyword=mandelbrot_set','callback');
+		json.OnSuccess.Attach(new doufu.Event.CallBack(function(s,o){alert(o.ResponseJSON.content)},this));
+		json.Send();
 */
 doufu.Http.JSON = function()
 {
@@ -89,7 +95,7 @@ doufu.Http.JSON = function()
 			
 			var script = doufu.Browser.DOM.CreateElement('script');
 			script.Native().type = "text/javascript";
-			script.Native().src = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), "_callbackParameterName", sGCallbackFunc));
+			script.Native().src = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
 			
 			container.AppendChild(script);
 		}
