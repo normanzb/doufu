@@ -32,6 +32,7 @@ doufu.Http.JSON = function()
 	/*
 		Property: Url
 		
+		<doufu.Property>
 		Get the json data url
 	*/
 	this.NewProperty("Url");
@@ -43,12 +44,55 @@ doufu.Http.JSON = function()
 	/*
 		Property: CallbackParameterName
 		
+		<doufu.Property>
 		Get the CallbackParameterName
 	*/
 	this.NewProperty("CallbackParameterName");
 	this.CallbackParameterName.Get = function()
 	{
 		return _callbackParameterName;
+	}
+	
+	/*
+		Property: ScriptElement
+		
+		<doufu.Property>
+		Get the script element which used for getting the remote json data.
+	*/
+	var script;
+	this.NewProperty("ScriptElement");
+	this.ScriptElement.Get = function()
+	{
+		return script;
+	}
+	
+	/*
+		Property: ResponseJSON
+		
+		<doufu.Property>
+		Get the responded json object
+	*/
+	var responseJSON;
+	this.NewProperty("ResponseJSON");
+	this.ResponseJSON.Get = function()
+	{
+		return responseJSON;
+	}
+	this.ResponseJSON.Set = function(value)
+	{
+		responseJSON = value;
+	}
+	
+	/*
+		Property: ResponseText
+		
+		<doufu.Property>
+		Get the responded stringified json text.
+	*/
+	this.NewProperty("ResponseText");
+	this.ResponseText.Get = function()
+	{
+		return this.ScriptElement().innerHTML;
 	}
 	
 	/*
@@ -93,7 +137,7 @@ doufu.Http.JSON = function()
 				doufu.Browser.DOM.Select('$body').AppendChild(container);
 			}
 			
-			var script = doufu.Browser.DOM.CreateElement('script');
+			script = doufu.Browser.DOM.CreateElement('script');
 			script.Native().type = "text/javascript";
 			script.Native().src = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
 			
@@ -106,7 +150,9 @@ doufu.Http.JSON = function()
 			rq.OnSuccess.Attach(new doufu.Event.CallBack(function(sender, args)
 			{
 				alert(this == a);
-				this.OnSuccess.Invoke({"ResponseJSON": doufu.Http.JSON.Parse(args.ResponseText)});
+				this.OnSuccess.Invoke({
+					"ResponseJSON": doufu.Http.JSON.Parse(args.ResponseText)
+				});
 			},this));
 			rq.Open('GET', this.Url(), true);
 			rq.Send();
@@ -163,7 +209,11 @@ doufu.Http.JSON.CallbackManager = new function()
 		
 		this.Callbacks[oJSONRequst.Handle.ID] = function(oJData)
 		{
-			oJSONRequst.OnSuccess.Invoke({"ResponseJSON": oJData});
+			oJSONRequst.OnSuccess.Invoke({
+				"ResponseJSON": oJData,
+				"ResponseText": oJSONRequst.ResponseText()
+			});
+			oJSONRequst.ResponseJSON(oJData); 
 		}
 		
 		return "doufu.Http.JSON.CallbackManager.Callbacks[" + oJSONRequst.Handle.ID + "]";

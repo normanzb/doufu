@@ -21,7 +21,7 @@ if %1==doc goto DocBuild
 echo //CHKBuild Start > %__binariespath%%__chkpackagename%
 echo ; > %__binariespath%doufu.packed.js
 
-type .\HELPERS\DEBUGHELPER\prototype-1.4.0.js		>> %__binariespath%%__chkpackagename%
+type .\HELPERS\DEBUGHELPER\prototype-1.6.0.3.js		>> %__binariespath%%__chkpackagename%
 type .\HELPERS\DEBUGHELPER\logger.js				 >> %__binariespath%%__chkpackagename%
 
 for /f %%f in (BuildList.txt) do call AppendSource.bat %%f %__binariespath%%__chkpackagename%
