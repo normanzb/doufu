@@ -634,40 +634,55 @@ testLoop();
 //godFather.StartMoving(new doufu.Game.Direction(16), 49)
 //====================
 
-// mapping keys
+var keyLeft = new doufu.Keyboard.Key("a");
+var keyRight = new doufu.Keyboard.Key("d");
+var keyUp = new doufu.Keyboard.Key("w");
+var keyDown = new doufu.Keyboard.Key("s");
 
-keyA = new doufu.Keyboard.Key("a");
-keyA.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+// mapping keys
+var keyUpCallback = new doufu.Event.CallBack(function(sender, args)
+{
+	if (!keyDown.IsKeyDown &&
+		!keyUp.IsKeyDown &&
+		!keyLeft.IsKeyDown &&
+		!keyRight.IsKeyDown)
+	{
+		godFather.StopMoving();
+	}
+},this);
+
+keyLeft.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
 		godFather.StartMoving(new doufu.Game.Direction(48), 249);
 	}
-},keyA));
+},keyLeft));
+keyLeft.OnKeyUp.Attach(keyUpCallback);
 
-keyD = new doufu.Keyboard.Key("d");
-keyD.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+keyRight.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
 		godFather.StartMoving(new doufu.Game.Direction(16), 249)
 	}
-},keyD));
+},keyRight));
+keyRight.OnKeyUp.Attach(keyUpCallback);
 
-keyW = new doufu.Keyboard.Key("w");
-keyW.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+keyUp.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
 		godFather.StartMoving(new doufu.Game.Direction(12), 249)
 	}
-},keyW));
+},keyUp));
+keyUp.OnKeyUp.Attach(keyUpCallback);
 
-keyS = new doufu.Keyboard.Key("s");
-keyS.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+keyDown.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
 		godFather.StartMoving(new doufu.Game.Direction(4), 249)
 	}
-},keyS));
+},keyDown));
+keyDown.OnKeyUp.Attach(keyUpCallback);

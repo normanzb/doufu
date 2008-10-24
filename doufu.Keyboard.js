@@ -40,7 +40,10 @@ doufu.Keyboard.Key = function(sKey)
 			return false;
 		}
 		
-		var g = new doufu.Browser.Element(doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer?document.body:window);
+		// get the global element
+		var g = new doufu.Browser.Element(
+			doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer?document.body:window
+			);
 		
 		// attach global events
 		g.OnKeyUp.Attach(new doufu.Event.CallBack(function(sender, args)
@@ -52,8 +55,10 @@ doufu.Keyboard.Key = function(sKey)
 				{
 					statusChanged = true;
 				}
-				this.OnKeyUp.Invoke({StatusChanged:statusChanged});
+				
 				this.IsKeyDown = false;
+				this.OnKeyUp.Invoke({StatusChanged:statusChanged});
+				
 			}
 		},this));
 		
@@ -67,8 +72,10 @@ doufu.Keyboard.Key = function(sKey)
 				{
 					statusChanged = true;
 				}
-				this.OnKeyDown.Invoke({StatusChanged:statusChanged});
+				
 				this.IsKeyDown = true;
+				this.OnKeyDown.Invoke({StatusChanged:statusChanged});
+				
 			}
 			
 		},this));
