@@ -15,6 +15,8 @@ doufu.Keyboard.Key = function(sKey)
 {
 	doufu.OOP.Class(this);
 	
+	this.IsKeyDown = false;
+	
 	/*
 		Event: OnKeyDown
 		
@@ -32,28 +34,41 @@ doufu.Keyboard.Key = function(sKey)
 	this.Ctor = function()
 	{
 		var re = /[a-zA-Z]/;
-		if (sKey.length != 1 || !re.match(sKey))
+		if (sKey.length != 1 || !re.test(sKey))
 		{
 			throw doufu.System.Exception("Key: " + sKey + "was not supported.");
 			return false;
 		}
 		
-		var g = new doufu.Browser.Element(document.body);
+		var g = new doufu.Browser.Element(doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer?document.body:window);
 		
 		// attach global events
 		g.OnKeyUp.Attach(new doufu.Event.CallBack(function(sender, args)
 		{
 			if (args.keyCode == sKey.toUpperCase()[0].charCodeAt())
 			{
-				this.OnKeyUp.Invoke();
+				var statusChanged = false;
+				if (this.IsKeyDown)
+				{
+					statusChanged = true;
+				}
+				this.OnKeyUp.Invoke({StatusChanged:statusChanged});
+				this.IsKeyDown = false;
 			}
 		},this));
 		
 		g.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 		{
+			
 			if (args.keyCode == sKey.toUpperCase()[0].charCodeAt())
 			{
-				this.OnKeyDown.Invoke();
+				var statusChanged = false;
+				if (!this.IsKeyDown)
+				{
+					statusChanged = true;
+				}
+				this.OnKeyDown.Invoke({StatusChanged:statusChanged});
+				this.IsKeyDown = true;
 			}
 			
 		},this));

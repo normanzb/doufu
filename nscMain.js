@@ -633,3 +633,41 @@ testLoop = function()
 testLoop();
 //godFather.StartMoving(new doufu.Game.Direction(16), 49)
 //====================
+
+// mapping keys
+
+keyA = new doufu.Keyboard.Key("a");
+keyA.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+{
+	if (args.StatusChanged)
+	{
+		godFather.StartMoving(new doufu.Game.Direction(48), 249);
+	}
+},keyA));
+
+keyD = new doufu.Keyboard.Key("d");
+keyD.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+{
+	if (args.StatusChanged)
+	{
+		godFather.StartMoving(new doufu.Game.Direction(16), 249)
+	}
+},keyD));
+
+keyW = new doufu.Keyboard.Key("w");
+keyW.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+{
+	if (args.StatusChanged)
+	{
+		godFather.StartMoving(new doufu.Game.Direction(12), 249)
+	}
+},keyW));
+
+keyS = new doufu.Keyboard.Key("s");
+keyS.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
+{
+	if (args.StatusChanged)
+	{
+		godFather.StartMoving(new doufu.Game.Direction(4), 249)
+	}
+},keyS));
