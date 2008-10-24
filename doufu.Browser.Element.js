@@ -4,12 +4,48 @@ doufu.Browser.Element = function(element)
 	doufu.OOP.Class(this);
 	
 	var _native;
+	var nativeEventArgProcessor = function(pFunc)
+	{
+		return function(e)
+		{
+			if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+				typeof event != doufu.System.Constants.TYPE_UNDEFINED)
+			{
+				e = event;
+			}
+			
+			pFunc(e);
+		};
+	}
 	
+	/*
+		Property: Native
+		
+		Get the native dom element.
+	*/
 	this.NewProperty("Native");
 	this.Native.Get = function()
 	{
 		return _native;
 	}
+	
+	/*
+		Event: OnKeyDown
+		
+		Fired when onkeydown event of native element was fired.
+		(Any key was pressed)
+	*/
+	var _onkeydown;
+	this.OnKeyDown = new doufu.Event.EventHandler(this);
+	
+	/*
+		Event: OnKeyUp
+		
+		Fired when onkeyup event of native element was fired.
+		(Any key was reelase)
+	*/
+	var _onkeyup;
+	this.OnKeyUp = new doufu.Event.EventHandler(this);
 	
 	/*
 		Function: AppendChild
@@ -38,7 +74,13 @@ doufu.Browser.Element = function(element)
 		}
 	}
 	
-	this.$a = this.AppendChild
+	this.$a = this.AppendChild;
+	
+	this.Dispose = function()
+	{
+		doufu.Browser.Helpers.DetachEvent(_native, "keydown", _onkeydown);
+		doufu.Browser.Helpers.DetachEvent(_native, "keyup", _onkeyup);
+	}
 	
 	this.Ctor = function()
 	{
@@ -55,6 +97,12 @@ doufu.Browser.Element = function(element)
 		{
 			throw doufu.Exception("doufu.Browser.Element::Ctor() - Specified element is null.");
 		}
+		
+		// attach native event listener
+		_onkeydown = nativeEventArgProcessor(this.OnKeyDown.Invoke);
+		doufu.Browser.Helpers.AttachEvent(_native, "keydown", _onkeydown);
+		_onkeyup = nativeEventArgProcessor(this.OnKeyUp.Invoke);
+		doufu.Browser.Helpers.AttachEvent(_native, "keyup", _onkeyup);
 	}
 	
 	this.Ctor();

@@ -137,3 +137,64 @@ doufu.Browser.Helpers.EnableBackgroundCache = function(bEnable)
 		document.execCommand("BackgroundImageCache", false, bEnable);
 	}
 }
+
+/*
+	Function: doufu.Browser.Helpers.AttachEvent
+	
+	Attach event to the native element.
+	
+	Parameters:
+		oElement - The element to be attached.
+		sEventName - The event name. (keydown, keyup, click....)
+		pFunc - The function to attach.
+*/
+doufu.Browser.Helpers.AttachEvent = function(oElement, sEventName, pFunc)
+{
+	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+		typeof document.attachEvent != doufu.System.Constants.TYPE_UNDEFINED)
+	{
+		oElement.attachEvent("on" + sEventName.toLowerCase(), pFunc);
+	}
+	else if(typeof document.addEventListener != doufu.System.Constants.TYPE_UNDEFINED)
+	{
+		oElement.addEventListener(sEventName.toLowerCase(), pFunc, false);
+	}
+	else
+	{
+		doufu.System.Logger.Debug("doufu.Browser.Helpers.AttachEvent() - Neither attachEvent nor addEventListener available, use element.onEvent directly.");
+		
+		oElement["on" + sEventName] = pFunc;
+	}
+}
+
+/*
+	Function: doufu.Browser.Helpers.DetachEvent
+	
+	Detach event to the native element.
+	
+	Parameters:
+		oElement - The element to be detached.
+		sEventName - The event name. (keydown, keyup, click....)
+		pFunc - The function to detach.
+*/
+doufu.Browser.Helpers.DetachEvent = function(oElement, sEventName, pFunc)
+{
+	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+		typeof document.detachEvent != doufu.System.Constants.TYPE_UNDEFINED)
+	{
+		oElement.detachEvent("on" + sEventName.toLowerCase(), pFunc);
+	}
+	else if(typeof document.removeEventListener != doufu.System.Constants.TYPE_UNDEFINED)
+	{
+		oElement.removeEventListener(sEventName.toLowerCase(), pFunc, false);
+	}
+	else
+	{
+		doufu.System.Logger.Debug("doufu.Browser.Helpers.AttachEvent() - Neither detachEvent nor removeEventListener available, use element.onEvent=null directly.");
+		
+		if (oElement["on" + sEventName] == pFunc)
+		{
+			oElement["on" + sEventName] = null;
+		}
+	}
+}

@@ -15,15 +15,18 @@ doufu.System.APIs.js
 doufu.System.Convert.js
 doufu.DesignPattern.js
 doufu.DesignPattern.Attachable.js
+doufu.CustomTypes.js
+doufu.CustomTypes.Collection.js
+doufu.CustomTypes.Stack.js
 doufu.Event.js
 doufu.Event.EventHandler.js
 doufu.Event.CallBack.js
 doufu.Browser.js
+doufu.Browser.BrowserDetect.js
+doufu.Browser.Helpers.js
 doufu.Browser.Element.js
 doufu.Browser.DOM.js
 doufu.Browser.Window.js
-doufu.Browser.Helpers.js
-doufu.Browser.BrowserDetect.js
 doufu.Cycling.js
 doufu.Cycling.Pool.js
 doufu.Cycling.Manager.js
@@ -32,9 +35,6 @@ doufu.Display.js
 doufu.Display.Drawing.js
 doufu.Display.BaseObject.js
 doufu.Display.Manager.js
-doufu.CustomTypes.js
-doufu.CustomTypes.Collection.js
-doufu.CustomTypes.Stack.js
 doufu.BenchMark.js
 doufu.Game.js
 doufu.Game.Helpers.js
@@ -54,3 +54,4 @@ doufu.Http.js
 doufu.Http.Request.js
 doufu.Http.Comet.js
 doufu.Http.JSON.js
+doufu.Keyboard.js
