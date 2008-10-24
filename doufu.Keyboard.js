@@ -45,10 +45,9 @@ doufu.Keyboard.Key = function(sKey)
 			doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer?document.body:window
 			);
 		
-		// attach global events
-		g.OnKeyUp.Attach(new doufu.Event.CallBack(function(sender, args)
+		var onKeyUpCallback = new doufu.Event.CallBack(function(sender, args)
 		{
-			if (args.keyCode == sKey.toUpperCase()[0].charCodeAt())
+			if (args.keyCode == sKey.toUpperCase().charCodeAt())
 			{
 				var statusChanged = false;
 				if (this.IsKeyDown)
@@ -60,12 +59,19 @@ doufu.Keyboard.Key = function(sKey)
 				this.OnKeyUp.Invoke({StatusChanged:statusChanged});
 				
 			}
-		},this));
+		},this);
 		
+		// attach global events
+		
+		// on key up, need to handle loss focus also.
+		g.OnKeyUp.Attach(onKeyUpCallback);
+		g.OnBlur.Attach(onKeyUpCallback);
+		
+		// on key down
 		g.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 		{
 			
-			if (args.keyCode == sKey.toUpperCase()[0].charCodeAt())
+			if (args.keyCode == sKey.toUpperCase().charCodeAt())
 			{
 				var statusChanged = false;
 				if (!this.IsKeyDown)
