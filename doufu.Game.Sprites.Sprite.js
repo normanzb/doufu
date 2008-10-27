@@ -20,11 +20,13 @@ doufu.Game.Sprites.Sprite = function()
 	var cycleSkip;
 	var stepLength;
 	var frameCounter=0;
+	var isMovingDest = false;
 	
 	var tmpVector = new doufu.Display.Drawing.Vector();
 	// do not assign value to this cube's property.
 	var tmpClearCube = new doufu.Display.Drawing.Cube();
 	var cubeNextStep = new doufu.Display.Drawing.Cube();
+	var cubeDestination = new doufu.Display.Drawing.Cube();
 	
 	/*
 		Property: IsMoving
@@ -145,6 +147,68 @@ doufu.Game.Sprites.Sprite = function()
 		this.Z = cubeNextStep.Z;
 	}
 	
+	this.MoveToDest = function()
+	{
+		var drcDest = new doufu.Game.Direction();
+		
+		var x = cubeDestination.X - this.X;
+		var y = cubeDestination.Y - this.Y;
+		var z = cubeDestination.Z - this.Z;
+		
+		// absolute value
+		var absX = x < 0? ~x + 1 : x;
+		var absY = y < 0? ~y + 1 : y;
+		var absZ = z < 0? ~z + 1 : z;
+		
+		// should stop moving
+		if (absX < stepLength && absY < stepLength && z == 0)
+		{
+			this.StopMoving();
+			return false;
+		}
+		
+		// we don't have to move if the absolute difference value of destination and current positoin is smaller then step length
+		drcDest.X(absX >= stepLength? x / absX:0);
+		drcDest.Y(absY >= stepLength? y / absY:0);
+		drcDest.Z(z / absZ);
+		
+		this.Direction = drcDest;
+	}
+	
+	/*
+		Function: StartMovingToDest
+		
+		Move this sprite to destination
+		
+		Parameters:
+			cubeDest - a instance of Cube class, indicating where is destination.
+			iSpeed - How fast the sprite moving.
+	*/
+	this.StartMovingToDest = function(cubeDest, iSpeed)
+	{
+		cubeDestination.DeepCopy(cubeDest);
+		
+		// if iSpeed is not specifed, use old value
+		if (iSpeed != null)
+		{
+			var temSpeed = doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
+			cycleSkip = temSpeed.CycleSkip;
+			stepLength = temSpeed.StepLength;
+		}
+		
+		// get first direction
+		this.MoveToDest();
+		
+		if(this.IsMoving == false)
+		{
+			this.IsMoving = true;
+		}
+		
+		isMovingDest = true;
+		
+		return true;
+	}
+	
 	this.StartMoving =function(oDirection, iSpeed)
 	{
 		this.Direction = oDirection;
@@ -165,6 +229,9 @@ doufu.Game.Sprites.Sprite = function()
 		{
 			this.IsMoving = false;
 		}
+		
+		// stop to auto moving to dest.
+		isMovingDest = false;
 	}
 	
 	var _base_Pacer = this.OverrideMethod("Pacer", function(oMsg)
@@ -175,7 +242,16 @@ doufu.Game.Sprites.Sprite = function()
 			if (frameCounter % (cycleSkip + 1) == 0)
 			{
 				this.MoveTo(this.Direction, stepLength);
+				
+				// if IsMoving is enabled by StartMovingToDest function
+				// reinvoke it to get latest direction and length.
+				if (isMovingDest)
+				{
+					this.MoveToDest();
+				}
 			}
+			
+
 		}
 		
 		_base_Pacer(oMsg);

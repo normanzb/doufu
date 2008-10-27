@@ -12,33 +12,73 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	this.Inherit(doufu.Game.Sprites.Sprite);
 	
+	var aniDirection = null;
+	
 	this.AnimationInfos = {};
 	
-	var _base_StartMoving = this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
+	var startToPlay = function()
 	{
-		doufu.System.Logger.Verbose("doufu.Game.Sprites.FourDirectionSprite::StartMoving(): Was invoked with following parameters, oDirection = " + oDirection.toString());
-		if (oDirection.X() == -1)
+		if (aniDirection.X() == -1)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveLeft);
 			
 		}
-		else if (oDirection.X() == 1)
+		else if (aniDirection.X() == 1)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveRight);
 			
 		}
-		else if (oDirection.Y() == 1)
+		else if (aniDirection.Y() == 1)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveDown);
 			
 		}
-		else if (oDirection.Y() == -1)
+		else if (aniDirection.Y() == -1)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveUp);
 			
 		}
+	}
+	
+	var _base_MoveToDest = this.OverrideMethod("MoveToDest", function()
+	{
+	
+		_base_MoveToDest();
+
+		// play corresponding animation when direction changed
+		if (aniDirection != null &&
+			aniDirection.XAxis() != this.Direction.XAxis() &&
+			aniDirection.YAxis() != this.Direction.YAxis())
+		{
+			startToPlay.call(this);
+		}
+
+		
+	});
+	
+	var _base_StartMoving = this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
+	{
+		doufu.System.Logger.Verbose("doufu.Game.Sprites.FourDirectionSprite::StartMoving(): Was invoked with following parameters, oDirection = " + oDirection.toString());
+		
+		aniDirection = oDirection;
+		
+		startToPlay.call(this);
 
 		_base_StartMoving(oDirection, iSpeed);
+	});
+	
+	var _base_StartMovingToDest = this.OverrideMethod("StartMovingToDest", function(cubeDest, iSpeed)
+	{
+		_base_StartMovingToDest(cubeDest, iSpeed);
+		
+		aniDirection = this.Direction;
+		
+		// only the first call 
+		if (iSpeed != null)
+		{
+			startToPlay.call(this);
+		}
+		
 	});
 	
 	var _base_StopMoving = this.OverrideMethod("StopMoving", function()

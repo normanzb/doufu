@@ -111,7 +111,7 @@ doufu.Game.Direction = function(iDirectionValue)
 		
 		return sign * (this.ZAxis() % 2);
 	}
-	this.X.Set = function(value)
+	this.Z.Set = function(value)
 	{
 		if (value > 1 || value < -1)
 		{
