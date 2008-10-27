@@ -104,6 +104,15 @@ doufu.Http.JSON = function()
 		Function: Open
 		
 		Open a connection
+		
+		Parameters:
+			sUrl - The url the get json data
+			sCallbackParameterName - Specified callback function parameter.
+				Common json server require client provide its name of callback function into the API,
+				So that server can append the function name at the beginning of json string as below
+				format:
+					functionName({jsonString})
+				This make life easier to pass json to client code.
 	*/
 	this.Open = function(sUrl, sCallbackParameterName)
 	{
@@ -116,7 +125,16 @@ doufu.Http.JSON = function()
 		this.ReadyState = 1;
 	}
 	
-	this.Send = function()
+	/*
+		Function: Send
+		
+		Send data to remote json server, and get respond json object.
+		
+		Parameters:
+			data - Must be a standard url key value pair formatted string.
+				(e.g. "name=value&name2=value2")
+	*/
+	this.Send = function(data)
 	{
 		if (this.ReadyState != 1)
 		{
@@ -139,7 +157,15 @@ doufu.Http.JSON = function()
 			
 			script = doufu.Browser.DOM.CreateElement('script');
 			script.Native().type = "text/javascript";
-			script.Native().src = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
+			var tmpUrl = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
+			
+			if (data != null)
+			{
+				// TODO: check data format
+				tmpUrl = tmpUrl + "&" + data;
+			}
+			
+			script.Native().src = tmpUrl;
 			
 			container.AppendChild(script);
 		}

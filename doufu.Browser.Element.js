@@ -110,10 +110,34 @@ doufu.Browser.Element = function(element)
 		// attach native event listener
 		_onkeydown = nativeEventArgProcessor(this.OnKeyDown.Invoke);
 		doufu.Browser.Helpers.AttachEvent(_native, "keydown", _onkeydown);
+		
 		_onkeyup = nativeEventArgProcessor(this.OnKeyUp.Invoke);
 		doufu.Browser.Helpers.AttachEvent(_native, "keyup", _onkeyup);
-		_onblur = nativeEventArgProcessor(this.OnBlur.Invoke);
-		doufu.Browser.Helpers.AttachEvent(_native, "blur", _onblur);
+		
+		// on blur
+		if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+			(_native == window || _native == document || _native == document.body))
+		{
+			var self = this;
+			_onblur = nativeEventArgProcessor(function(e)
+			{
+				if (typeof self.__activeElement == doufu.System.Constants.TYPE_UNDEFINED ||
+					self.__activeElement != document.activeElement)
+				{
+					self.__activeElement = document.activeElement
+				}
+				else
+				{
+					self.OnBlur.Invoke(e);
+				}
+			});
+			doufu.Browser.Helpers.AttachEvent(_native, "focusout", _onblur);
+		}
+		else
+		{
+			_onblur = nativeEventArgProcessor(this.OnBlur.Invoke);
+			doufu.Browser.Helpers.AttachEvent(_native, "blur", _onblur);
+		}
 	}
 	
 	this.Ctor();
