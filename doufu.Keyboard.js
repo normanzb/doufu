@@ -45,27 +45,29 @@ doufu.Keyboard.Key = function(sKey)
 			doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer?document.body:window
 			);
 		
-		var onKeyUpCallback = new doufu.Event.CallBack(function(sender, args)
+		var releaseKey = function()
 		{
-			if (args.keyCode == sKey.toUpperCase().charCodeAt())
+			var statusChanged = false;
+			if (this.IsKeyDown)
 			{
-				var statusChanged = false;
-				if (this.IsKeyDown)
-				{
-					statusChanged = true;
-				}
-				
-				this.IsKeyDown = false;
-				this.OnKeyUp.Invoke({StatusChanged:statusChanged});
-				
+				statusChanged = true;
 			}
-		},this);
+			
+			this.IsKeyDown = false;
+			this.OnKeyUp.Invoke({StatusChanged:statusChanged});
+		}
 		
 		// attach global events
 		
 		// on key up, need to handle loss focus also.
-		g.OnKeyUp.Attach(onKeyUpCallback);
-		g.OnBlur.Attach(onKeyUpCallback);
+		g.OnKeyUp.Attach(new doufu.Event.CallBack(function(sender, args)
+		{
+			if (args.keyCode == sKey.toUpperCase().charCodeAt())
+			{
+				releaseKey.call(this);
+			}
+		},this));
+		g.OnBlur.Attach(new doufu.Event.CallBack(releaseKey, this));
 		
 		// on key down
 		g.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
