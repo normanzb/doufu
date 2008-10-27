@@ -664,7 +664,7 @@ keyRight.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
-		godFather.StartMoving(new doufu.Game.Direction(16), 249)
+		godFather.StartMoving(new doufu.Game.Direction(16), 249);
 	}
 },keyRight));
 keyRight.OnKeyUp.Attach(keyUpCallback);
@@ -673,7 +673,7 @@ keyUp.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
-		godFather.StartMoving(new doufu.Game.Direction(12), 249)
+		godFather.StartMoving(new doufu.Game.Direction(12), 249);
 	}
 },keyUp));
 keyUp.OnKeyUp.Attach(keyUpCallback);
@@ -682,7 +682,7 @@ keyDown.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 {
 	if (args.StatusChanged)
 	{
-		godFather.StartMoving(new doufu.Game.Direction(4), 249)
+		godFather.StartMoving(new doufu.Game.Direction(4), 249);
 	}
 },keyDown));
 keyDown.OnKeyUp.Attach(keyUpCallback);
