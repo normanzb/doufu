@@ -173,6 +173,8 @@ doufu.Game.Sprites.Sprite = function()
 		drcDest.Z(z / absZ);
 		
 		this.Direction = drcDest;
+		
+		return true;
 	}
 	
 	/*
@@ -197,16 +199,15 @@ doufu.Game.Sprites.Sprite = function()
 		}
 		
 		// get first direction
-		this.MoveToDest();
-		
-		if(this.IsMoving == false)
+		if(this.MoveToDest())
 		{
 			this.IsMoving = true;
+			isMovingDest = true;
+			
+			return true;
 		}
 		
-		isMovingDest = true;
-		
-		return true;
+		return false;
 	}
 	
 	this.StartMoving =function(oDirection, iSpeed)

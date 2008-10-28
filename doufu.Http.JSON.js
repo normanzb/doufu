@@ -162,7 +162,7 @@ doufu.Http.JSON = function()
 			if (data != null)
 			{
 				// TODO: check data format
-				tmpUrl = tmpUrl + "&" + data;
+				tmpUrl = tmpUrl + "&" + encodeURI(data);
 			}
 			
 			script.Native().src = tmpUrl;

@@ -43,7 +43,7 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	var _base_MoveToDest = this.OverrideMethod("MoveToDest", function()
 	{
 	
-		_base_MoveToDest();
+		var bRet = _base_MoveToDest();
 
 		// play corresponding animation when direction changed
 		if (aniDirection != null &&
@@ -53,7 +53,7 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 			startToPlay.call(this);
 		}
 
-		
+		return bRet;
 	});
 	
 	var _base_StartMoving = this.OverrideMethod("StartMoving", function(oDirection, iSpeed)
@@ -69,15 +69,21 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	var _base_StartMovingToDest = this.OverrideMethod("StartMovingToDest", function(cubeDest, iSpeed)
 	{
-		_base_StartMovingToDest(cubeDest, iSpeed);
-		
-		aniDirection = this.Direction;
-		
-		// only the first call 
-		if (iSpeed != null)
+		if (_base_StartMovingToDest(cubeDest, iSpeed))
 		{
-			startToPlay.call(this);
+		
+			aniDirection = this.Direction;
+			
+			// only the first call 
+			if (iSpeed != null)
+			{
+				startToPlay.call(this);
+			}
+			
+			return true;
 		}
+		
+		return false;
 		
 	});
 	

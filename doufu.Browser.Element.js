@@ -48,6 +48,14 @@ doufu.Browser.Element = function(element)
 	this.OnKeyUp = new doufu.Event.EventHandler(this);
 	
 	/*
+		Event: OnFocus
+		
+		Fired when native element gets the focuse.
+	*/
+	var _onfocus;
+	this.OnFocus = new doufu.Event.EventHandler(this);
+	
+	/*
 		Event: OnBlur
 		
 		Fired when onblur event of native element was fired.
@@ -138,6 +146,10 @@ doufu.Browser.Element = function(element)
 			_onblur = nativeEventArgProcessor(this.OnBlur.Invoke);
 			doufu.Browser.Helpers.AttachEvent(_native, "blur", _onblur);
 		}
+		
+		// on focus
+		_onfocus = nativeEventArgProcessor(this.OnFocus.Invoke);
+		doufu.Browser.Helpers.AttachEvent(_native, "focus", _onfocus);
 	}
 	
 	this.Ctor();
