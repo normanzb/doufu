@@ -79,6 +79,25 @@ doufu.Browser.Element = function(element)
 		return _native.appendChild(elmtActual);
 	}
 	
+	this.RemoveChild = function(elmtRemove)
+	{
+		var elmtActual = elmtRemove;
+		if (typeof elmtRemove.InstanceOf != $Undefined && elmtRemove.InstanceOf(doufu.Browser.Element))
+		{
+			elmtActual = elmtRemove.Native();
+		}
+		return _native.removeChild(elmtActual);
+	}
+	
+	/*
+		Function: SetAttribute
+		
+		Set the attribute of current element
+		
+		Parameters:
+			sName - Attribute name
+			sValue - Atrribute value
+	*/
 	this.SetAttribute = function(sName, sValue)
 	{
 		if (sName.toLowerCase() == "class")

@@ -143,6 +143,12 @@ doufu.Http.JSON = function()
 		
 		if (_callbackParameterName != null)
 		{
+			// attach a garbage collection callback
+			this.OnSuccess.Attach(new doufu.Event.CallBack(function()
+			{
+				this.Dispose();
+			},this));
+			
 			// Add a script tag to fetch json data
 			
 			var container = doufu.Browser.DOM.$s(CONTAINER_ID)
@@ -185,12 +191,29 @@ doufu.Http.JSON = function()
 		}
 	}
 	
+	/*
+		Function: Dispose
+		
+		Garbage collect, dispose object no longer needed.
+	*/
+	this.Dispose = function()
+	{
+		var container = doufu.Browser.DOM.$s(CONTAINER_ID);
+		
+		if (container != null)
+		{
+			container.RemoveChild(script);
+		}
+	}
+	
 	this.Close = function()
 	{
 		if (_callbackParameterName != null)
 		{
 			doufu.Http.JSON.CallbackManager.Unregister(this);
 		}
+		
+		this.Dispose();
 	}
 	
 	this.Ctor = function()
