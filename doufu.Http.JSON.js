@@ -143,12 +143,6 @@ doufu.Http.JSON = function()
 		
 		if (_callbackParameterName != null)
 		{
-			// attach a garbage collection callback
-			this.OnSuccess.Attach(new doufu.Event.CallBack(function()
-			{
-				this.Dispose();
-			},this));
-			
 			// Add a script tag to fetch json data
 			
 			var container = doufu.Browser.DOM.$s(CONTAINER_ID)
@@ -200,7 +194,7 @@ doufu.Http.JSON = function()
 	{
 		var container = doufu.Browser.DOM.$s(CONTAINER_ID);
 		
-		if (container != null)
+		if (container != null && _callbackParameterName != null)
 		{
 			container.RemoveChild(script);
 		}
@@ -218,7 +212,11 @@ doufu.Http.JSON = function()
 	
 	this.Ctor = function()
 	{
-		
+		// attach a garbage collection callback
+		this.OnSuccess.Attach(new doufu.Event.CallBack(function()
+		{
+			this.Dispose();
+		},this));
 	}
 	
 	this.Ctor();

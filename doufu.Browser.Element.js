@@ -114,8 +114,23 @@ doufu.Browser.Element = function(element)
 	
 	this.Dispose = function()
 	{
+		// detach events
 		doufu.Browser.Helpers.DetachEvent(_native, "keydown", _onkeydown);
 		doufu.Browser.Helpers.DetachEvent(_native, "keyup", _onkeyup);
+		
+		if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+			(_native == window || _native == document || _native == document.body))
+		{
+			doufu.Browser.Helpers.DetachEvent(_native, "focusout", _onblur);
+		}
+		else
+		{
+			doufu.Browser.Helpers.DetachEvent(_native, "blur", _onblur);
+		}
+		
+		doufu.Browser.Helpers.DetachEvent(_native, "focus", _onfocus);
+		
+		_native = null;
 	}
 	
 	this.Ctor = function()
