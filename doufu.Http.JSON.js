@@ -27,6 +27,7 @@ doufu.Http.JSON = function()
 	// Sent 2
 	// Loading 3
 	// Done 4
+	// Closed 5
 	this.ReadyState = 0;
 	
 	/*
@@ -116,13 +117,20 @@ doufu.Http.JSON = function()
 	*/
 	this.Open = function(sUrl, sCallbackParameterName)
 	{
-		_url = sUrl;
-		_callbackParameterName = sCallbackParameterName;
-		
-		// register this instance to callback manager.
-		sGCallbackFunc = doufu.Http.JSON.CallbackManager.Register(this);
-		
-		this.ReadyState = 1;
+		if (this.ReadyState == 0 || this.ReadyState == 5)
+		{
+			_url = sUrl;
+			_callbackParameterName = sCallbackParameterName;
+			
+			// register this instance to callback manager.
+			sGCallbackFunc = doufu.Http.JSON.CallbackManager.Register(this);
+			
+			this.ReadyState = 1;
+		}
+		else
+		{
+			throw doufu.System.Exception("Failed to open json request.");
+		}
 	}
 	
 	/*
@@ -192,12 +200,14 @@ doufu.Http.JSON = function()
 	*/
 	this.Dispose = function()
 	{
-		var container = document.getElementById(CONTAINER_ID);
 		
-		if (container != null && _callbackParameterName != null)
-		{
-			container.removeChild(script);
-		}
+		this.Close();
+		
+		container = null;
+		script = null
+			
+		delete container;
+		delete script
 	}
 	
 	this.Close = function()
@@ -207,7 +217,14 @@ doufu.Http.JSON = function()
 			doufu.Http.JSON.CallbackManager.Unregister(this);
 		}
 		
-		this.Dispose();
+		var container = document.getElementById(CONTAINER_ID);
+		
+		if (container != null && _callbackParameterName != null)
+		{
+			container.removeChild(script);
+		}
+		
+		this.ReadyState = 5;
 	}
 	
 	this.Ctor = function()
@@ -215,7 +232,7 @@ doufu.Http.JSON = function()
 		// attach a garbage collection callback
 		this.OnSuccess.Attach(new doufu.Event.CallBack(function()
 		{
-			this.Dispose();
+			this.ReadyState = 4;
 		},this));
 	}
 	
