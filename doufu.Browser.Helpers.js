@@ -134,7 +134,12 @@ doufu.Browser.Helpers.EnableBackgroundCache = function(bEnable)
 	// Force IE to use cache.
 	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer)
 	{
-		document.execCommand("BackgroundImageCache", false, bEnable);
+		try
+		{
+			document.execCommand("BackgroundImageCache", false, bEnable);
+		}
+		catch(ex)
+		{};
 	}
 }
 

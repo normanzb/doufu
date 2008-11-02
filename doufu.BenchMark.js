@@ -63,7 +63,8 @@ doufu.BenchMark = function()
 				{
 					elmt.Name += "/" + sName;
 				}
-				elmt.Cost = (new Date().getTime()) - elmt.StartTime;
+				elmt.EndTime = (new Date().getTime());
+				elmt.Cost = elmt.EndTime - elmt.StartTime;
 				iResults.push(elmt);
 			}
 		}
@@ -78,14 +79,23 @@ doufu.BenchMark = function()
 	{
 		enable = false;
 		
+		var iResultsNotDone = [];
+		
 		for(var i = 0; i < iResults.length; i++)
 		{
-			doufu.System.Logger.Debug("doufu.BenchMark::ListToConsole() - Name: " + iResults[i].Name + " StartTime: " + 
-			iResults[i].StartTime + " Cost: " + iResults[i].Cost);
+			if (iResults[i].EndTime != 0)
+			{
+				doufu.System.Logger.Debug("doufu.BenchMark::ListToConsole() - Name: " + iResults[i].Name + " StartTime: " + 
+				iResults[i].StartTime + " Cost: " + iResults[i].Cost);
+			}
+			else
+			{
+				iResultsNotDone.push(iResults[i]);
+			}
 		}
 		
 		// clear array
-		iResults.length = 0;
+		iResults = iResultsNotDone;
 		
 		enable = true;
 	}
@@ -109,6 +119,11 @@ doufu.BenchMark.Element = function()
 		Property: StartTime
 	*/
 	this.StartTime = 0;
+	
+	/* 
+		Property: EndTime
+	*/
+	this.EndTime = 0;
 	
 	/*
 		Property: Cost

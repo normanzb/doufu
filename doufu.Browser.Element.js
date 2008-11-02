@@ -29,6 +29,12 @@ doufu.Browser.Element = function(element)
 		return _native;
 	}
 	
+	this.NewProperty("TagName");
+	this.TagName.Get = function()
+	{
+		return this.Native().tagName;
+	}
+	
 	/*
 		Event: OnKeyDown
 		
@@ -111,6 +117,38 @@ doufu.Browser.Element = function(element)
 	}
 	
 	this.$a = this.AppendChild;
+	
+	
+	
+	/*
+		Function: HasChild
+		
+		Return true if current element contained specified element.
+	*/
+	this.HasChild = function(oElement)
+	{
+		var elmtSet;
+		var elNative;
+		if (typeof oElement.InstanceOf != null)
+		{
+			elmtSet = this.Native().getElementsByTagName(oElement.TagName());
+			elNative = oElement.Native();
+		}
+		{
+			elmtSet = this.Native().getElementsByTagName(oElement.tagName);
+			elNative = oElement;
+		}
+		
+		for(i = 0; i < elmtSet.length; i ++)
+		{
+			if (elmtSet[i] == elNative)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	this.Dispose = function()
 	{

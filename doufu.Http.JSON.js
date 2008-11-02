@@ -24,7 +24,7 @@ doufu.Http.JSON = function()
 	
 	// Unopen 0
 	// Opened 1
-	// Sent 2
+	// Sending 2
 	// Loading 3
 	// Done 4
 	// Closed 5
@@ -149,6 +149,8 @@ doufu.Http.JSON = function()
 			throw doufu.System.Exception('doufu.Http.JSON::Send() - Conneciton was not opened.');
 		}
 		
+		this.ReadyState = 2;
+		
 		if (_callbackParameterName != null)
 		{
 			// Add a script tag to fetch json data
@@ -163,8 +165,6 @@ doufu.Http.JSON = function()
 				document.body.appendChild(container);
 			}
 			
-			script = document.createElement('script');
-			script.type = "text/javascript";
 			var tmpUrl = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
 			
 			if (data != null)
@@ -173,9 +173,14 @@ doufu.Http.JSON = function()
 				tmpUrl = tmpUrl + "&" + encodeURI(data);
 			}
 			
+			script = document.createElement('script');
+			
+			script.setAttribute("type", "text/javascript");
+			
 			script.src = tmpUrl;
 			
 			container.appendChild(script);
+			
 		}
 		else
 		{
@@ -190,6 +195,13 @@ doufu.Http.JSON = function()
 			},this));
 			rq.Open('GET', this.Url(), true);
 			rq.Send();
+			
+		}
+		
+		// prevent the .js respond too fast.
+		if (this.ReadyState < 4)
+		{
+			this.ReadyState = 3;
 		}
 	}
 	
@@ -217,11 +229,40 @@ doufu.Http.JSON = function()
 			doufu.Http.JSON.CallbackManager.Unregister(this);
 		}
 		
+		// means .js is reponded too fast, we have to wait a sec
+		if (this.ReadyState == 2)
+		{
+			var self = this;
+			setTimeout(function()
+			{
+				this.Close.call(self);
+			}, 500);
+		}
+		
 		var container = document.getElementById(CONTAINER_ID);
 		
-		if (container != null && _callbackParameterName != null)
+		// Remove script node while the code in script node is executing will
+		// cause IE 6, IE 7 crash, so the workaround is to delay the remove
+		if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer && 
+			doufu.Browser.BrowserDetect.Version < 8)
 		{
-			container.removeChild(script);
+			var myScript = script;
+			var paramName = _callbackParameterName;
+			
+			setTimeout(function()
+			{
+				if (container != null && paramName != null)
+				{
+					container.removeChild(myScript);
+				}
+			}, 5000);
+		}
+		else
+		{
+			if (container != null && _callbackParameterName != null)
+			{
+				container.removeChild(script);
+			}
 		}
 		
 		this.ReadyState = 5;
@@ -229,10 +270,13 @@ doufu.Http.JSON = function()
 	
 	this.Ctor = function()
 	{
-		// attach a garbage collection callback
+		// set the ready state
 		this.OnSuccess.Attach(new doufu.Event.CallBack(function()
 		{
-			this.ReadyState = 4;
+			if (this.ReadyState != 5)
+			{
+				this.ReadyState = 4;
+			}
 		},this));
 	}
 	

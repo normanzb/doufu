@@ -18,22 +18,26 @@ doufu.Game.Sprites.FourDirectionSprite = function(oInfoSet)
 	
 	var startToPlay = function()
 	{
-		if (aniDirection.X() == -1)
+		if (aniDirection.X() == -1 &&
+			this.Animation.AnimationInfo != this.AnimationInfos.MoveLeft)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveLeft);
 			
 		}
-		else if (aniDirection.X() == 1)
+		else if (aniDirection.X() == 1 &&
+			this.Animation.AnimationInfo != this.AnimationInfos.MoveRight)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveRight);
 			
 		}
-		else if (aniDirection.Y() == 1)
+		else if (aniDirection.Y() == 1 &&
+			this.Animation.AnimationInfo != this.AnimationInfos.MoveDown)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveDown);
 			
 		}
-		else if (aniDirection.Y() == -1)
+		else if (aniDirection.Y() == -1 &&
+			this.Animation.AnimationInfo != this.AnimationInfos.MoveUp)
 		{
 			this.Animation.Play(this.AnimationInfos.MoveUp);
 			

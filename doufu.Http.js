@@ -12,8 +12,7 @@ doufu.Http = {}
 */
 doufu.Http.CreateTimeStamp = function()
 {
-	var tDate = new Date();
-	return (new String(tDate.getSeconds()+tDate.getMinutes()*60 + tDate.getHours()*3600) + "-" + tDate.getDate().toString() + (tDate.getMonth() + 1).toString() + tDate.getYear().toString());
+	return (new Date()).getTime();
 }
 
 /*
