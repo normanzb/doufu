@@ -46,15 +46,8 @@ doufu.Browser.DOMBase = function(docRef)
 	this.Select = function(sElementId)
 	{
 		
-		var elmt;
-		if (sElementId.substring(0,1) == "$")
-		{
-			elmt = this.DocRef().getElementsByTagName(sElementId.substring(1, sElementId.length))[0];
-		}
-		else
-		{
-			elmt = this.DocRef().getElementById(sElementId);
-		}
+		var elmt = this.QuickSelect(sElementId);
+		
 		
 		if (elmt != null)
 		{
@@ -65,6 +58,31 @@ doufu.Browser.DOMBase = function(docRef)
 	}
 	
 	this.$s = this.Select;
+	
+	/*
+		Function: QuickSelect
+		
+		Quick select a element in current document with specified id and wont' create doufu element object.
+		
+		Parameters:
+			sElementId - Specify the element id.
+	*/
+	this.QuickSelect = function(sElementId)
+	{
+		var elmt;
+		if (sElementId.substring(0,1) == "$")
+		{
+			elmt = this.DocRef().getElementsByTagName(sElementId.substring(1, sElementId.length))[0];
+		}
+		else
+		{
+			elmt = this.DocRef().getElementById(sElementId);
+		}
+		
+		return elmt;
+	}
+	
+	this.$q = this.QuickSelect;
 
 	this.CompatibleMode = function()
 	{

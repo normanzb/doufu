@@ -31,6 +31,11 @@ doufu.Keyboard.Key = function(sKey)
 	*/
 	this.OnKeyUp = new doufu.Event.EventHandler(this);
 	
+	this.Dispose = function()
+	{
+		g.Dispose();
+	}
+	
 	this.Ctor = function()
 	{
 		var re = /[a-zA-Z]/;

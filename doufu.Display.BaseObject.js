@@ -75,8 +75,14 @@ doufu.Display.BaseObject = function()
 	
 	this.Ctor = function()
 	{
-		this.HTMLElement(doufu.Browser.DOM.CreateElement("div").Native());
+		// TODO: here will be a big change,
+		// we need a Dispose function which be invoked at the game object is disposed.
+		// and use DOM.Element class for dealing with all the DOM interactions.
+		var elDHtml = doufu.Browser.DOM.CreateElement("div");
+		this.HTMLElement(elDHtml.Native());
 		this.HTMLElement().style.position="absolute";
+		
+		elDHtml.Dispose();
 		
 		doufu.System.Logger.Debug("doufu.Display.BaseObject::Ctor(): Initialized");
 	}
