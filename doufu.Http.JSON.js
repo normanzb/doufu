@@ -145,18 +145,18 @@ doufu.Http.JSON = function()
 		{
 			// Add a script tag to fetch json data
 			
-			var container = doufu.Browser.DOM.$s(CONTAINER_ID)
+			var container = document.getElementById(CONTAINER_ID)
 			// Check if json script tag container( a div element is existed),
 			// if not create it.
 			if (!container)
 			{
-				container = doufu.Browser.DOM.CreateElement('div');
-				container.SetAttribute('id',CONTAINER_ID);
-				doufu.Browser.DOM.Select('$body').AppendChild(container);
+				container = document.createElement('div');
+				container.setAttribute('id',CONTAINER_ID);
+				document.body.appendChild(container);
 			}
 			
-			script = doufu.Browser.DOM.CreateElement('script');
-			script.Native().type = "text/javascript";
+			script = document.createElement('script');
+			script.type = "text/javascript";
 			var tmpUrl = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
 			
 			if (data != null)
@@ -165,9 +165,9 @@ doufu.Http.JSON = function()
 				tmpUrl = tmpUrl + "&" + encodeURI(data);
 			}
 			
-			script.Native().src = tmpUrl;
+			script.src = tmpUrl;
 			
-			container.AppendChild(script);
+			container.appendChild(script);
 		}
 		else
 		{
@@ -192,11 +192,11 @@ doufu.Http.JSON = function()
 	*/
 	this.Dispose = function()
 	{
-		var container = doufu.Browser.DOM.$s(CONTAINER_ID);
+		var container = document.getElementById(CONTAINER_ID);
 		
 		if (container != null && _callbackParameterName != null)
 		{
-			container.RemoveChild(script);
+			container.removeChild(script);
 		}
 	}
 	
