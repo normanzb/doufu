@@ -22,6 +22,8 @@ doufu.Game.Sprites.Sprite = function()
 	var frameCounter=0;
 	var isMovingDest = false;
 	
+	// speed buffer
+	var tmpSpeed = new doufu.Game.Sprites.Sprite.Speed();
 	var tmpVector = new doufu.Display.Drawing.Vector();
 	// do not assign value to this cube's property.
 	var tmpClearCube = new doufu.Display.Drawing.Cube();
@@ -193,9 +195,9 @@ doufu.Game.Sprites.Sprite = function()
 		// if iSpeed is not specifed, use old value
 		if (iSpeed != null)
 		{
-			var temSpeed = doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
-			cycleSkip = temSpeed.CycleSkip;
-			stepLength = temSpeed.StepLength;
+			doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed, tmpSpeed);
+			cycleSkip = tmpSpeed.CycleSkip;
+			stepLength = tmpSpeed.StepLength;
 		}
 		
 		// get first direction
@@ -214,9 +216,9 @@ doufu.Game.Sprites.Sprite = function()
 	{
 		this.Direction = oDirection;
 		
-		var temSpeed = doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed);
-		cycleSkip = temSpeed.CycleSkip;
-		stepLength = temSpeed.StepLength;
+		doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger(iSpeed, tmpSpeed);
+		cycleSkip = tmpSpeed.CycleSkip;
+		stepLength = tmpSpeed.StepLength;
 		
 		if(this.IsMoving == false)
 		{

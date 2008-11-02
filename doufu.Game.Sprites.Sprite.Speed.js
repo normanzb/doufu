@@ -19,9 +19,18 @@ doufu.Game.Sprites.Sprite.Speed = function(iSpeed)
 	this.Ctor();
 }
 
-doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger = function(iSpeed)
+doufu.Game.Sprites.Sprite.Speed.CaculateFromInteger = function(iSpeed, outSpeed)
 {
-	var oRet = new doufu.Game.Sprites.Sprite.Speed();
+	var oRet;
+	
+	if (outSpeed == null)
+	{
+		oRet = new doufu.Game.Sprites.Sprite.Speed();
+	}
+	else
+	{
+		oRet = outSpeed;
+	}
 	
 	// The minium number is 1, means every 1 frame need to do moving.
 	oRet.CycleSkip = 49 - iSpeed % 50;
