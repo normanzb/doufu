@@ -104,7 +104,7 @@ doufu.Game.Sprites.Sprite = function()
 	// Move sprite with specified direction point with specified speed.
 	this.MoveTo = function(oDirection, iLength)
 	{
-		if (eval(doufu.System.APIs.GetIsNullMacro("oDirection")))
+		if (oDirection == null)
 		{
 			throw doufu.System.Exception("oDirection should not be null!");
 		}
