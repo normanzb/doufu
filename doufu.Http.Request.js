@@ -186,7 +186,12 @@ doufu.Http.Request = function()
 		}
 		
 		nativeRequest.open(sMethod, sActualUrl, bAsync, sUser, sPassword);
-		nativeRequest.timeout = _timeout;
+		
+		if (!(doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer && 
+			doufu.Browser.BrowserDetect.Version <= 6))
+		{
+			nativeRequest.timeout = _timeout;
+		}
 		
 		this.OnOpened.Invoke();
 	}
