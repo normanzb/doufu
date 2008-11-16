@@ -47,6 +47,8 @@ doufu.Game.Map = function(oPlayGround)
 	}
 	this.BackgroundImagePath.Set = function(value)
 	{
+		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundPosition = "0px 0px";
+		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundRepeat = "no-repeat";
 		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundImage = "url(\"" + value + "\")";
 	}
 	

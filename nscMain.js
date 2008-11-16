@@ -33,7 +33,7 @@ var __Global_MainLoop_Stop = false;
 doufu.System.Logger.Debug("nscMain looping in.");
 
 // Create a display manager (and its display area)
-var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 322, 200);
+var GeneralDisplayManager = doufu.Display.Manager.Create(document.body, "__NSC_NONAME_SCREEN", 473, 268);
 doufu.System.Logger.Debug("Display area is set");
 
 var GeneralPlayGroundManager = new doufu.Game.PlayGround(GeneralDisplayManager);
@@ -690,3 +690,13 @@ keyDown.OnKeyDown.Attach(new doufu.Event.CallBack(function(sender, args)
 	}
 },keyDown));
 keyDown.OnKeyUp.Attach(keyUpCallback);
+
+// if is G1
+//destCube = new doufu.Display.Drawing.Cube();
+
+//document.body.onmousedown = function(e)
+//{
+//	destCube.X = e.offsetX;
+//	destCube.Y = e.offsetY;
+//	godFather.StartMovingToDest(destCube, 249);
+//}
