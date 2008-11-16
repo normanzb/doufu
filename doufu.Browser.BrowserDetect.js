@@ -123,11 +123,11 @@ doufu.Browser.BrowserDetect = new function __nsc_Browser_BrowserDetect()
 	
 	this.Ctor = function () 
 	{
-		this.Browser = this.searchString(this.dataBrowser) || doufu.Browser.BrowserDetect.BrowserEnum.Unknown;
+		this.Browser = this.searchString(this.dataBrowser) || this.BrowserEnum.Unknown;
 		this.Version = this.searchVersion(navigator.userAgent)
 			|| this.searchVersion(navigator.appVersion)
 			|| "Unknown";
-		this.OS = this.searchString(this.dataOS) || doufu.Browser.BrowserDetect.OSEnum.Unknown;
+		this.OS = this.searchString(this.dataOS) || this.OSEnum.Unknown;
 	}
 	
 	this.Ctor();
