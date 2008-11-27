@@ -71,6 +71,14 @@ doufu.Browser.Element = function(element)
 	this.OnBlur = new doufu.Event.EventHandler(this);
 	
 	/*
+		Event: OnLoad
+		
+		Fire when onload event of native lement was fired.
+	*/
+	var _onload;
+	this.OnLoad = new doufu.Event.EventHandler(this);
+	
+	/*
 		Function: AppendChild
 		
 		Append a child node to current document
@@ -193,6 +201,9 @@ doufu.Browser.Element = function(element)
 		
 		_onkeyup = nativeEventArgProcessor(this.OnKeyUp.Invoke);
 		doufu.Browser.Helpers.AttachEvent(_native, "keyup", _onkeyup);
+		
+		_onload = nativeEventArgProcessor(this.OnLoad.Invoke);
+		doufu.Browser.Helpers.AttachEvent(_native, "load", _onload);
 		
 		// on blur
 		if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
