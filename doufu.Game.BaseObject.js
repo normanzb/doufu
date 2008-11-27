@@ -21,6 +21,24 @@ doufu.Game.BaseObject = function(){
 		_linkedDisplayObject = value;
 	}
 	
+	/*
+		Property: IsFollower
+		
+		Indicate whether current game object is a follower of parent game object (which is a container).
+		The root game object cannot be a follower.
+	*/
+	this.IsFollower = false;
+	
+	/*
+		Property: Children
+		<doufu.Property>
+		
+		make game object as container, container all game objects which related to current.
+		The positions of game objects which in this.Children array will be rendered to corresponding
+		position in the screen if game objects' IsFollower properly is set to false.
+	*/
+	this.Children = new doufu.CustomTypes.Collection(doufu.Game.BaseObject);
+	
 	// Will be invoked by main cycle
 	this.Pacer = function(oMsg)
 	{

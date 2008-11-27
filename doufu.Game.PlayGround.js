@@ -22,9 +22,26 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	/////////////////////////
 	
 	/*
+		Property: CurrentMap
+		
+		<doufu.Property>
+		Current map which used by this playground manager.
+	*/
+	var _currentMap;
+	this.NewProperty("CurrentMap");
+	this.CurrentMap.Get = function()
+	{
+		return _currentMap;
+	}
+	this.CurrentMap.Set=function(value)
+	{
+		_currentMap = value;
+	}
+	
+	/*
 		Property: LinkedDisplayManager
 		
-		<doufu.Propery>
+		<doufu.Property>
 		Get the linked display manager of current playground.
 	*/
 	var linkedDisplayMgr = null;
@@ -64,13 +81,60 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	// Define properties and variables End
 	
 	/////////////////////////
+	// Private methods
+	/////////////////////////
+	
+	// make the sprite actually invoke the map collision function
+	// TODO: move ConfirmMovable from Game.Map to Game.PlayGround
+	var MovableConfirm = new doufu.Event.CallBack(function(sender, obj)
+	{
+		
+		if (this.CurrentMap() != null)
+		{
+			return this.CurrentMap().ConfirmMovable(obj);
+		}
+		return true;
+	}, this);
+	
+	/*
+		Callback: AddMovableConfirm
+		
+		Adding collision detection for every sprite in the specified playground.
+		
+		This callback will be called when a object is insertted to linked playground.
+		Callback will attach this.ConfirmMovable (callback) to object.OnConfirmMovable event.
+		So that when a GameObject.OnConfirmMovable is invoked, this.OnConfrimMovable will be called.
+		
+		Parameters:
+			sender - One who fired this event.
+			obj - Should be the game object which inserted into the playground.
+		
+	*/
+	var AddMovableConfirm = new doufu.Event.CallBack(function(sender, obj)
+	{
+		if (obj.InstanceOf(doufu.Game.Sprites.Sprite) && typeof obj.Sharp != doufu.System.Constants.TYPE_UNDEFINED)
+		{
+			obj.OnConfirmMovable.Attach(MovableConfirm);
+		}
+	}, this)
+	
+	/////////////////////////
 	// Public Methods
 	/////////////////////////
 	
 	this.InsertObject = function(obj)
 	{
+		// let map collision to attach.
 		this.OnInsertObject.Invoke(obj);
 		_gameObjects.Add(obj);
+		
+		if (obj.Children.Length() != 0)
+		{
+			for(var i = 0; i < obj.Children.Length(); i++)
+			{
+				(obj.Children.Items(i).IsFollower || this.InsertObject(obj.Children.Items(i)));
+			}
+		}
 	}
 	
 	this.RemoveObject = function(obj)
@@ -155,6 +219,10 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		// Set camera property
 		this.Camera().Width = oDisplayManager.HTMLElement().clientWidth;
 		this.Camera().Height = oDisplayManager.HTMLElement().clientHeight;
+		
+		// every a sprite was inserted, attached a confirm movable callback to the sprite's onconfirmmovable event handler.
+		// the confirm movable callback will helps to brigde the map between sprite for collision detect.
+		this.OnInsertObject.Attach(AddMovableConfirm);
 		
 	};
 	

@@ -188,7 +188,6 @@ doufu.Http.JSON = function()
 			var rq = new doufu.Http.Request();
 			rq.OnSuccess.Attach(new doufu.Event.CallBack(function(sender, args)
 			{
-				alert(this == a);
 				this.OnSuccess.Invoke({
 					"ResponseJSON": doufu.Http.JSON.Parse(args.ResponseText)
 				});

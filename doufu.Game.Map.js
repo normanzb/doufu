@@ -111,7 +111,7 @@ doufu.Game.Map = function(oPlayGround)
 		Return:
 			Return true if movement is allowed.
 	*/
-	this.ConfirmMovable = new doufu.Event.CallBack(function(sender, obj)
+	this.ConfirmMovable = function(obj)
 	{
 
 		for(var i = 0 ; i < this.LinkedPlayGround.GameObjects().Length(); i++)
@@ -222,29 +222,7 @@ doufu.Game.Map = function(oPlayGround)
 			}
 		} 
 		return true;
-	}, this);
-	
-	/*
-		Callback: AddCollisionDetection
-		
-		Adding collision detection for every sprite in the specified playground.
-		
-		This callback will be called when a object is insertted to linked playground.
-		Callback will attach this.ConfirmMovable (callback) to object.OnConfirmMovable event.
-		So that when a GameObject.OnConfirmMovable is invoked, this.OnConfrimMovable will be called.
-		
-		Parameters:
-			sender - One who fired this event.
-			obj - Should be the game object which inserted into the playground.
-		
-	*/
-	this.AddCollisionDetection = new doufu.Event.CallBack(function(sender, obj)
-	{
-		if (obj.InstanceOf(doufu.Game.Sprites.Sprite))
-		{
-			obj.OnConfirmMovable.Attach(this.ConfirmMovable);
-		}
-	}, this);
+	};
 	
 	/*
 		Function: Initialize
@@ -291,8 +269,7 @@ doufu.Game.Map = function(oPlayGround)
 		}
 		
 		this.LinkedPlayGround = oPlayGround;
-		
-		this.LinkedPlayGround.OnInsertObject.Attach(this.AddCollisionDetection);
+		this.LinkedPlayGround.CurrentMap(this);
 	}
 	
 	this.Ctor();
