@@ -17,9 +17,12 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 	var elmtLeftCorner;
 	var elmtRightCorner;
 	var elmtMessageBody;
+	var elmtTipHandler;
 	
-	var hideInterval;
+	var stickyTimer;
 	var idDisplaying = false;
+	
+	var firstShow = true;
 	
 	/*
 		Property: HTMLBorder
@@ -72,7 +75,6 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		this.Text(msg);
 		
 		// set start position
-		// TODO caculate the bubble tip posiotin
 		elmtBorder.Native().style.left = x + "px";
 		elmtBorder.Native().style.top = y + "px";
 		
@@ -90,11 +92,11 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 			}
 			
 			// prevent glitch which invoke popup many times within a time span of stickyTime.
-			if (idDisplaying == true && hideInterval != null)
+			if (idDisplaying == true && stickyTimer != null)
 			{
-				clearInterval(hideInterval);
+				clearInterval(stickyTimer);
 			}
-			hideInterval = setInterval(this.Hide, stickyTime);
+			stickyTimer = setInterval(this.Hide, stickyTime);
 			idDisplaying = true;
 		}
 		
@@ -107,24 +109,46 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		// TODO: encapulate this function.
 		elmtBorder.NoWrap(true);
 		elmtBorder.Native().style.display = "block";
-		elmtBorder.Native().style.opacity = "0.1";
+		
+		if (firstShow)
+		{
+			elmtBorder.Opacity(10);
+			firstShow = false;
+		}
+
 		setTimeout(doufu.OOP._callBacker(function()
 		{
+			// adjust the width
 			if (elmtBorder.Native().offsetWidth > this.MaxWidth)
 			{
 				elmtBorder.NoWrap(false);
-				elmtBorder.Native().style.width = this.MaxWidth + " px";
+				elmtBorder.Native().style.width = this.MaxWidth + "px";
 			}
-			// adjust the width
+			else
+			{
+				elmtBorder.Native().style.width = "auto";
+			}
+			
+			// adjust to the tip hanlder position
+			elmtBorder.Native().style.left = (elmtBorder.Native().offsetLeft - elmtTipHandler.Native().offsetLeft) + "px";
+			elmtBorder.Native().style.top = (elmtBorder.Native().offsetTop - elmtBorder.Native().offsetHeight) + "px";
+			
 			// play animation
+			elmtBorder.Effects.FadeIn(3);
+			
+			
 		}, this), 10);
 	});
 	
 	var _base_Hide = this.OverrideMethod("Hide", function()
 	{
-		clearInterval(hideInterval);
-		elmtBorder.Native().style.display = "none";
+		clearInterval(stickyTimer);
+		
 		// play fadeout animation
+		
+		elmtBorder.Effects.FadeOut(2);
+		
+		
 	});
 	
 	this.Ctor = function()
@@ -138,6 +162,12 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		
 		elmtBorder.Native().style.position = "absolute";
 		
+		// set it to invisible when fade out done
+		elmtBorder.Effects.OnFadeOut.Attach(new doufu.Event.CallBack(function()
+		{
+			elmtBorder.Native().style.display = "none";
+		},this));
+		
 		elmtLeftCorner = doufu.Browser.DOM.CreateElement("div");
 		elmtLeftCorner.Native().className = this.GetClassName("leftCorner");
 		
@@ -147,11 +177,16 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		elmtMessageBody = doufu.Browser.DOM.CreateElement("div");
 		elmtMessageBody.Native().className = this.GetClassName("messageBody");
 		
+		elmtTipHandler = doufu.Browser.DOM.CreateElement("div");
+		elmtTipHandler.Native().className = this.GetClassName("tipHandler");
+		
 		elmtBorder.AppendChild(elmtLeftCorner);
 		elmtBorder.AppendChild(elmtMessageBody);
 		elmtBorder.AppendChild(elmtRightCorner);
+		elmtBorder.AppendChild(elmtTipHandler);
 		
 		// hide elmt first
+		elmtBorder.Native().style.display = "none";
 		this.Hide();
 		
 		elmtContainer.AppendChild(elmtBorder);

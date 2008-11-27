@@ -18,18 +18,24 @@ doufu.SpeechBubbles.GameBubble = function(goContainer)
 	
 	var _base_Popup = this.OverrideMethod("Popup", function(x, y, msg)
 	{
+		goBorder.IsFollower = false;
+		
 		goBorder.X = x;
 		goBorder.Y = y;
+		
+		
 		
 		_base_Popup(0, 0, msg);
 	});
 	
 	this.OverloadMethod("Popup", function(msg)
 	{
-		var x = goContainer.X + goContainer.Width/2;
-		var y = goContainer.Y + goContainer.Height/5;
+		goBorder.IsFollower = true; 
 		
-		this.Popup(x, y, msg);
+		goBorder.FollowerOffset.X = goContainer.Width/2;
+		goBorder.FollowerOffset.Y = goContainer.Height/5;
+		
+		this.Popup(0, 0, msg);
 	});
 	
 	this.Ctor = function()

@@ -1,8 +1,34 @@
 .doufu_SpeechBubbles_default_border
 {
+	float:left;
+}
+.doufu_SpeechBubbles_default_leftCorner
+{
+	display:none;
+}
+.doufu_SpeechBubbles_default_rightCorner
+{
+	display:none;
+}
+.doufu_SpeechBubbles_default_messageBody
+{
 	border: 1px solid #000;
 	background-color: #fff;
 	font-size: 12px;
-	line-height: 16px;
 	padding-left: 7px;
+	float:left;
+	width:100%;
+	z-index: 15000;
+}
+.doufu_SpeechBubbles_default_tipHandler
+{
+	float:left;
+	width:8px;
+	height:8px;
+	position:relative;
+	left: 20px;
+	top: -1px;
+	background-image: url(./default_tip.gif);
+	background-repeat: no-repeat;
+	z-index: 15001;
 }

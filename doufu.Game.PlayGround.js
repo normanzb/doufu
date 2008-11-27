@@ -132,7 +132,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 		{
 			for(var i = 0; i < obj.Children.Length(); i++)
 			{
-				(obj.Children.Items(i).IsFollower || this.InsertObject(obj.Children.Items(i)));
+				(obj.Children.Items(i).IsFixed || this.InsertObject(obj.Children.Items(i)));
 			}
 		}
 	}

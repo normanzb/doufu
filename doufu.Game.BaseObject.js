@@ -7,6 +7,12 @@ doufu.Game.BaseObject = function(){
 	
 	// Saving the image information, this.ImageOffset.X/Y stands for the offset.
 	this.ImageOffset = new doufu.Display.Drawing.Point();
+	
+	/*
+		Property: FollowerOffset
+		
+	*/
+	this.FollowerOffset = new doufu.Display.Drawing.Point();
 	this.ImagePath = new String();
 	this.Animation = new doufu.Game.Animation(this);
 
@@ -22,10 +28,16 @@ doufu.Game.BaseObject = function(){
 	}
 	
 	/*
+		Property: IsFixed
+		
+		Indicate whether current game object's position is fixed (relatively to parent object).
+	*/
+	this.IsFixed = false;
+	
+	/*
 		Property: IsFollower
 		
-		Indicate whether current game object is a follower of parent game object (which is a container).
-		The root game object cannot be a follower.
+		If current object is a follower and it has a parent object, then this object will follow the position of parent object
 	*/
 	this.IsFollower = false;
 	
@@ -35,7 +47,7 @@ doufu.Game.BaseObject = function(){
 		
 		make game object as container, container all game objects which related to current.
 		The positions of game objects which in this.Children array will be rendered to corresponding
-		position in the screen if game objects' IsFollower properly is set to false.
+		position in the screen if game objects' IsFixed properly is set to false.
 	*/
 	this.Children = new doufu.CustomTypes.Collection(doufu.Game.BaseObject);
 	
@@ -44,6 +56,15 @@ doufu.Game.BaseObject = function(){
 	{
 		doufu.System.Logger.Verbose("doufu.Game.BaseObject::Pacer(): Pacer Invoked.");
 		this.Animation.Pacer(oMsg);
+		
+		// set position of followers
+		for(var i = 0; i < this.Children.Length(); i ++)
+		{
+			var tmpObj = this.Children.Items(i);
+			
+			tmpObj.X = this.X + tmpObj.FollowerOffset.X;
+			tmpObj.Y = this.Y + tmpObj.FollowerOffset.Y;
+		}
 	}
 	
 	// Constructor

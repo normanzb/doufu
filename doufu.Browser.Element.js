@@ -3,6 +3,8 @@ doufu.Browser.Element = function(element)
 	
 	doufu.OOP.Class(this);
 	
+	var thisElement = this;
+	
 	var _native;
 	var nativeEventArgProcessor = function(pFunc)
 	{
@@ -159,7 +161,7 @@ doufu.Browser.Element = function(element)
 	}
 	
 	/*
-		Function:
+		Property: NoWrap
 	*/
 	var _noWrap = false;
 	this.NewProperty("NoWrap");
@@ -180,6 +182,132 @@ doufu.Browser.Element = function(element)
 		}
 	}
 	
+	/*
+		Property: Opacity
+	*/
+	var _opacity = 100;
+	this.NewProperty("Opacity");
+	this.Opacity.Get = function()
+	{
+		return _opacity;
+	}
+	this.Opacity.Set = function(value)
+	{
+		if (value > 100)
+		{
+			value = 100;
+		}
+		else if (value < 0)
+		{
+			value = 0;
+		}
+		_opacity = value;
+		this.Native().style.opacity = Math.floor(value/10) / 10;
+		this.Native().style.filter="alpha(opacity=" + value + ")";
+	}
+	
+	this.Effects = new function()
+	{
+		doufu.OOP.Class(this);
+		
+		var thisEffects = this;
+		
+		var fadingDirection = 0;
+		/*
+			Property: FadingDirection
+			
+			1 stands for fade in, -1 stands for fade out
+		*/
+		this.NewProperty("FadingDirection");
+		this.FadingDirection.Get = function()
+		{
+			return fadingDirection;
+		}
+		
+		
+		/*
+			Event: OnFadeIn
+		*/
+		this.OnFadeIn = new doufu.Event.EventHandler(this);
+		
+		/*
+			Event: OnFadeOut
+		*/
+		this.OnFadeOut = new doufu.Event.EventHandler(this);
+		
+		var FadeLoop = function(value, diff)
+		{
+			if (diff < 0)
+			{
+				if (fadingDirection > 0)
+				{
+					return;
+				}
+				
+				if (thisElement.Opacity() <= 0)
+				{
+					thisEffects.OnFadeOut.Invoke({});
+					return;
+				}
+			}
+			else if (diff > 0)
+			{
+				if (fadingDirection < 0)
+				{
+					return;
+				}
+				if (thisElement.Opacity() >= 100)
+				{
+					thisEffects.OnFadeIn.Invoke({});
+					return;
+				}
+			}
+			
+			thisElement.Opacity(value);
+			value += diff;
+			
+			setTimeout(doufu.OOP._callBacker(function()
+			{
+				FadeLoop(value, diff)
+			}, this), 100);
+		}
+		
+		this.FadeIn = function(factor)
+		{
+			if (factor == null || factor < 1)
+			{
+				factor = 1;
+			}
+			else
+			{
+				facotr = Math.floor(factor);
+			}
+			if (fadingDirection != 1)
+			{
+				fadingDirection = 1;
+				FadeLoop(thisElement.Opacity(), 10 * factor);
+			}
+			
+		}
+		
+		this.FadeOut = function(factor)
+		{
+			if (factor == null || factor < 1)
+			{
+				factor = 1;
+			}
+			else
+			{
+				facotr = Math.floor(factor);
+			}
+			
+			if (fadingDirection != -1)
+			{
+				fadingDirection = -1;
+				FadeLoop(thisElement.Opacity(), -10 * factor);
+			}
+		}
+	}
 	this.Dispose = function()
 	{
 		// detach events
