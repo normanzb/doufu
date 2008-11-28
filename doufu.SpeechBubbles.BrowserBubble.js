@@ -109,6 +109,7 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		// TODO: encapulate this function.
 		elmtBorder.NoWrap(true);
 		elmtBorder.Native().style.display = "block";
+		elmtBorder.Native().style.width = "auto";
 		
 		if (firstShow)
 		{
@@ -116,28 +117,23 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 			firstShow = false;
 		}
 
-		setTimeout(doufu.OOP._callBacker(function()
+		// adjust the width
+		if (elmtBorder.Native().offsetWidth > this.MaxWidth)
 		{
-			// adjust the width
-			if (elmtBorder.Native().offsetWidth > this.MaxWidth)
-			{
-				elmtBorder.NoWrap(false);
-				elmtBorder.Native().style.width = this.MaxWidth + "px";
-			}
-			else
-			{
-				elmtBorder.Native().style.width = "auto";
-			}
-			
-			// adjust to the tip hanlder position
-			elmtBorder.Native().style.left = (elmtBorder.Native().offsetLeft - elmtTipHandler.Native().offsetLeft) + "px";
-			elmtBorder.Native().style.top = (elmtBorder.Native().offsetTop - elmtBorder.Native().offsetHeight) + "px";
-			
-			// play animation
-			elmtBorder.Effects.FadeIn(3);
-			
-			
-		}, this), 10);
+			elmtBorder.NoWrap(false);
+			elmtBorder.Native().style.width = this.MaxWidth + "px";
+		}
+		else
+		{
+			elmtBorder.Native().style.width = "auto";
+		}
+		
+		// adjust to the tip hanlder position
+		elmtBorder.Native().style.left = (elmtBorder.Native().offsetLeft - elmtTipHandler.Native().offsetLeft - Math.floor(elmtTipHandler.Native().offsetWidth / 2)) + "px";
+		elmtBorder.Native().style.top = (elmtBorder.Native().offsetTop - elmtBorder.Native().offsetHeight) + "px";
+		
+		// play animation
+		elmtBorder.Effects.FadeIn(3);
 	});
 	
 	var _base_Hide = this.OverrideMethod("Hide", function()
