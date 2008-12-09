@@ -17,6 +17,7 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 	var elmtLeftCorner;
 	var elmtRightCorner;
 	var elmtMessageBody;
+	var elmtTextBody;
 	var elmtTipHandler;
 	
 	var stickyTimer;
@@ -43,11 +44,11 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 	
 	this.Text.Get = function()
 	{
-		return elmtMessageBody.Native().innerHTML;
+		return elmtTextBody.Native().innerHTML;
 	}
 	this.Text.Set = function(value)
 	{
-		elmtMessageBody.Native().innerHTML = value;
+		elmtTextBody.Native().innerHTML = value;
 	}
 	
 	this.Width.Get = function()
@@ -118,10 +119,16 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		}
 
 		// adjust the width
-		if (elmtBorder.Native().offsetWidth > this.MaxWidth)
+		var actualWidth = elmtBorder.Native().offsetWidth;
+		if (actualWidth > this.MaxWidth)
 		{
 			elmtBorder.NoWrap(false);
 			elmtBorder.Native().style.width = this.MaxWidth + "px";
+		}
+		else if(actualWidth < this.MinWidth)
+		{
+			elmtBorder.NoWrap(false);
+			elmtBorder.Native().style.width = this.MinWidth + "px";
 		}
 		else
 		{
@@ -173,8 +180,13 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		elmtMessageBody = doufu.Browser.DOM.CreateElement("div");
 		elmtMessageBody.Native().className = this.GetClassName("messageBody");
 		
+		elmtTextBody = doufu.Browser.DOM.CreateElement("div");
+		elmtTextBody.Native().className = this.GetClassName("textBody");
+		
 		elmtTipHandler = doufu.Browser.DOM.CreateElement("div");
 		elmtTipHandler.Native().className = this.GetClassName("tipHandler");
+		
+		elmtMessageBody.AppendChild(elmtTextBody);
 		
 		elmtBorder.AppendChild(elmtLeftCorner);
 		elmtBorder.AppendChild(elmtMessageBody);

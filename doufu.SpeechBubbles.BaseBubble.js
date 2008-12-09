@@ -45,6 +45,11 @@ doufu.SpeechBubbles.BaseBubble = function()
 	this.MaxWidth = 100;
 	
 	/*
+		Property: MinWidth
+	*/
+	this.MinWidth = 44;
+	
+	/*
 		Property: Text
 		
 		<doufu.Property>
