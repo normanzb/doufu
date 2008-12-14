@@ -496,7 +496,6 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	var p4 = new doufu.Display.Drawing.Polygon();
 	p4.AddArray([v4, v1]);
 	
-	this.Sharps
 	this.Sharps.AddArray([p1, p2, p3, p4]);
 	
 	// adding characters
