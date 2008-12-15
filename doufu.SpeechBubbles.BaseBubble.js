@@ -42,12 +42,12 @@ doufu.SpeechBubbles.BaseBubble = function()
 		
 		Specified the max width of the bubble, if exceed the max width then we will cut the text.
 	*/
-	this.MaxWidth = 100;
+	this.MaxWidth = 110;
 	
 	/*
 		Property: MinWidth
 	*/
-	this.MinWidth = 44;
+	this.MinWidth = 55;
 	
 	/*
 		Property: Text
