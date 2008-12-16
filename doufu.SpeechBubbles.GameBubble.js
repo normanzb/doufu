@@ -33,7 +33,7 @@ doufu.SpeechBubbles.GameBubble = function(goContainer)
 		goBorder.IsFollower = true; 
 		
 		goBorder.FollowerOffset.X = goContainer.Width/2;
-		goBorder.FollowerOffset.Y = goContainer.Height/5;
+		goBorder.FollowerOffset.Y = -10;
 		
 		this.Popup(0, 0, msg);
 	});
