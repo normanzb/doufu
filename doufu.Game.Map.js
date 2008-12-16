@@ -113,78 +113,77 @@ doufu.Game.Map = function(oPlayGround)
 	*/
 	this.ConfirmMovable = function(obj)
 	{
-
+		// if the obj is playground, we don't have to do collision test.
+		if (obj.Sharp == this.Sharp)
+		{
+			return true;
+		}
+		
+		var tmpColideDrawable1,tmpColideDrawable2;
+		
+		// caculate the actual obj coodinates in the map
+		if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+		{
+			tmpRectangle1.DeepCopy(obj.Sharp);
+			
+			tmpRectangle1.X += obj.Cube.X;
+			tmpRectangle1.Y += obj.Cube.Y;
+			
+			tmpColideDrawable1 = tmpRectangle1;
+		}
+		else if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+		{
+			tmpPolygon1.DeepCopy(obj.Sharp);
+			
+			for (var j = 0; i < tmpPolygon1.Length(); i++)
+			{
+				tmpPolygon1.Items(j).X += obj.Cube.X;
+				tmpPolygon1.Items(j).Y += obj.Cube.Y;
+			}
+			
+			tmpColideDrawable1 = tmpPolygon1;
+		}
+		
+		// if map has edge
+		// Do map edge collision detection first
+		// if obj(sprite) is collided with the map edge, break.
+		if (this.Sharps.Length() > 0)
+		{
+			for (var k = 0; k < this.Sharps.Length(); k++)
+			{
+				// Convert rectangle to a point, this will speed up the caculation
+				// And we don't want it to do a full collision detecton when it is just collide with
+				// the edges.
+				// This function can only be enabled when using rectangle for sprite collision.
+				if (this.UsePointCollision == true && obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+				{
+					var x = Math.round(tmpColideDrawable1.Width / 2) + tmpColideDrawable1.X;
+					var y = Math.round(tmpColideDrawable1.Height / 2) + tmpColideDrawable1.Y;
+					tmpVector1.X = x - obj.Velocity.X;
+					tmpVector1.Y = y - obj.Velocity.Y;
+					tmpVector2.X = obj.Velocity.X + x;
+					tmpVector2.Y = obj.Velocity.Y + y;
+					tmpPolygon1.Clear();
+					tmpPolygon1.Add(tmpVector1);
+					tmpPolygon1.Add(tmpVector2);
+					
+					if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k), obj.Direction))
+					{
+						return false;
+					}
+				}
+				else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k), obj.Direction))
+				{
+					return false;
+				}
+			}
+		}
 		for(var i = 0 ; i < this.LinkedPlayGround.GameObjects().Length(); i++)
 		{
 			// Only sprites has polygon
-			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite) && this.LinkedPlayGround.GameObjects().Items(i).Sharp != null)
+			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite) &&
+				this.LinkedPlayGround.GameObjects().Items(i).Sharp != null)
 			{
-				// if the obj is playground, we don't have to do collision test.
-				if (obj.Sharp == this.Sharp)
-				{
-					return true;
-				}
-				
-				var tmpColideDrawable1,tmpColideDrawable2;
-				
-				// caculate the actual obj coodinates in the map
-				if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
-				{
-					tmpRectangle1.DeepCopy(obj.Sharp);
-					
-					tmpRectangle1.X += obj.Cube.X;
-					tmpRectangle1.Y += obj.Cube.Y;
-					
-					tmpColideDrawable1 = tmpRectangle1;
-				}
-				else if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
-				{
-					tmpPolygon1.DeepCopy(obj.Sharp);
-					
-					for (var j = 0; i < tmpPolygon1.Length(); i++)
-					{
-						tmpPolygon1.Items(j).X += obj.Cube.X;
-						tmpPolygon1.Items(j).Y += obj.Cube.Y;
-					}
-					
-					tmpColideDrawable1 = tmpPolygon1;
-				}
-				
-				// if map has edge
-				// Do map edge collision detection first
-				// if obj(sprite) is collided with the map edge, break.
-				if (this.Sharps.Length() > 0)
-				{
-					for (var k = 0; k < this.Sharps.Length(); k++)
-					{
-						// Convert rectangle to a point, this will speed up the caculation
-						// And we don't want it to do a full collision detecton when it is just collide with
-						// the edges.
-						// This function can only be enabled when using rectangle for sprite collision.
-						if (this.UsePointCollision == true && obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
-						{
-							var x = Math.round(tmpColideDrawable1.Width / 2) + tmpColideDrawable1.X;
-							var y = Math.round(tmpColideDrawable1.Height / 2) + tmpColideDrawable1.Y;
-							tmpVector1.X = x - obj.Velocity.X;
-							tmpVector1.Y = y - obj.Velocity.Y;
-							tmpVector2.X = obj.Velocity.X + x;
-							tmpVector2.Y = obj.Velocity.Y + y;
-							tmpPolygon1.Clear();
-							tmpPolygon1.Add(tmpVector1);
-							tmpPolygon1.Add(tmpVector2);
-							
-							if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k), obj.Direction))
-							{
-								return false;
-							}
-						}
-						else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k), obj.Direction))
-						{
-							return false;
-						}
-					}
-				}
-				
 				if (obj.Sharp != this.LinkedPlayGround.GameObjects().Items(i).Sharp)
 				{
 					
@@ -220,7 +219,9 @@ doufu.Game.Map = function(oPlayGround)
 					}
 				}
 			}
-		} 
+		}
+		
+		
 		return true;
 	};
 	
