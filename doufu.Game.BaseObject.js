@@ -5,8 +5,35 @@ doufu.Game.BaseObject = function(){
 	this.Inherit(doufu.Display.Drawing.Cube);
 	this.Inherit(doufu.System.Handle.Handlable);
 	
-	// Saving the image information, this.ImageOffset.X/Y stands for the offset.
+	/*
+		Property: ImageOffset
+		
+		Saving the image information, this.ImageOffset.X/Y stands for the offset.
+	*/
 	this.ImageOffset = new doufu.Display.Drawing.Point();
+	
+	/*
+		Property: StandingOffset
+	*/
+	this.StandingOffset = new doufu.Display.Drawing.Point();
+	
+	/*
+		Property: LocationX
+	*/
+	this.NewProperty("LocationX");
+	this.LocationX.Get = function()
+	{
+		return this.X + this.StandingOffset.X;
+	}
+	
+	/*
+		Property: LocationY
+	*/
+	this.NewProperty("LocationY");
+	this.LocationY.Get = function()
+	{
+		return this.Y + this.StandingOffset.Y;
+	}
 	
 	/*
 		Property: FollowerOffset
