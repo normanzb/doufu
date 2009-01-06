@@ -337,7 +337,7 @@ doufu.Browser.Element = function(element)
 	{
 		if ((typeof element).toLowerCase() == "string")
 		{
-			_native = doufu.Browser.DOM.Select(element);
+			_native = doufu.Browser.DOM.QuickSelect(element);
 		}
 		else
 		{
