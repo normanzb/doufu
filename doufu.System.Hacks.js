@@ -7,6 +7,9 @@ doufu.System.Hacks.Array = new function()
        return i;
 	});
 	
+	Array.isArray || (Array.isArray = function(testObject) {   
+    return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
+	});
 }
 doufu.System.Hacks.Date = new function()
 {
