@@ -113,8 +113,8 @@ doufu.System.APIs.Clone = function(obj, level){
 		}
 		var indexOf = seenObjects.indexOf(simpleObject);
 		if (indexOf == -1) {			
-			switch ((typeof simpleObject).toLowerCase()) {
-				case 'object':
+			if ((typeof simpleObject).toLowerCase() == "object" && !Array.isArray(simpleObject)) {
+				
 					seenObjects.push(simpleObject);
 					var newObject = {};
 					mappingArray.push(newObject);
@@ -134,18 +134,21 @@ doufu.System.APIs.Clone = function(obj, level){
 					}
 					newObject.constructor = simpleObject.constructor;
 					return newObject;
-					
-				case 'array':
+			}
+			else if (Array.isArray(simpleObject))
+			{
 					seenObjects.push(simpleObject);
 					var newArray = [];
 					mappingArray.push(newArray);
 					for(var i=0,len=simpleObject.length; i<len; i++)
 					newArray.push(f(simpleObject[i]));
 				return newArray;
-					
-				default:	
+			}
+			else
+			{
 				return simpleObject;
 			}
+			
 		} else {
 			return mappingArray[indexOf];
 		}
