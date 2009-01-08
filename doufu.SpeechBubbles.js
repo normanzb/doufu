@@ -1,5 +1,5 @@
 /*
-	Namespace: doufu.Game.SpeechBubble
+	Namespace: doufu.SpeechBubble
 	
 	Containing the classes to implement the speech bubble
 */
