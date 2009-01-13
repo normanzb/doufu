@@ -8,7 +8,9 @@ doufu.System.Hacks.Array = new function()
 	});
 	
 	Array.isArray || (Array.isArray = function(testObject) {   
-    return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
+		// commented out the old way 
+    	//return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
+    	return Object.prototype.toString.call(testObject).toLowerCase() === '[object array]';
 	});
 }
 doufu.System.Hacks.Date = new function()
