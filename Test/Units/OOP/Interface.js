@@ -214,6 +214,46 @@ doufu.Test.Run(
 				new CTest();
 			});
 		});
+		
+		/*
+			Objective: test when toString() of implementation class is overriden
+		*/
+		this.NewCase("Implement_OverridenToString", function()
+		{
+			$l.Info("Defining Interface...");
+			var ITest = function()
+			{
+				$i(this);
+				
+				this.Declare("TestMethod");
+				
+				
+			}
+			
+			var CTest = function()
+			{
+				$c(this);
+				
+				this.Implement(ITest);
+				
+				this.TestMethod = function()
+				{
+					
+				}
+			}
+			CTest.toString = function()
+			{
+				return "";
+			};
+			
+			$l.Info("Test class is: " + CTest.toString());
+			
+			$l.Info("Test, expected no error");
+			$a.WillNoError(function()
+			{
+				new CTest();
+			});
+		});
 	}
 );
 
