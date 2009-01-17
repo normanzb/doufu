@@ -350,21 +350,37 @@ doufu.OOP.Implement = function(oContext, oBaseInterface)
 		throw new Error("doufu.OOP.Implement: " + oBaseInterface + "is not a interface!");
 	}
 	
+	var IsDeclared = function(func, sPublicMethodName)
+	{
+		var bFound = false;
+		
+		var rePublicMethod = /\s*this\s*\.\s*([A-Za-z0-9_\$]*)\s*=\s*(?:new)?(?:f|F)unction/g;
+
+		var execResult = rePublicMethod.exec(Function.prototype.toString.call(func))
+		if (execResult != null && execResult.length > 1 && 
+			execResult[1].trim() == sPublicMethodName)
+		{
+			bFound = true;
+		}
+		
+		return bFound;
+	}
+	
+	var bFound = false;
+	
 	for (var i = 0; i < oBaseInterface.__nsc_OOP_DeclareArray.length; i++)
 	{
 		// if the implementation was not found in direct constructor, dig into the inheritance stack.
-		if (oContext.constructor.toString().indexOf(
-			oBaseInterface.__nsc_OOP_DeclareArray[i]) == -1)
+		if (!IsDeclared(oContext.constructor,
+			oBaseInterface.__nsc_OOP_DeclareArray[i]))
 		{
 			var currentInstance;
-			var bFound = false;
 
 			currentInstance = oContext;
-
+			
 			while (currentInstance.__nsc_OOP_Inherit_Stack != null)
 			{
-				if (currentInstance.__nsc_OOP_Inherit_Stack.Ref.toString().indexOf(
-					oBaseInterface.__nsc_OOP_DeclareArray[i]) != -1)
+				if (IsDeclared(currentInstance.__nsc_OOP_Inherit_Stack.Ref, oBaseInterface.__nsc_OOP_DeclareArray[i]))
 				{
 					bFound = true;
 					break;
@@ -372,12 +388,20 @@ doufu.OOP.Implement = function(oContext, oBaseInterface)
 				currentInstance = currentInstance.__nsc_OOP_Inherit_Stack;
 			}
 			
-			if (!bFound)
-			{
-				throw new Error("doufu.OOP.Implement: Method " + oBaseInterface.__nsc_OOP_DeclareArray[i] + " must be implemented!");
-			}
 		}
+		else
+		{
+			bFound = true;
+		};
+		
+		if (bFound)
+		{
+			break;
+		}
+		
+		throw new Error("doufu.OOP.Implement: Method " + oBaseInterface.__nsc_OOP_DeclareArray[i] + " must be implemented!");
 	}
+	
 		
 	if (typeof oContext.__nsc_OOP_BaseInterface == typeof undefined)
 	{

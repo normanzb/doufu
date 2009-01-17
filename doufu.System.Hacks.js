@@ -1,4 +1,10 @@
 doufu.System.Hacks = {};
+
+doufu.System.Hacks.__isType = function(testObject, typeName)
+{
+	return Object.prototype.toString.call(testObject).toLowerCase() === '[object ' + typeName.toLowerCase() + ']';
+}
+
 doufu.System.Hacks.Array = new function()
 {
 	// Adding Array.indexOf for IE browser.
@@ -10,7 +16,7 @@ doufu.System.Hacks.Array = new function()
 	Array.isArray || (Array.isArray = function(testObject) {   
 		// commented out the old way 
     	//return testObject && !(testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number';
-    	return Object.prototype.toString.call(testObject).toLowerCase() === '[object array]';
+    	return doufu.System.Hacks.__isType(testObject, "Array");
 	});
 }
 doufu.System.Hacks.Date = new function()
@@ -60,5 +66,64 @@ doufu.System.Hacks.String = new function()
 	                                                arguments[ token + 1 ] );
 	    }
 	    return text;
+	});
+	
+	String.isString || (String.isString = function(testObject) {   
+		return doufu.System.Hacks.__isType(testObject, "String");
+	});
+}
+
+doufu.System.Hacks.Error = new function()
+{
+	Error.prototype.stackTrace || (Error.prototype.getStackTrace = function()
+	{
+		var callstack = [];
+    	var isCallstackPopulated = false;
+		if (e.stack) { //Firefox
+            var lines = e.stack.split("\n");
+            for (var i = 0, len = lines.length; i < len; i++) 
+            {
+                if (lines[i].match(/^\s*[A-Za-z0-9\-_\$]+\(/)) 
+                {
+                    callstack.push(lines[i]);
+                }
+            }
+            //Remove call to printStackTrace()
+            callstack.shift();
+            isCallstackPopulated = true;
+        }
+        else if (window.opera && e.message) 
+        { //Opera
+            var lines = e.message.split("\n");
+            for (var i = 0, len = lines.length; i < len; i++) 
+            {
+                if (lines[i].match(/^\s*[A-Za-z0-9\-_\$]+\(/)) 
+                {
+                    var entry = lines[i];
+                    //Append next line also since it has the file info
+                    if (lines[i+1]) 
+                    {
+                        entry += " at " + lines[i+1];
+                        i++;
+                    }
+                    callstack.push(entry);
+                }
+            }
+            //Remove call to printStackTrace()
+            callstack.shift();
+            isCallstackPopulated = true;
+        }
+    
+	    if (!isCallstackPopulated) { //IE and Safari
+	        var currentFunction = arguments.callee.caller;
+	        while (currentFunction) {
+	            var fn = currentFunction.toString();
+	            //If we can't get the function name set to "anonymous"
+	            var fname = fn.substring(fn.indexOf("function") + 8, fn.indexOf("(")) || "anonymous";
+	            callstack.push(fname);
+	            currentFunction = currentFunction.caller;
+	        }
+	    }
+    	return callstack.join("\n\n");
 	});
 }
