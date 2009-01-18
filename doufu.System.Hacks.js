@@ -79,8 +79,8 @@ doufu.System.Hacks.Error = new function()
 	{
 		var callstack = [];
     	var isCallstackPopulated = false;
-		if (e.stack) { //Firefox
-            var lines = e.stack.split("\n");
+		if (this.stack) { //Firefox
+            var lines = this.stack.split("\n");
             for (var i = 0, len = lines.length; i < len; i++) 
             {
                 if (lines[i].match(/^\s*[A-Za-z0-9\-_\$]+\(/)) 
@@ -92,9 +92,9 @@ doufu.System.Hacks.Error = new function()
             callstack.shift();
             isCallstackPopulated = true;
         }
-        else if (window.opera && e.message) 
+        else if (window.opera && this.message) 
         { //Opera
-            var lines = e.message.split("\n");
+            var lines = this.message.split("\n");
             for (var i = 0, len = lines.length; i < len; i++) 
             {
                 if (lines[i].match(/^\s*[A-Za-z0-9\-_\$]+\(/)) 

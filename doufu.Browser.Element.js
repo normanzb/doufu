@@ -75,10 +75,26 @@ doufu.Browser.Element = function(element)
 	/*
 		Event: OnLoad
 		
-		Fire when onload event of native lement was fired.
+		Fire when onload event of native element was fired.
 	*/
 	var _onload;
 	this.OnLoad = new doufu.Event.EventHandler(this);
+	
+	/*
+		Event: OnClick
+		
+		Fire when onclick event of native element was fired.
+	*/
+	var _onclick;
+	this.OnClick = new doufu.Event.EventHandler(this);
+	
+	/*
+		Event: OnChange
+		
+		Fire when onchange event of native element was fired.
+	*/
+	var _onchange;
+	this.OnChange = new doufu.Event.EventHandler(this);
 	
 	/*
 		Function: AppendChild
@@ -335,7 +351,7 @@ doufu.Browser.Element = function(element)
 	
 	this.Ctor = function()
 	{
-		if ((typeof element).toLowerCase() == "string")
+		if (String.isString(element))
 		{
 			_native = doufu.Browser.DOM.QuickSelect(element);
 		}
@@ -346,7 +362,7 @@ doufu.Browser.Element = function(element)
 		
 		if (_native == null)
 		{
-			throw doufu.Exception("doufu.Browser.Element::Ctor() - Specified element is null.");
+			throw doufu.System.Exception("doufu.Browser.Element::Ctor() - Specified element is null.");
 		}
 		
 		// See if element is in buffer
@@ -368,6 +384,12 @@ doufu.Browser.Element = function(element)
 			
 			_onload = nativeEventArgProcessor(this.OnLoad.Invoke);
 			doufu.Browser.Helpers.AttachEvent(_native, "load", _onload);
+			
+			_onclick = nativeEventArgProcessor(this.OnClick.Invoke);
+			doufu.Browser.Helpers.AttachEvent(_native, "click", _onclick);
+			
+			_onchange = nativeEventArgProcessor(this.OnChange.Invoke);
+			doufu.Browser.Helpers.AttachEvent(_native, "change", _onchange);
 			
 			// on blur
 			if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&

@@ -77,7 +77,7 @@ doufu.Test = new function()
 			}
 		}
 		
-		if (isWinLoaded)
+		if (isWinLoaded || document.body != null)
 		{
 			innerRun.call(this, suiteClass);
 		}
@@ -105,11 +105,11 @@ doufu.Test.Suite = function()
 	
 	this.Cases = [];
 	
-	this.NewCase = function(name, init, steps, finl)
+	this.NewCase = function(name, objective, init, steps, finl)
 	{
-		if (!String.isString(name))
+		if (!String.isString(name) || !String.isString(objective))
 		{
-			throw doufu.System.Exception("doufu.Test.Suite.NewCase()::name must be a string.");
+			throw doufu.System.Exception("doufu.Test.Suite.NewCase()::name and objective must be a string.");
 		}
 		
 		if (this.Cases[name] != null)
@@ -119,12 +119,23 @@ doufu.Test.Suite = function()
 		
 		var testCase = new doufu.Test.Case(init, steps, finl);
 		testCase.Name = name;
+		testCase.Objective = objective;
 		
 		this.Cases.push(testCase);
 		
 		this.Cases[name] = testCase;
 		
 	}
+	
+	this.OverloadMethod("NewCase", function(name, init, steps, finl)
+	{
+		this.NewCase(name, "", init, steps, finl);
+	});
+	
+	this.OverloadMethod("NewCase", function(name, steps)
+	{
+		this.NewCase(name, "", null, steps, null);
+	});
 	
 
 	this.Cleanup = function()
@@ -135,18 +146,20 @@ doufu.Test.Suite = function()
 
 doufu.Test.Case = function(init, steps, finl)
 {
+	var emptyFunc = function(){};
 	this.Name;
+	this.Objective;
 	if (arguments.length == 1 || (steps == null && finl == null))
 	{
-		this.Initialize = function(){};
+		this.Initialize = emptyFunc;
 		this.Run = init;
-		this.Finalize = function(){};
+		this.Finalize = emptyFunc;
 	}
 	else if (arguments.length == 3)
 	{
-		this.Initialize = init;
+		this.Initialize = init != null?init:emptyFunc;
 		this.Run = steps;
-		this.Finalize = finl;
+		this.Finalize = finl != null?finl:emptyFunc;
 	}
 	else
 	{

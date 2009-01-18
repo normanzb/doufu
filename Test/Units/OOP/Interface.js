@@ -254,6 +254,49 @@ doufu.Test.Run(
 				new CTest();
 			});
 		});
+		
+		/*
+			Objective: Verify regular expression handle properly when function keyword is after a line break.
+		*/
+		this.NewCase("Implement_LineBreakFunction",
+			"Verify regular expression handle properly when function keyword is after a line break.",
+			function()
+		{
+			$l.Info("Defining Interface...");
+			var ITest = function()
+			{
+				$i(this);
+				
+				this.Declare("TestMethod");
+				
+				
+			}
+			
+			var CTest = function()
+			{
+				$c(this);
+				
+				this.Implement(ITest);
+				
+				this.TestMethod = 
+					function()
+				{
+					
+				};
+			}
+			CTest.toString = function()
+			{
+				return "";
+			};
+			
+			$l.Info("Test class is: " + CTest.toString());
+			
+			$l.Info("Test, expected no error");
+			$a.WillNoError(function()
+			{
+				new CTest();
+			});
+		});
 	}
 );
 
