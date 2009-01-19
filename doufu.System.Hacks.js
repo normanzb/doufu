@@ -41,6 +41,7 @@ doufu.System.Hacks.Date = new function()
 		this.setTime(this.getTime() + 1000 * iNum);
 	});
 }
+
 doufu.System.Hacks.String = new function()
 {
 	String.prototype.trim || (String.prototype.trim = function () 
@@ -71,6 +72,19 @@ doufu.System.Hacks.String = new function()
 	String.isString || (String.isString = function(testObject) {   
 		return doufu.System.Hacks.__isType(testObject, "String");
 	});
+	
+	String.empty || (String.empty = "");
+}
+
+/*
+	Class: doufu.System.Hacks.Function
+	
+	Singleton, function hacks.
+*/
+doufu.System.Hacks.Function = new function()
+{
+	Function.empty || (Function.empty = function (){});
+    
 }
 
 doufu.System.Hacks.Error = new function()

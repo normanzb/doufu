@@ -13,6 +13,8 @@ doufu.System.MessageConstants.js
 doufu.System.Exception.js
 doufu.System.APIs.js
 doufu.System.Convert.js
+doufu.Helpers.js
+doufu.Helpers.Path.js
 doufu.DesignPattern.js
 doufu.DesignPattern.Attachable.js
 doufu.CustomTypes.js

@@ -11,7 +11,7 @@ doufu.Test = new function()
 	{
 		if (ex instanceof doufu.Test.Failure)
 		{
-			$l.Fail(ex.toString());
+			$l.Fail(String.format("Message: {0}, toString: {1}", ex.message, ex.toString()));
 		}
 		else
 		{
@@ -146,7 +146,7 @@ doufu.Test.Suite = function()
 
 doufu.Test.Case = function(init, steps, finl)
 {
-	var emptyFunc = function(){};
+	var emptyFunc = Function.empty;
 	this.Name;
 	this.Objective;
 	if (arguments.length == 1 || (steps == null && finl == null))
@@ -183,7 +183,7 @@ doufu.Test.Logger = new function()
 	}
 	this.Error = function(msg, error)
 	{
-		appendMsg(String.format("<span style='color:#FF33FF;'>Error, {0}:{1} at line: {2}, stack trace: {3}</span>", 
+		appendMsg(String.format("<span style='color:#FF99FF;'>Error, {0}:{1} at line: {2}, stack trace: {3}</span>", 
 			msg, error.toString(), error.lineNumber, error.getStackTrace()));
 	}
 	
@@ -253,6 +253,16 @@ doufu.Test.Assert = new function()
 	{
 		return comment == null?"":comment;
 	}
+	
+	/*
+		Function: IsTrue
+		
+		Assert if the value is true.
+		
+		Parameters:
+			value - the value, true to pass, false to throw an failure.
+			comment - comments.
+	*/
 	this.IsTrue = function(value, comment)
 	{
 		comment = undefine2Blank(comment);
@@ -264,6 +274,35 @@ doufu.Test.Assert = new function()
 		return true;
 	}
 	
+	/*
+		Function: AreEqual
+		
+		Assert if two values are equal.
+		
+		Parameters:
+			expected - the expected value
+			actual - the expected 
+			comment - comments
+	*/
+	this.AreEqual = function(expected, actual, comment)
+	{
+		comment = undefine2Blank(comment);
+		if (actual != expected)
+		{
+			throw new doufu.Test.Failure(String.format("expected value is {0}, the actual value is {1}, {2}.", expected, actual, comment));
+		}
+		
+		return true;
+	}
+	
+	/*
+		Function: WillError
+		
+		Assert if inputted function will throw an error.
+		
+		Parameters:
+			func - the funtion will throw error, if no error thrown, then throw a failure.
+	*/
 	this.WillError = function(func, comment)
 	{
 		comment = undefine2Blank(comment);
@@ -290,6 +329,14 @@ doufu.Test.Assert = new function()
 		return true;
 	}
 	
+	/*
+		Function: WillNoError
+		
+		Assert if inpuuted function will throw an error. Oppose to WillError.
+		
+		Parameters:
+			func - the funtion will executed without error, if error thrown, then throw a failure.
+	*/
 	this.WillNoError = function(func, comment)
 	{
 		comment = undefine2Blank(comment);
