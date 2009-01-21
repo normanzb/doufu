@@ -68,6 +68,20 @@ doufu.Http.JSON = function()
 	}
 	
 	/*
+		Property: Timeout
+		
+		<doufu.Property>
+		Get or set the timeout for the json request.
+		The default timeout is 1 minutes (60 * 1000);
+	*/
+	var timeout = 60 * 1000;
+	this.NewProperty("Timeout");
+	this.Timeout.Get = function()
+	{
+		return timeout;
+	}
+	
+	/*
 		Property: ResponseJSON
 		
 		<doufu.Property>
@@ -100,6 +114,11 @@ doufu.Http.JSON = function()
 		Event: OnSuccess
 	*/
 	this.OnSuccess = new doufu.Event.EventHandler(this);
+	
+	/*
+		Event: OnCancel
+	*/
+	this.OnCancel = new doufu.Event.EventHandler(this);
 	
 	/*
 		Function: Open
@@ -202,6 +221,16 @@ doufu.Http.JSON = function()
 		{
 			this.ReadyState = 3;
 		}
+		
+		// Start timer, if timed out, close the request
+		setTimeout(function(){
+			
+			// Unregister this instance to callback manager.
+			sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
+			this.ReadyState = 5;
+			OnCancel.Invoke();
+			
+		}, this.Timeout());
 	}
 	
 	/*
@@ -316,11 +345,15 @@ doufu.Http.JSON.CallbackManager = new function()
 		
 		this.Callbacks[oJSONRequst.Handle.ID] = function(oJData)
 		{
-			oJSONRequst.OnSuccess.Invoke({
-				"ResponseJSON": oJData,
-				"ResponseText": oJSONRequst.ResponseText()
-			});
-			oJSONRequst.ResponseJSON(oJData); 
+			// if the json reqeust object is sending or loading
+			if (oJSONRequst.ReadyState == 2 ||oJSONRequst.ReadyState == 3)
+			{
+				oJSONRequst.OnSuccess.Invoke({
+					"ResponseJSON": oJData,
+					"ResponseText": oJSONRequst.ResponseText()
+				});
+				oJSONRequst.ResponseJSON(oJData); 
+			}
 		}
 		
 		return "doufu.Http.JSON.CallbackManager.Callbacks[" + oJSONRequst.Handle.ID + "]";
