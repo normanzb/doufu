@@ -21,6 +21,7 @@ doufu.Http.JSON = function()
 	var _url;
 	var _callbackParameterName;
 	var sGCallbackFunc;
+	var timerCancel;
 	
 	// Unopen 0
 	// Opened 1
@@ -227,12 +228,15 @@ doufu.Http.JSON = function()
 		}
 		
 		// Start timer, if timed out, close the request
-		setTimeout(doufu.OOP._callBacker(function(){
+		timerCancel = setTimeout(doufu.OOP._callBacker(function(){
 			
-			// Unregister this instance to callback manager.
-			sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
-			this.ReadyState = 5;
-			this.OnCancel.Invoke();
+			if (ReadyState == 4)
+			{
+				// Unregister this instance to callback manager.
+				sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
+				this.ReadyState = 5;
+				this.OnCancel.Invoke();
+			}
 			
 		}, this), this.Timeout());
 	}
@@ -305,10 +309,15 @@ doufu.Http.JSON = function()
 		// set the ready state
 		this.OnSuccess.Attach(new doufu.Event.CallBack(function()
 		{
+			// clear the timer.
+			// if the cancel function still not stable, consider to add a request counter.
+			clearTimeout(timerCancel);
+			
 			if (this.ReadyState != 5)
 			{
 				this.ReadyState = 4;
 			}
+			
 		},this));
 	}
 	
