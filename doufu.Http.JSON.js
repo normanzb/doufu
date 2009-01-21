@@ -230,7 +230,7 @@ doufu.Http.JSON = function()
 		// Start timer, if timed out, close the request
 		timerCancel = setTimeout(doufu.OOP._callBacker(function(){
 			
-			if (ReadyState == 4)
+			if (this.ReadyState == 4)
 			{
 				// Unregister this instance to callback manager.
 				sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
