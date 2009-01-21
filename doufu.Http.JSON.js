@@ -232,7 +232,7 @@ doufu.Http.JSON = function()
 			// Unregister this instance to callback manager.
 			sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
 			this.ReadyState = 5;
-			OnCancel.Invoke();
+			this.OnCancel.Invoke();
 			
 		}, this), this.Timeout());
 	}
