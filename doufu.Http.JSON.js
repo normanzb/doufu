@@ -80,6 +80,10 @@ doufu.Http.JSON = function()
 	{
 		return timeout;
 	}
+	this.Timeout.Set = function(value)
+	{
+		timeout = value;
+	}
 	
 	/*
 		Property: ResponseJSON
@@ -223,14 +227,14 @@ doufu.Http.JSON = function()
 		}
 		
 		// Start timer, if timed out, close the request
-		setTimeout(function(){
+		setTimeout(doufu.OOP._callBacker(function(){
 			
 			// Unregister this instance to callback manager.
 			sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
 			this.ReadyState = 5;
 			OnCancel.Invoke();
 			
-		}, this.Timeout());
+		}, this), this.Timeout());
 	}
 	
 	/*
@@ -363,7 +367,7 @@ doufu.Http.JSON.CallbackManager = new function()
 	{
 		if (!oJSONRequst.InstanceOf(doufu.Http.JSON))
 		{
-			throw doufu.System.Exception("doufu.Http.JSON.CallbackManager::Register() - The object specified was not a json request object.");
+			throw doufu.System.Exception("doufu.Http.JSON.CallbackManager::Unregister() - The object specified was not a json request object.");
 		}
 		
 		this.Callbacks[oJSONRequst.Handle.ID] = null;
