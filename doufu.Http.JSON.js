@@ -3,11 +3,15 @@
 	
 	JSON request implementation
 	
-	Sample
+	Sample:
 		json = new doufu.Http.JSON();
 		json.Open('http://jsondatatest.appjet.net/?keyword=mandelbrot_set','callback');
 		json.OnSuccess.Attach(new doufu.Event.CallBack(function(s,o){alert(o.ResponseJSON.content)},this));
 		json.Send();
+		
+	Note:
+		The response context type of server should not be "application/x-javascript" otherwise user using IE will experience connection glitch.
+		Especially on large network load.
 */
 doufu.Http.JSON = function()
 {
@@ -73,6 +77,7 @@ doufu.Http.JSON = function()
 		
 		<doufu.Property>
 		Get or set the timeout for the json request.
+		If timeout was zero, than the request will never timed out.
 		The default timeout is 1 minutes (60 * 1000);
 	*/
 	var timeout = 60 * 1000;
@@ -179,7 +184,7 @@ doufu.Http.JSON = function()
 		{
 			// Add a script tag to fetch json data
 			
-			var container = document.getElementById(CONTAINER_ID)
+			var container = document.getElementById(CONTAINER_ID);
 			// Check if json script tag container( a div element is existed),
 			// if not create it.
 			if (!container)
@@ -191,6 +196,8 @@ doufu.Http.JSON = function()
 			
 			var tmpUrl = doufu.Http.AddStampToUrl(doufu.Http.AddParameterToUrl(this.Url(), _callbackParameterName, sGCallbackFunc));
 			
+			doufu.System.Logger.Verbose("doufu.Http.JSON::Send(): Actual url is " + tmpUrl);
+			
 			if (data != null)
 			{
 				// TODO: check data format
@@ -199,7 +206,15 @@ doufu.Http.JSON = function()
 			
 			script = document.createElement('script');
 			
+			// for ie
+			script.setAttribute("defer", "defer");
+			
+			script.setAttribute("id", CONTAINER_ID + "_script_" + this.Handle.ID)
+			
 			script.setAttribute("type", "text/javascript");
+			
+			// TODO: allow user to define charset
+			script.setAttribute("charset", "utf-8");
 			
 			script.src = tmpUrl;
 			
@@ -228,17 +243,20 @@ doufu.Http.JSON = function()
 		}
 		
 		// Start timer, if timed out, close the request
-		timerCancel = setTimeout(doufu.OOP._callBacker(function(){
-			
-			if (this.ReadyState == 3)
-			{
-				// Unregister this instance to callback manager.
-				sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
-				this.ReadyState = 5;
-				this.OnCancel.Invoke();
-			}
-			
-		}, this), this.Timeout());
+		if (this.Timeout() > 0)
+		{
+			timerCancel = setTimeout(doufu.OOP._callBacker(function(){
+				
+				if (this.ReadyState == 3)
+				{
+					// Unregister this instance to callback manager.
+					sGCallbackFunc = doufu.Http.JSON.CallbackManager.Unregister(this);
+					this.ReadyState = 5;
+					this.OnCancel.Invoke();
+				}
+				
+			}, this), this.Timeout());
+		}
 	}
 	
 	/*
@@ -266,9 +284,13 @@ doufu.Http.JSON = function()
 		}
 		
 		// means .js is reponded too fast, we have to wait a sec
+		// Updated 1/22/2009:
+		// below line will never be executed as only one functon can be executed at a time in javascript
+		// Let's set a alert in it see if it will be executed.
 		if (this.ReadyState == 2)
 		{
 			var self = this;
+			doufu.System.Logger.Error("doufu.Http.JSON::Close(): ReadyState = 2; Please report this error to homyu.shinn@gmail.com .");
 			setTimeout(function()
 			{
 				this.Close.call(self);
@@ -311,7 +333,14 @@ doufu.Http.JSON = function()
 		{
 			// clear the timer.
 			// if the cancel function still not stable, consider to add a request counter.
-			clearTimeout(timerCancel);
+			try
+			{
+				clearTimeout(timerCancel);
+			}
+			catch(ex)
+			{
+				doufu.System.Logger.Error("doufu.Http.JSON::Ctor(): Clear timeout error: " + ex.toString() + ex.message);
+			}
 			
 			if (this.ReadyState != 5)
 			{
@@ -334,7 +363,16 @@ doufu.Http.JSON = function()
 */
 doufu.Http.JSON.Parse = function(sJSONStr)
 {
-	eval("var tmpobj = " + sJSONStr);
+	var tmpobj = null;
+	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer && 
+			doufu.Browser.BrowserDetect.Version >= 8)
+	{
+		tmpobj = JSON.parse(sJSONStr);
+	}
+	else
+	{
+		eval("tmpobj = " + sJSONStr);
+	}
 	return tmpobj;
 }
 
@@ -366,6 +404,10 @@ doufu.Http.JSON.CallbackManager = new function()
 					"ResponseText": oJSONRequst.ResponseText()
 				});
 				oJSONRequst.ResponseJSON(oJData); 
+			}
+			else
+			{
+				doufu.System.Logger.Error(String.format("doufu.Http.JSON.CallbackManager:Register(): request handle id = {0}; ready state = {1}", oJSONRequst.Handle.ID, oJSONRequst.ReadyState));
 			}
 		}
 		
