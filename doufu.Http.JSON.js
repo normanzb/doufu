@@ -354,7 +354,7 @@ doufu.Http.JSON = function()
 };
 
 /*
-	Function: doufu.Http.JSON.GetJSONObject
+	Function: doufu.Http.JSON.Parse
 	
 	Get javascript object from a json string
 	
@@ -374,6 +374,28 @@ doufu.Http.JSON.Parse = function(sJSONStr)
 		eval("tmpobj = " + sJSONStr);
 	}
 	return tmpobj;
+}
+
+/*
+	Function: doufu.Http.JSON.Stringify
+	
+	Stringify/Serialize a json object to a string
+	
+	Return:
+		json string
+*/
+doufu.Http.JSON.Stringify = function(oJSON)
+{
+	// TODO: add this function for non-ie8 browser
+	if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer && 
+			doufu.Browser.BrowserDetect.Version >= 8)
+	{
+		return JSON.stringify(oJSON);
+	}
+	else
+	{
+		return "";
+	}
 }
 
 /*
@@ -401,7 +423,7 @@ doufu.Http.JSON.CallbackManager = new function()
 			{
 				oJSONRequst.OnSuccess.Invoke({
 					"ResponseJSON": oJData,
-					"ResponseText": oJSONRequst.ResponseText()
+					"ResponseText": doufu.Http.JSON.Stringify(oJData)
 				});
 				oJSONRequst.ResponseJSON(oJData); 
 			}
