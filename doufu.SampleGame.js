@@ -291,7 +291,7 @@ doufu.SampleGame.Roles.MaskKiller = function()
 	this.StandingOffset.X = 12;
 	this.StandingOffset.Y = 30;
 	
-	this.ImagePath = CONFIG_CHARS_PATH + "char03.png";
+	this.ImagePath = CONFIG_CHARS_PATH + "char03.gif";
 	
 	doufu.SampleGame.Roles.Helpers.SetPolygon(this);
 	
