@@ -180,6 +180,34 @@ doufu.Http.JSON = function()
 		
 		this.ReadyState = 2;
 		
+		var sActualData = "";
+		if (String.isString(data))
+		{
+			sActualData = data;
+		}
+		else
+		{
+			var bFirstParam = true;
+			for(var o in data)
+			{
+				if (!bFirstParam)
+				{
+					sActualData += '&';
+				}
+				sActualData += o;
+				sActualData += "=";
+				if (String.isString(data[o]))
+				{
+					sActualData += data[o];
+				}
+				else
+				{
+					sActualData += doufu.Http.JSON.Stringify(data[o]);
+				}
+				bFirstParam = false;
+			}
+		}
+		
 		if (_callbackParameterName != null)
 		{
 			// Add a script tag to fetch json data
@@ -198,10 +226,10 @@ doufu.Http.JSON = function()
 			
 			doufu.System.Logger.Verbose("doufu.Http.JSON::Send(): Actual url is " + tmpUrl);
 			
-			if (data != null)
+			if (sActualData != null)
 			{
 				// TODO: check data format
-				tmpUrl = tmpUrl + "&" + encodeURI(data);
+				tmpUrl = tmpUrl + "&" + encodeURI(sActualData);
 			}
 			
 			script = document.createElement('script');
@@ -232,7 +260,7 @@ doufu.Http.JSON = function()
 				});
 			},this));
 			rq.Open('GET', this.Url(), true);
-			rq.Send();
+			rq.Send(data);
 			
 		}
 		
@@ -394,7 +422,7 @@ doufu.Http.JSON.Stringify = function(oJSON)
 	}
 	else
 	{
-		return "";
+		return oJSON.toString();
 	}
 }
 

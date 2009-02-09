@@ -228,7 +228,7 @@ doufu.Http.Request = function()
 	this.Send = function(sPostBody)
 	{
 		var sActualBody = "";
-		if ((typeof sPostBody).toLowerCase() == "string")
+		if (String.isString(sPostBody))
 		{
 			sActualBody = sPostBody;
 		}
@@ -243,7 +243,14 @@ doufu.Http.Request = function()
 				}
 				sActualBody += o;
 				sActualBody += "=";
-				sActualBody += sPostBody[o];
+				if (String.isString(sPostBody[o]))
+				{
+					sActualBody += sPostBody[o];
+				}
+				else
+				{
+					sActualBody += doufu.Http.JSON.Stringify(sPostBody[o]);
+				}
 				bFirstParam = false;
 			}
 			
