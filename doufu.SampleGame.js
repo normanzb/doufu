@@ -550,6 +550,85 @@ doufu.SampleGame.Items.SmallCloud = function()
 }
 
 doufu.SampleGame.Maps = new Object();
+doufu.SampleGame.Maps.MyIsland = function(oPlayGround)
+{
+	$c(this);
+	this.Inherit(doufu.Game.Map, [oPlayGround]);
+	
+	this.ImagePath = CONFIG_STAGES_PATH + "Stage01.gif";
+	//this.BackgroundImagePath(CONFIG_STAGES_PATH + "Stage02_bg.gif");
+	
+	var _playgroundOnly = false;
+	this.NewProperty("PlaygroundOnly");
+	this.PlaygroundOnly.Get = function()
+	{
+		return _playgroundOnly;
+	}
+	this.PlaygroundOnly.Set = function(value)
+	{
+		_playgroundOnly = value;
+	}
+	
+	this.Width = 454;
+	this.Height = 340;
+	
+	// todo add helper to create walls
+	v1 = new doufu.Display.Drawing.Vector(170, 475);
+	v2 = new doufu.Display.Drawing.Vector(405, 605);
+	v3 = new doufu.Display.Drawing.Vector(610, 385);
+	v4 = new doufu.Display.Drawing.Vector(380, 245);
+		
+		
+	var p1 = new doufu.Display.Drawing.Polygon();
+	p1.AddArray([v1, v2]);
+	var p2 = new doufu.Display.Drawing.Polygon();
+	p2.AddArray([v2, v3]);
+	var p3 = new doufu.Display.Drawing.Polygon();
+	p3.AddArray([v3, v4]);
+	var p4 = new doufu.Display.Drawing.Polygon();
+	p4.AddArray([v4, v1]);
+	
+	this.Sharps.AddArray([p1, p2, p3, p4]);
+
+	
+	var flower = new doufu.SampleGame.Items.Flower();
+	flower.X = 227;
+	flower.Y = 193;
+	var c0 = new doufu.SampleGame.Items.GiantCloud();
+	c0.X = 600;
+	c0.Y = 300;
+	c0.Z = 1;
+	c0.StartMoving(new doufu.Game.Direction(48), 99);
+	var c1 = new doufu.SampleGame.Items.BigCloud();
+	c1.X = 690;
+	c1.Y = 90;
+	c1.Z = 1;
+	c1.StartMoving(new doufu.Game.Direction(48), 48);
+	var c2 = new doufu.SampleGame.Items.MediumCloud();
+	c2.X = 720;
+	c2.Y = 280;
+	c2.Z = -1;
+	c2.StartMoving(new doufu.Game.Direction(48), 47);
+	var c3 = new doufu.SampleGame.Items.SmallCloud();
+	c3.X = 780;
+	c3.Y = 100;
+	c3.Z = -1;
+	c3.StartMoving(new doufu.Game.Direction(48), 46);
+	
+	
+	var _base_Initialize = this.OverrideMethod("Initialize", function()
+	{
+		if (!this.PlaygroundOnly())
+		{
+			this.InitSprites.Add(flower);
+			this.InitSprites.Add(c0);
+			this.InitSprites.Add(c1);
+			this.InitSprites.Add(c2);
+			this.InitSprites.Add(c3);
+		}
+		_base_Initialize.call(this);
+	});
+}
 doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 {
 	$c(this);

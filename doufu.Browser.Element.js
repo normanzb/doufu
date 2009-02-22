@@ -14,6 +14,10 @@ doufu.Browser.Element = function(element)
 				typeof event != doufu.System.Constants.TYPE_UNDEFINED)
 			{
 				e = event;
+				if (e.target == null)
+				{
+					e.target = event.srcElement;
+				}
 			}
 			
 			pFunc(e);
@@ -34,7 +38,7 @@ doufu.Browser.Element = function(element)
 	this.NewProperty("TagName");
 	this.TagName.Get = function()
 	{
-		return this.Native().tagName;
+		return this.Native().tagName.toUpperCase();
 	}
 	
 	/*
@@ -220,6 +224,113 @@ doufu.Browser.Element = function(element)
 		_opacity = value;
 		this.Native().style.opacity = Math.floor(value/10) / 10;
 		this.Native().style.filter="alpha(opacity=" + value + ")";
+	}
+	
+	var comparePropAndStyle = function(prop, styleProp)
+	{
+		var sRet = String.empty;
+		var sProp = new String(prop).trim().replace(/ /ig, "");
+		var sStyleProp = new String(styleProp.replace("px", "")).replace(/ /ig, "");
+		sStyleProp = sStyleProp.trim();
+		
+		if (sProp == sStyleProp && sStyleProp != String.empty)
+		{
+			sRet = sProp;
+		}
+		else
+		{
+			sRet = styleProp;
+		}
+		return sRet;
+	}
+	
+	/*
+		Property: Height
+	*/
+	this.NewProperty("Height");
+	this.Height.Get = function()
+	{
+		return comparePropAndStyle(this.Native().height, this.Native().style.height);
+	}
+	this.Height.Set = function(value)
+	{
+		this.Native().height = value;
+		var formattedValue = new String(value).trim();
+		if (formattedValue.charAt(formattedValue.length - 1) == '%')
+		{
+			this.Native().style.height = value;
+		}
+		else
+		{
+			this.Native().style.height = value + "px";
+		}
+	}
+	
+	/*
+		Property: Width
+	*/
+	this.NewProperty("Width");
+	this.Width.Get = function()
+	{
+		
+		return comparePropAndStyle(this.Native().width, this.Native().style.width);
+	}
+	this.Width.Set = function(value)
+	{
+		this.Native().width = value;
+		var formattedValue = new String(value).trim();
+		if (formattedValue.charAt(formattedValue.length - 1) == '%')
+		{
+			this.Native().style.width = value;
+		}
+		else
+		{
+			this.Native().style.width = value + "px";
+		}
+	}
+	
+	/*
+		Property: Text
+	*/
+	this.NewProperty("Text");
+	this.Text.Get = function()
+	{
+		var sRet = null;
+		if (this.TagName() == "INPUT")
+		{
+			sRet = this.Native().value;
+		}
+		else 
+		{
+			sRet = this.Native().innerHTML;
+		}
+		return sRet;
+	}
+	this.Text.Set = function(value)
+	{
+		if (this.TagName() == "INPUT")
+		{
+			this.Native().value = value;
+		}
+		else 
+		{
+			this.Native().innerHTML = value;
+		}
+	}
+	
+	/*
+		Property: BackgroundImage
+	*/
+	this.NewProperty("BackgroundImage");
+	this.BackgroundImage.Get = function()
+	{
+		var sRet = this.Native().style.backgroundImage.replace(/^url(\"?/i,"");
+		sRet = sRet.replace(/\"?)$/i,"");
+		return sRet;
+	}
+	this.BackgroundImage.Set = function(value)
+	{
+		this.Native().style.backgroundImage = "url(" + value + ")";
 	}
 	
 	this.Effects = new function()
