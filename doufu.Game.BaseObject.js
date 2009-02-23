@@ -25,6 +25,10 @@ doufu.Game.BaseObject = function(){
 	{
 		return this.X + this.StandingOffset.X;
 	}
+	this.LocationX.Set = function(value)
+	{
+		this.X = value - this.StandingOffset.X;
+	}
 	
 	/*
 		Property: LocationY
@@ -33,6 +37,10 @@ doufu.Game.BaseObject = function(){
 	this.LocationY.Get = function()
 	{
 		return this.Y + this.StandingOffset.Y;
+	}
+	this.LocationY.Set = function(value)
+	{
+		this.Y = value - this.StandingOffset.Y;
 	}
 	
 	/*

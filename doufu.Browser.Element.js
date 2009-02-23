@@ -324,8 +324,8 @@ doufu.Browser.Element = function(element)
 	this.NewProperty("BackgroundImage");
 	this.BackgroundImage.Get = function()
 	{
-		var sRet = this.Native().style.backgroundImage.replace(/^url(\"?/i,"");
-		sRet = sRet.replace(/\"?)$/i,"");
+		var sRet = this.Native().style.backgroundImage.replace(/^url\(\"?/i,"");
+		sRet = sRet.replace(/\"?\)$/i,"");
 		return sRet;
 	}
 	this.BackgroundImage.Set = function(value)
