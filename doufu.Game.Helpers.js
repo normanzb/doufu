@@ -117,7 +117,7 @@ doufu.Game.Helpers.ProjectPolygon = function(axis, polygon, min, max)
 }
 
 /*
-	Function: doufu.Game.Helpers.IsRectangleCollided
+	Function: doufu.Game.Helpers.IsPolygonCollided
 	
 	Check if polygon A is going to collide with polygon B for the given velocity
 	
