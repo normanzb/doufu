@@ -50,6 +50,7 @@ doufu.Game.Sprites.js
 doufu.Game.Sprites.Sprite.js
 doufu.Game.Sprites.Sprite.Speed.js
 doufu.Game.Sprites.FourDirectionSprite.js
+doufu.Game.Sprites.IsometricSprite.js
 doufu.Game.EventTrigger.js
 doufu.Game.Map.js
 doufu.SpeechBubbles.js

@@ -48,8 +48,32 @@ doufu.Game.Map = function(oPlayGround)
 	this.BackgroundImagePath.Set = function(value)
 	{
 		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundPosition = "0px 0px";
-		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundRepeat = "no-repeat";
+		this.BackgroundRepeat(false);
 		this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundImage = "url(\"" + value + "\")";
+	}
+	
+	/*
+		Property: BackgroundImagePath
+		
+		<doufu.Property>
+		Indicate whether background is a pattern
+	*/
+	this.NewProperty("BackgroundRepeat");
+	this.BackgroundRepeat.Get = function()
+	{
+		return  _backgroundRepeat = false;
+	}
+	this.BackgroundRepeat.Set = function(value)
+	{
+		if (value == true)
+		{
+			this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundRepeat = "repeat";
+		}
+		else
+		{
+			this.LinkedPlayGround.LinkedDisplayManager().HTMLElement().style.backgroundRepeat = "no-repeat";
+		}
+		_backgroundRepeat = value;
 	}
 	
 	/*
