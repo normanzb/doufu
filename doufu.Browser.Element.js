@@ -222,8 +222,15 @@ doufu.Browser.Element = function(element)
 			value = 0;
 		}
 		_opacity = value;
+		
 		this.Native().style.opacity = Math.floor(value/10) / 10;
 		this.Native().style.filter="alpha(opacity=" + value + ")";
+		
+		// hack for ie7 bug, ie 7 display in overflow hidden mode when using opacity filter.
+		if (value == 100)
+		{
+			this.Native().style.filter="";
+		}
 	}
 	
 	var comparePropAndStyle = function(prop, styleProp)
