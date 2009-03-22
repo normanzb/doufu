@@ -19,6 +19,8 @@ doufu.SpriteEditor = function()
 	var btnOpen = null;
 	var btnRun = null;
 	var btnZoom = null;
+	var toolStandingPoint = null;
+	var toolCollisionEdges = null
 	var lblWidth = doufu.Browser.DOM.CreateElement("div");
 	lblWidth.Text("Pattern Width:");
 	var lblHeight = doufu.Browser.DOM.CreateElement("div");
@@ -44,6 +46,7 @@ doufu.SpriteEditor = function()
 	var command = 0;
 	
 	var CMD_STANDINGPOINT = 1;
+	var CMD_COLLISIONEDGES = 2;
 	
 	var getBreakLine = function()
 	{
@@ -110,10 +113,16 @@ doufu.SpriteEditor = function()
 	
 	var sprite_Click = function(s, e)
 	{
-		if (command & CMD_STANDINGPOINT == CMD_STANDINGPOINT)
+		if ((command & CMD_STANDINGPOINT) == CMD_STANDINGPOINT)
 		{
 			txtStandingOffsetX.Text(e.offsetX);
 			txtStandingOffsetY.Text(e.offsetY);
+		}
+		
+		if ((command & CMD_COLLISIONEDGES) == CMD_COLLISIONEDGES)
+		{
+			alert(e.offsetX);
+			alert(e.offsetY);
 		}
 	}
 	
@@ -122,11 +131,24 @@ doufu.SpriteEditor = function()
 	{
 		if (toolStandingPoint.IsSelected())
 		{
-			command |= CMD_STANDINGPOINT;
+			command = CMD_STANDINGPOINT;
 		}
 		else
 		{
 			command &= ~CMD_STANDINGPOINT;
+		}
+		
+		return true;
+	}
+	toolCollisionEdges_Click = function()
+	{
+		if (toolCollisionEdges.IsSelected())
+		{
+			command = CMD_COLLISIONEDGES;
+		}
+		else
+		{
+			command &= ~CMD_COLLISIONEDGES;
 		}
 	}
 	
@@ -311,6 +333,12 @@ doufu.SpriteEditor = function()
 			
 			toolFragment.appendChild(toolStandingPoint.Native());
 			
+			toolCollisionEdges = new doufu.SpriteEditor.ToolButton();
+			toolCollisionEdges.Text("CE");
+			toolCollisionEdges.OnClick.Attach(new doufu.Event.CallBack(toolCollisionEdges_Click,this));
+			
+			toolFragment.appendChild(toolCollisionEdges.Native());
+			
 			pnlToolBar.Native().appendChild(toolFragment);
 			
 			////////////////////////////
@@ -364,10 +392,14 @@ doufu.SpriteEditor.ToolButton = function()
 		{
 			this.SetAttribute("class", "toolButton");
 		}
+		
+		return true;
 	}
 	
 	this.Ctor = function()
 	{
+		doufu.SpriteEditor.ToolController.Attach(this);
+		
 		this.OnClick.Attach(new doufu.Event.CallBack(this.Click, this));
 		
 		this.SetAttribute("class", "toolButton");
@@ -375,6 +407,32 @@ doufu.SpriteEditor.ToolButton = function()
 	this.Ctor();
 	
 }
+
+doufu.SpriteEditor.ToolController = new function()
+{
+	$c(this);
+	
+	var self = this;
+	
+	this.Inherit(doufu.DesignPattern.Attachable, [doufu.SpriteEditor.ToolButton]);
+	
+	this.ToolsClick = function()
+	{
+		for(var i = 0; i < this.InnerCollection().Length(); i++)
+		{
+			this.InnerCollection().Items(i).IsSelected(true);
+			this.InnerCollection().Items(i).Click();
+		}
+		
+		return true;
+	}
+	
+	this.OnAttach.Attach(new doufu.Event.CallBack(function(sender, toolButton)
+	{
+		toolButton.OnClick.Attach(new doufu.Event.CallBack(self.ToolsClick, this));
+	}, this));
+}
+
 doufu.SpriteEditor.MenuButton = function()
 {
 	$c(this);

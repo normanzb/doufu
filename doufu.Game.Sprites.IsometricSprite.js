@@ -93,23 +93,24 @@ doufu.Game.Sprites.IsometricSprite = function(oInfoSet)
 	
 	var _base_StopMoving = this.OverrideMethod("StopMoving", function()
 	{
+		
+		
 		// Play the stopAnimation and then it will stop itself automatically.
-		if (this.Direction.X() == -1 && this.Direction.Y() == -1 && this.AnimationInfos.StopLeft != null)
+		if (this.Animation.AnimationInfo == this.AnimationInfos.MoveLeft && this.AnimationInfos.StopLeft != null)
 		{
 			this.Animation.Play(this.AnimationInfos.StopLeft);
-			
 		}
-		else if (this.Direction.X() == 1 && this.Direction.Y() == 1 && this.AnimationInfos.StopRight != null)
+		else if (this.Animation.AnimationInfo == this.AnimationInfos.MoveRight && this.AnimationInfos.StopRight != null)
 		{
 			this.Animation.Play(this.AnimationInfos.StopRight);
 			
 		}
-		else if (this.Direction.Y() == 1 && this.Direction.X() == -1 && this.AnimationInfos.StopDown != null)
+		else if (this.Animation.AnimationInfo == this.AnimationInfos.MoveDown && this.AnimationInfos.StopDown != null)
 		{
 			this.Animation.Play(this.AnimationInfos.StopDown);
 			
 		}
-		else if (this.Direction.Y() == -1 && this.Direction.X() == 1 && this.AnimationInfos.StopUp != null)
+		else if (this.Animation.AnimationInfo == this.AnimationInfos.MoveUp && this.AnimationInfos.StopUp != null)
 		{
 			this.Animation.Play(this.AnimationInfos.StopUp);
 			

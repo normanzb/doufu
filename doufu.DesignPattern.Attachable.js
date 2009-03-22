@@ -10,6 +10,12 @@ doufu.DesignPattern.Attachable = function(type)
 		return _collection;
 	}
 	
+	/*
+		Event: OnAttach
+		Parameter: obj - obj which being attached.
+	*/
+	this.OnAttach = new doufu.Event.EventHandler(this);
+	
 	this.Ctor = function()
 	{
 		if (typeof type == doufu.System.Constants.TYPE_UNDEFINED)
@@ -18,8 +24,12 @@ doufu.DesignPattern.Attachable = function(type)
 		}
 	}
 	
+	/*
+		Function: Attach
+	*/
 	this.Attach = function(obj)
 	{
+		this.OnAttach.Invoke(obj);
 		_collection.Add(obj);
 	}
 	this.Detach = function(obj)

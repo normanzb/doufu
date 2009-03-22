@@ -29,6 +29,7 @@ doufu.Game.Sprites.Sprite = function()
 	var tmpClearCube = new doufu.Display.Drawing.Cube();
 	var cubeNextStep = new doufu.Display.Drawing.Cube();
 	var cubeDestination = new doufu.Display.Drawing.Cube();
+	var drcDest = new doufu.Game.Direction();
 	
 	/*
 		Property: IsMoving
@@ -151,8 +152,6 @@ doufu.Game.Sprites.Sprite = function()
 	
 	this.MoveToDest = function()
 	{
-		var drcDest = new doufu.Game.Direction();
-		
 		var x = cubeDestination.X - this.X;
 		var y = cubeDestination.Y - this.Y;
 		var z = cubeDestination.Z - this.Z;
