@@ -122,7 +122,13 @@ doufu.SpriteEditor = function()
 		if ((command & CMD_COLLISIONEDGES) == CMD_COLLISIONEDGES)
 		{
 			alert(e.offsetX);
-			alert(e.offsetY);
+			
+			var standPointScr = doufu.Game.PlayGround.Helpers.RealYToScreenY(sprite.LocationY);
+			var clickPointDiffScr = sprite.StandingOffset.Y - e.offsetY;
+			var clickPointScr = standPointScr - clickPointDiffScr;
+			var clickPointMap = doufu.Game.PlayGround.Helpers.ScreenYToRealY(clickPointScr) - sprite.Y;
+			
+			alert(clickPointMap);
 		}
 	}
 	
