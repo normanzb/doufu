@@ -205,29 +205,30 @@ doufu.Game.Map = function(oPlayGround)
 		for(var i = 0 ; i < this.LinkedPlayGround.GameObjects().Length(); i++)
 		{
 			// Only sprites has polygon
-			if (this.LinkedPlayGround.GameObjects().Items(i).InstanceOf(doufu.Game.Sprites.Sprite) &&
-				this.LinkedPlayGround.GameObjects().Items(i).Sharp != null)
+			var gameObject = this.LinkedPlayGround.GameObjects().Items(i);
+			if (gameObject.InstanceOf(doufu.Game.Sprites.Sprite) &&
+				gameObject.Sharp != null)
 			{
-				if (obj.Sharp != this.LinkedPlayGround.GameObjects().Items(i).Sharp)
+				if (obj.Sharp != gameObject.Sharp)
 				{
 					
-					tmpCube.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i));
+					tmpCube.DeepCopy(gameObject);
 					
-					if (this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+					if (gameObject.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
 					{
 						
-						tmpRectangle2.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i).Sharp);
+						tmpRectangle2.DeepCopy(gameObject.Sharp);
 						
 						tmpRectangle2.X += tmpCube.X;
 						tmpRectangle2.Y += tmpCube.Y;
 
 						tmpColideDrawable2 = tmpRectangle2;
 					}
-					else if (this.LinkedPlayGround.GameObjects().Items(i).Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+					else if (gameObject.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
 					{
-						tmpPolygon2.DeepCopy(this.LinkedPlayGround.GameObjects().Items(i).Sharp);
+						tmpPolygon2.DeepCopy(gameObject.Sharp);
 						
-						for (var j = 0; i < tmpPolygon2.Length(); i++)
+						for (var j = 0; j < tmpPolygon2.Length(); j++)
 						{
 							tmpPolygon2.Items(j).X += tmpCube.X;
 							tmpPolygon2.Items(j).Y += tmpCube.Y;
