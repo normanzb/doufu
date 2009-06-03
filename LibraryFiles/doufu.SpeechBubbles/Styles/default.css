@@ -4,10 +4,12 @@
 }
 .doufu_SpeechBubbles_default_leftCorner
 {
+	float:left;
 	display:none;
 }
 .doufu_SpeechBubbles_default_rightCorner
 {
+	float:left;
 	display:none;
 }
 .doufu_SpeechBubbles_default_messageBody
@@ -23,12 +25,13 @@
 .doufu_SpeechBubbles_default_textBody
 {
 	float:left;
-	
+	text-align:left;
 	margin-left:2px;
 	margin-right:2px;
 }
 .doufu_SpeechBubbles_default_tipHandler
 {
+	clear:both;
 	float:left;
 	width:11px;
 	height:7px;
