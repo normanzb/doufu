@@ -32,8 +32,17 @@ doufu.Game.PlayGround.Camera = function()
 				var destX = this.TracedObject.X + this.TracedObject.Width/2 - this.Width / 2;
 				var destY = doufu.Game.PlayGround.Helpers.RealYToScreenY(this.TracedObject.Y + this.TracedObject.Height/2, true) - this.Height / 2;
 				
-				this.X += Math.ceil((destX - this.X) / 2);
-				this.Y += Math.ceil((destY - this.Y) / 2);
+				var slipX = Math.ceil((destX - this.X) / 2);
+				var slipY = Math.ceil((destY - this.Y) / 2);
+				
+				this.X += slipX;
+				this.Y += slipY;
+				
+				// if locked, trigger event.
+				if (slipX == 0 && slipY == 0)
+				{
+					this.OnLocked.Invoke();
+				}
 			}
 			skipFrameCount++;
 			if (skipFrameCount == 10000000)
@@ -41,7 +50,14 @@ doufu.Game.PlayGround.Camera = function()
 				skipFrameCount = 0;
 			}
 		}
-	}, this)
+	}, this);
+	
+	/*
+		Event: OnLocked
+		
+		Fired when the tracing object is locked.
+	*/
+	this.OnLocked = new doufu.Event.EventHandler(this);
 	
 	/*
 		Property: IsTracing
