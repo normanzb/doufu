@@ -87,7 +87,7 @@ doufu.SpeechBubbles.BrowserBubble = function(container)
 		{
 			var stickyTime = this.StickyTime;
 			
-			if (msg.length > this.BaseTextLength)
+			if (msg.length > this.BaseTextLength && this.StickyFactor != 0)
 			{
 				stickyTime = msg.length * this.StickyFactor;
 			}
