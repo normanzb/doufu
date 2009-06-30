@@ -19,32 +19,10 @@ doufu.Browser.Helpers.CreateOverflowHiddenDiv = function(sDivID, elmtParent, iWi
 	retDiv.style.width = iWidth + "px";
 	retDiv.style.height = iHeight + "px";
 	retDiv.style.border = borderWidth + "px solid #000";
+	retDiv.style.position = "relative";
 	
 	elmtParent.appendChild(retDiv);	
 	
-	if (doufu.Browser.DOM.CompatibleMode() == doufu.Browser.DOM.CompatibleMode.CSS1_COMPAT)
-	{
-		retDiv.style.position = "relative";
-	}
-	else if (doufu.Browser.DOM.CompatibleMode() == doufu.Browser.DOM.CompatibleMode.BACK_COMPAT)
-	{
-		
-	}
-	else
-	{
-		doufu.System.APIs.FunctionHooker("appendChild", function(obj)
-			{
-				obj.style.clip="rect(0px " + 
-					doufu.System.Convert.ToString(retDiv.clientLeft + iWidth) + "px " + 
-					iHeight + "px " + retDiv.clientLeft + "px)";
-				//alert(doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y);
-				//alert(retDiv.clientTop + 
-				//	doufu.System.Convert.ToInt(retDiv.marginTop.replace("px", "")));
-				obj.style.marginTop = "9px";//doufu.Browser.Helpers.GetAbsolutePosition(retDiv).Y;
-				obj.style.marginLeft = "8px";
-			},
-		retDiv);
-	}
 
 	return retDiv;
 }
@@ -110,12 +88,23 @@ doufu.Browser.Helpers.GetRelativeCoordinates = function(event, reference) {
 
 doufu.Browser.Helpers.GetAbsolutePosition = function(element) {
     var r = new doufu.Display.Drawing.Rectangle();
-    r.X = element.offsetLeft;
-    r.Y = element.offsetTop;
-    if (element.offsetParent) {
-      var tmp = doufu.Browser.Helpers.GetAbsolutePosition(element.offsetParent);
-      r.X += tmp.X;
-      r.Y += tmp.Y;
+    
+    if (doufu.Browser.BrowserDetect.Browser == doufu.Browser.BrowserDetect.BrowserEnum.Explorer &&
+    	doufu.Browser.BrowserDetect.Version <= 7)
+    {
+	    r.X = element.offsetLeft;
+	    r.Y = element.offsetTop;
+	    if (element.offsetParent) 
+	    {
+	      var tmp = doufu.Browser.Helpers.GetAbsolutePosition(element.offsetParent);
+	      r.X += tmp.X;
+	      r.Y += tmp.Y;
+	    }
+    }
+    else
+    {
+    	r.X = element.offsetLeft;
+    	r.Y = element.offsetTop;
     }
     
     return r;

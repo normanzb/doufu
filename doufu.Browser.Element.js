@@ -551,7 +551,7 @@ doufu.Browser.Element._elementBuffer.GetBufferElement = function(_native)
 {
 	for(var i = 0; i < doufu.Browser.Element._elementBuffer.length; i++)
 	{
-		if (doufu.Browser.Element._elementBuffer[i].Native() == _native)
+		if (doufu.Browser.Element._elementBuffer[i].Native() === _native)
 		{
 			return doufu.Browser.Element._elementBuffer[i];
 		}
