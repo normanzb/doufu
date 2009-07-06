@@ -111,6 +111,33 @@ doufu.Browser.Helpers.GetAbsolutePosition = function(element) {
 }
 
 /*
+	Function: doufu.Browser.Helpers.GetMousePos
+	
+	get mouse position x-browserly
+	
+	Parameters:
+		evnt - event object.
+*/
+doufu.Browser.Helpers.GetMousePos = function(evnt)
+{
+    e = evnt || window.event;
+    var cursor = {X:0, Y:0};
+    if (e.pageX || e.pageY) {
+        cursor.X = e.pageX;
+        cursor.Y = e.pageY;
+    } 
+    else {
+        var de = document.documentElement;
+        var b = document.body;
+        cursor.X = e.clientX + 
+            (de.scrollLeft || b.scrollLeft) - (de.clientLeft || 0);
+        cursor.Y = e.clientY + 
+            (de.scrollTop || b.scrollTop) - (de.clientTop || 0);
+    }
+    return cursor;
+}
+
+/*
 	Function: doufu.Browser.Helpers.EnableBackgroundCache
 	
 	Helps to enable/disable background cache
