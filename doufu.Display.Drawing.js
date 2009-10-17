@@ -1,14 +1,14 @@
 /*
 	Namespace: doufu.Display.Drawing
 	
-	Containing all drawing related sharp classes and helpers for convertion a sharp to another.
+	Containing all drawing related shape classes and helpers for convertion a Shape to another.
 */
 doufu.Display.Drawing = {};
 
 /*
 	Class: doufu.Display.Drawing.Drawable
 	
-	Every sharps should inherit from this class
+	Every shapes should inherit from this class
 */
 doufu.Display.Drawing.Drawable = function()
 {
@@ -533,7 +533,7 @@ doufu.Display.Drawing.Polygon = function(obj)
 /*
 	Class: doufu.Display.Drawing.Cube
 	
-	Cube class, describing sharp and position of a 3d cube.
+	Cube class, describing shape and position of a 3d cube.
 	
 	Inherit: 
 	<doufu.Display.Drawing.Rectangle>

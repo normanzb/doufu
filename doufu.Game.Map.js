@@ -1,7 +1,7 @@
 /*
 	Class: doufu.Game.Map
 	
-	Game map class, containning the information camera and map sharp.
+	Game map class, containning the camera information and map shape.
 	
 	Constructor:
 		oPlayGround - Specified a playground object, new map will bind to the specified playground.
@@ -91,11 +91,11 @@ doufu.Game.Map = function(oPlayGround)
 	this.Height;
 	
 	/*
-		Property: Sharps
+		Property: Shapes
 		
 		Can be a polygon collection that present the edge of current map.
 	*/
-	this.Sharps = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
+	this.Shapes = new doufu.CustomTypes.Collection(doufu.Display.Drawing.Polygon);
 	
 	/*
 		Property: UsePointCollision
@@ -138,7 +138,7 @@ doufu.Game.Map = function(oPlayGround)
 	this.ConfirmMovable = function(obj)
 	{
 		// if the obj is playground, we don't have to do collision test.
-		if (obj.Sharp == this.Sharp)
+		if (obj.Shape == this.Shape)
 		{
 			return true;
 		}
@@ -146,18 +146,18 @@ doufu.Game.Map = function(oPlayGround)
 		var tmpColideDrawable1,tmpColideDrawable2;
 		
 		// caculate the actual obj coodinates in the map
-		if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+		if (obj.Shape.InstanceOf(doufu.Display.Drawing.Rectangle))
 		{
-			tmpRectangle1.DeepCopy(obj.Sharp);
+			tmpRectangle1.DeepCopy(obj.Shape);
 			
 			tmpRectangle1.X += obj.Cube.X;
 			tmpRectangle1.Y += obj.Cube.Y;
 			
 			tmpColideDrawable1 = tmpRectangle1;
 		}
-		else if (obj.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+		else if (obj.Shape.InstanceOf(doufu.Display.Drawing.Polygon))
 		{
-			tmpPolygon1.DeepCopy(obj.Sharp);
+			tmpPolygon1.DeepCopy(obj.Shape);
 			
 			for (var j = 0; i < tmpPolygon1.Length(); i++)
 			{
@@ -171,15 +171,15 @@ doufu.Game.Map = function(oPlayGround)
 		// if map has edge
 		// Do map edge collision detection first
 		// if obj(sprite) is collided with the map edge, break.
-		if (this.Sharps.Length() > 0)
+		if (this.Shapes.Length() > 0)
 		{
-			for (var k = 0; k < this.Sharps.Length(); k++)
+			for (var k = 0; k < this.Shapes.Length(); k++)
 			{
 				// Convert rectangle to a point, this will speed up the caculation
 				// And we don't want it to do a full collision detecton when it is just collide with
 				// the edges.
 				// This function can only be enabled when using rectangle for sprite collision.
-				if (this.UsePointCollision == true && obj.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+				if (this.UsePointCollision == true && obj.Shape.InstanceOf(doufu.Display.Drawing.Rectangle))
 				{
 					var x = Math.round(tmpColideDrawable1.Width / 2) + tmpColideDrawable1.X;
 					var y = Math.round(tmpColideDrawable1.Height / 2) + tmpColideDrawable1.Y;
@@ -191,12 +191,12 @@ doufu.Game.Map = function(oPlayGround)
 					tmpPolygon1.Add(tmpVector1);
 					tmpPolygon1.Add(tmpVector2);
 					
-					if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Sharps.Items(k), obj.Direction))
+					if (doufu.Game.Helpers.IsCollided(tmpPolygon1, this.Shapes.Items(k), obj.Direction))
 					{
 						return false;
 					}
 				}
-				else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Sharps.Items(k), obj.Direction))
+				else if (doufu.Game.Helpers.IsCollided(tmpColideDrawable1, this.Shapes.Items(k), obj.Direction))
 				{
 					return false;
 				}
@@ -207,26 +207,26 @@ doufu.Game.Map = function(oPlayGround)
 			// Only sprites has polygon
 			var gameObject = this.LinkedPlayGround.GameObjects().Items(i);
 			if (gameObject.InstanceOf(doufu.Game.Sprites.Sprite) &&
-				gameObject.Sharp != null)
+				gameObject.Shape != null)
 			{
-				if (obj.Sharp != gameObject.Sharp)
+				if (obj.Shape != gameObject.Shape)
 				{
 					
 					tmpCube.DeepCopy(gameObject);
 					
-					if (gameObject.Sharp.InstanceOf(doufu.Display.Drawing.Rectangle))
+					if (gameObject.Shape.InstanceOf(doufu.Display.Drawing.Rectangle))
 					{
 						
-						tmpRectangle2.DeepCopy(gameObject.Sharp);
+						tmpRectangle2.DeepCopy(gameObject.Shape);
 						
 						tmpRectangle2.X += tmpCube.X;
 						tmpRectangle2.Y += tmpCube.Y;
 
 						tmpColideDrawable2 = tmpRectangle2;
 					}
-					else if (gameObject.Sharp.InstanceOf(doufu.Display.Drawing.Polygon))
+					else if (gameObject.Shape.InstanceOf(doufu.Display.Drawing.Polygon))
 					{
-						tmpPolygon2.DeepCopy(gameObject.Sharp);
+						tmpPolygon2.DeepCopy(gameObject.Shape);
 						
 						for (var j = 0; j < tmpPolygon2.Length(); j++)
 						{

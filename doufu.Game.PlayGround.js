@@ -112,7 +112,7 @@ doufu.Game.PlayGround = function(oDisplayManager)
 	*/
 	var AddMovableConfirm = new doufu.Event.CallBack(function(sender, obj)
 	{
-		if (obj.InstanceOf(doufu.Game.Sprites.Sprite) && typeof obj.Sharp != doufu.System.Constants.TYPE_UNDEFINED)
+		if (obj.InstanceOf(doufu.Game.Sprites.Sprite) && typeof obj.Shape != doufu.System.Constants.TYPE_UNDEFINED)
 		{
 			obj.OnConfirmMovable.Attach(MovableConfirm);
 		}

@@ -54,28 +54,28 @@ doufu.Game.Sprites.Sprite = function()
 	this.Direction = new doufu.Game.Direction();
 	
 	/*
-		Property: Sharp
+		Property: Shape
 		
 		<doufu.Display.Drawing.Drawable>
-		The sharps for collision detecting while object is moving.
+		The shapes for collision detecting while object is moving.
 		
 		Allowed drawable objects:
 		<doufu.Display.Drawing.Rectangle>
 		<doufu.Display.Drawing.Polygon>
 	*/
-	this.Sharp = null;
+	this.Shape = null;
 	
 	/*
-		Property: InRangeSharp
+		Property: InRangeShape
 		
 		<doufu.Display.Drawing.Drawable>
-		The sharps for collsion detecting while object being attacked.
+		The shapes for collsion detecting while object being attacked.
 		
 		Allowed drawable objects:
 		<doufu.Display.Drawing.Rectangle>
 		<doufu.Display.Drawing.Polygon>
 	*/
-	this.InRangeSharp = new doufu.Display.Drawing.Drawable();
+	this.InRangeShape = new doufu.Display.Drawing.Drawable();
 	
 	/*
 		Event: OnConfirmMovable
@@ -84,7 +84,7 @@ doufu.Game.Sprites.Sprite = function()
 		If any of attached event callback return false, character will stop moving.
 		
 		EventArgs:
-			{Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector, Direction: oDirection}
+			{Cube: cubeNextStep, Shape:this.Shape, Velocity: tmpVector, Direction: oDirection}
 	*/
 	this.OnConfirmMovable = new doufu.Event.EventHandler(this);
 	
@@ -122,13 +122,13 @@ doufu.Game.Sprites.Sprite = function()
 		cubeNextStep.Y = this.Y + oDirection.Y() * iLength;
 		cubeNextStep.Z = this.Z + oDirection.Z() * iLength;
 		
-		// if no sharp assigned, don't need to do collsion.
-		if (this.Sharp != null && this.EnableCollision == true)
+		// if no shape assigned, don't need to do collsion.
+		if (this.Shape != null && this.EnableCollision == true)
 		{
 			tmpVector.X = oDirection.X() * iLength;
 			tmpVector.Y = oDirection.Y() * iLength;
 			// Collision detecting and others...
-			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Sharp:this.Sharp, Velocity: tmpVector, Direction: oDirection});
+			lastConfirmResult = this.OnConfirmMovable.Invoke({Cube: cubeNextStep, Shape:this.Shape, Velocity: tmpVector, Direction: oDirection});
 		}
 		else
 		{

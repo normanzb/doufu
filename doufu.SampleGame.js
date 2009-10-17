@@ -42,7 +42,7 @@ doufu.SampleGame.Roles.Helpers.SetPolygon = function(fourDirectionSprite)
 	}
 
 	
-	fourDirectionSprite.Sharp = oRect;
+	fourDirectionSprite.Shape = oRect;
 }
 
 doufu.SampleGame.Roles.Helpers.SetAnimation = function(fourDirectionSprite)
@@ -313,7 +313,7 @@ doufu.SampleGame.Roles.MaskKiller = function()
 		oRect.Y = 56;
 		oRect.Width = 24;
 		oRect.Height = 16;
-		this.Sharp = oRect;
+		this.Shape = oRect;
 		
 		this.Animation.Play(this.AnimationInfos.Init);
 	}
@@ -588,7 +588,7 @@ doufu.SampleGame.Maps.MyIsland = function(oPlayGround)
 	var p4 = new doufu.Display.Drawing.Polygon();
 	p4.AddArray([v4, v1]);
 	
-	this.Sharps.AddArray([p1, p2, p3, p4]);
+	this.Shapes.AddArray([p1, p2, p3, p4]);
 
 	
 	var flower = new doufu.SampleGame.Items.Flower();
@@ -682,7 +682,7 @@ doufu.SampleGame.Maps.LonglyIsland = function(oPlayGround)
 	var p4 = new doufu.Display.Drawing.Polygon();
 	p4.AddArray([v4, v1]);
 	
-	this.Sharps.AddArray([p1, p2, p3, p4]);
+	this.Shapes.AddArray([p1, p2, p3, p4]);
 	
 	// adding characters
 	var myTrigger = new doufu.Game.EventTrigger();
