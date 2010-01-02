@@ -297,10 +297,12 @@ doufu.Http.JSON = function()
 		
 		this.Close();
 		
-		container = null;
+		// removed by norm, 2010-1-2: container is a free variable which is declared at the
+		// function body of open and close, below will pollute the global
+		//container = null;
 		script = null
 			
-		delete container;
+		//delete container;
 		delete script
 	}
 	
@@ -326,6 +328,13 @@ doufu.Http.JSON = function()
 		}
 		
 		var container = document.getElementById(CONTAINER_ID);
+		var cleanup = function(script){
+			// Browsers won't garbage collect this object.
+		    // So castrate it to avoid a major memory leak.
+		    for (var prop in script) {
+		      delete script[prop];
+		    }
+    	}
 		
 		// Remove script node while the code in script node is executing will
 		// cause IE 6, IE 7 crash, so the workaround is to delay the remove
@@ -340,6 +349,7 @@ doufu.Http.JSON = function()
 				if (container != null && paramName != null)
 				{
 					container.removeChild(myScript);
+					cleanup(myScript);
 				}
 			}, 5000);
 		}
@@ -348,6 +358,7 @@ doufu.Http.JSON = function()
 			if (container != null && _callbackParameterName != null)
 			{
 				container.removeChild(script);
+				cleanup(script);
 			}
 		}
 		
