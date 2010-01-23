@@ -133,7 +133,7 @@ doufu.SpriteEditor = function()
 	}
 	
 	// tool buttons
-	toolStandingPoint_Click = function()
+	var toolStandingPoint_Click = function()
 	{
 		if (toolStandingPoint.IsSelected())
 		{
@@ -146,7 +146,7 @@ doufu.SpriteEditor = function()
 		
 		return true;
 	}
-	toolCollisionEdges_Click = function()
+	var toolCollisionEdges_Click = function()
 	{
 		if (toolCollisionEdges.IsSelected())
 		{
