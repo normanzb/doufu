@@ -538,6 +538,16 @@ var mapo = {};
             date.getMonth() == this.getMonth() &&
             date.getFullYear() == this.getFullYear();
         });
+		Array.prototype.indexOf || (Array.prototype.indexOf = function(obj){
+			var len = this.length;
+			while(len--){
+				if (this[len] === obj){
+					return len;
+				}
+			}
+			
+			return -1;
+	    })
     })();
 
 })(mapo);
