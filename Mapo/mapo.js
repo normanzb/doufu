@@ -481,6 +481,112 @@ var mapo = {};
             this._disposeFunc != null && this.onDispose.unook(this._disposeFunc);
         }
     })(_namespace.pattern);
+	
+	_namespace.dom = {};
+	/*
+		Function: attachEvent
+		
+		Attach event to the native element.
+		
+		Parameters:
+			oElement - The element to be attached.
+			sEventName - The event name. (keydown, keyup, click....)
+			pFunc - The function to attach.
+	*/
+	_namespace.dom.attachEvent = function(oElement, sEventName, pFunc)
+	{
+		if (oElement.attachEvent){
+			oElement.attachEvent("on" + sEventName.toLowerCase(), pFunc);
+		}
+		else if (oElement.addEventListener){
+			oElement.addEventListener(sEventName.toLowerCase(), pFunc, false);
+		}
+		else{
+			if (oElement["on"+sEventName] == null){
+				oElement["on"+sEventName] = mapo.event();
+			}
+			if (oElement["on"+sEventName].hook != null){
+				oElement["on"+sEventName].hook(pFunc);
+			}
+		}
+	};
+
+	/*
+		Function: detachEvent
+		
+		Detach event to the native element.
+		
+		Parameters:
+			oElement - The element to be detached.
+			sEventName - The event name. (keydown, keyup, click....)
+			pFunc - The function to detach.
+	*/
+	_namespace.dom.detachEvent = function(oElement, sEventName, pFunc)
+	{
+		if (oElement.detachEvent){
+			oElement.detachEvent("on" + sEventName.toLowerCase(), pFunc);
+		}
+		else if (oElement.removeEventListener){
+			oElement.removeEventListener(sEventName.toLowerCase(), pFunc, false);
+		}
+		else{
+			if (oElement["on"+sEventName] == null){
+				oElement["on"+sEventName] = mapo.event();
+			}
+			if (oElement["on"+sEventName].unhook != null){
+				oElement["on"+sEventName].unhook(pFunc);
+			}
+		}
+	};
+	
+	_namespace.dom.stopPropogation = function(ev){
+		ev.cancelBubble = true;
+		if (ev.stopPropagation){
+			ev.stopPropagation();
+		}
+	};
+	
+	_namespace.dom.getEnv = function(){
+		var msie = navigator.userAgent.toLowerCase().indexOf("msie") != -1;
+		var clientWidth = 0, clientHeight = 0;
+		if( typeof( window.innerWidth ) == 'number' ) {
+			//Non-IE
+			clientWidth = window.innerWidth;
+			clientHeight = window.innerHeight;
+		} else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+			//IE 6+ in 'standards compliant mode'
+			clientWidth = document.documentElement.clientWidth;
+			clientHeight = document.documentElement.clientHeight;
+		} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+			//IE 4 compatible
+			clientWidth = document.body.clientWidth;
+			clientHeight = document.body.clientHeight;
+		}
+		
+		var sLeft = 0, sTop = 0, bWidth = 0, bHeight=0;
+		if( typeof( window.pageYOffset ) == 'number' ) {
+			//Netscape compliant
+			sTop = window.pageYOffset;
+			sLeft = window.pageXOffset;
+			bHeight = document.body.scrollHeight;
+			bWidth = document.body.scrollWidth;
+		} else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
+			//DOM compliant
+			sTop = document.body.scrollTop;
+			sLeft = document.body.scrollLeft;
+			bHeight = document.body.scrollHeight;
+			bWidth = document.body.scrollWidth;
+		} else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+			//IE6 standards compliant mode
+			sTop = document.documentElement.scrollTop;
+			sLeft = document.documentElement.scrollLeft;
+			bHeight = document.documentElement.scrollHeight;
+			bWidth = document.documentElement.scrollWidth;
+		}
+		
+		return {bodyHeight: bHeight, bodyWidth: bWidth, bodyScrollTop: sTop, bodyScrollLeft: sLeft,
+			clientWidth: clientWidth, clientHeight: clientHeight};
+	};
 
     // hacks
     (function() {
