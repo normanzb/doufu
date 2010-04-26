@@ -587,6 +587,35 @@ var mapo = {};
 		return {bodyHeight: bHeight, bodyWidth: bWidth, bodyScrollTop: sTop, bodyScrollLeft: sLeft,
 			clientWidth: clientWidth, clientHeight: clientHeight};
 	};
+	
+	_namespace.dom.getStyle = function(el,styleProp)
+	{
+		if (el.currentStyle)
+			var y = el.currentStyle[styleProp];
+		else if (window.getComputedStyle)
+			var y = document.defaultView.getComputedStyle(el,null).getPropertyValue(styleProp);
+		return y;
+	};
+	
+	_namespace.dom.innerText = function(o)
+	{
+		var txt='';
+		for (var i=0; i<o.childNodes.length; i++) {
+			switch(o.childNodes[i].nodeType) {
+				case 1 :
+					if (_namespace.dom.getStyle(o, "display") == "block"){
+						txt += "\n";
+					}
+					txt += _namespace.dom.innerText(o.childNodes[i]);   
+					break;
+				case 3 :    
+					txt += o.childNodes[i].nodeValue.replace(/\n/g,"");
+					break;
+			}
+
+		}
+		return txt;
+	};
 
     // hacks
     (function() {
