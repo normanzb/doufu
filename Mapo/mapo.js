@@ -557,7 +557,7 @@ var mapo = {};
 			//IE 6+ in 'standards compliant mode'
 			clientWidth = document.documentElement.clientWidth;
 			clientHeight = document.documentElement.clientHeight;
-		} else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+		} else if( document.body && ( document.body.clientWidth != null  || document.body.clientHeight != null  ) ) {
 			//IE 4 compatible
 			clientWidth = document.body.clientWidth;
 			clientHeight = document.body.clientHeight;
@@ -576,7 +576,7 @@ var mapo = {};
 			sLeft = document.body.scrollLeft;
 			bHeight = document.body.scrollHeight;
 			bWidth = document.body.scrollWidth;
-		} else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+		} else if( document.documentElement && ( document.documentElement.scrollLeft != null || document.documentElement.scrollTop != null  ) ) {
 			//IE6 standards compliant mode
 			sTop = document.documentElement.scrollTop;
 			sLeft = document.documentElement.scrollLeft;
